@@ -1,5 +1,4 @@
 #include QMK_KEYBOARD_H
-#include "keymap_german.h"
 
 extern keymap_config_t keymap_config;
 
@@ -9,7 +8,7 @@ extern keymap_config_t keymap_config;
 #define _VIM 3
 #define _MOUSE 4
 #define _NUM 5
-#define _ADJUST 16
+#define _ADJUST 6
 
 #define KC_CESC LCTL_T(KC_ESC)
 #define KC_CTAB LCTL_T(KC_TAB)
@@ -37,31 +36,6 @@ enum custom_keycodes {
   NUM,
   ADJUST,
 };
-
-/* enum { */
-/*     SINGLE_TAP = 1, */
-/*     SINGLE_HOLD = 2, */
-/*     DOUBLE_TAP = 3, */
-/*     DOUBLE_HOLD = 4, */
-/*     DOUBLE_SINGLE_TAP = 5, */
-/*     TRIPLE_TAP = 6, */
-/*     TRIPLE_HOLD = 7 */
-/* }; */
-
-
-enum td_keycodes {
-    TD_LSHFT
-};
-
-typedef enum {
-    SINGLE_TAP = 1,
-    SINGLE_HOLD = 2,
-    DOUBLE_TAP = 3,
-    DOUBLE_HOLD = 4,
-    DOUBLE_SINGLE_TAP = 5
-} td_state_t;
-
-static td_state_t td_state;
 
 /**
  * Based on the default iris layout, but the default QWERTY layer is modified
@@ -171,8 +145,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  /* send_key_hid( keycode ); */
-
   switch (keycode) {
     case QWERTY:
       if (record->event.pressed) {
@@ -228,87 +200,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
-
-/* LEADER_EXTERNS(); */
-
-/* void matrix_scan_user(void) { */
-/*     LEADER_DICTIONARY() { */
-/*         leading = false; */
-/*         leader_end(); */
-
-/*         SEQ_ONE_KEY(KC_A) { */
-/*             SEND_STRING("foobär"); */
-/*         } */
-/*     } */
-/* } */
-
-
-int cur_dance (qk_tap_dance_state_t *state);
-
-void td_lshft_finished (qk_tap_dance_state_t *state, void *user_data);
-void td_lshft_reset (qk_tap_dance_state_t *state, void *user_data);
-
-// determine the tapdance state to return
-int cur_dance (qk_tap_dance_state_t *state) {
-  if (state->count == 1) {
-    if (!state->interrupted || !state->pressed) { return SINGLE_TAP; }
-    else { return SINGLE_HOLD; }
-  }
-  if (state->count == 2) {
-    if (state->interrupted) return DOUBLE_SINGLE_TAP;
-    else if (state->pressed) return DOUBLE_HOLD;
-    else return DOUBLE_TAP;
-  }
-  else return 6;
-}
-
-void td_lshft_finished (qk_tap_dance_state_t *state, void *user_data) {
-  td_state = cur_dance(state);
-  switch (td_state) {
-    case SINGLE_TAP:
-      register_code16(KC_LPRN);
-      break;
-    case SINGLE_HOLD:
-      /* register_mods(MOD_BIT(KC_LSFT)); */
-      register_code (KC_LSFT);
-      break;
-    case DOUBLE_TAP:
-      register_code16 (KC_LCBR);
-      break;
-    case DOUBLE_HOLD:
-      register_code (KC_LSFT);
-      break;
-    case DOUBLE_SINGLE_TAP: // allow nesting of 2 parens `((` within tapping term
-      register_code (KC_LSFT);
-      /* tap_code16(KC_LPRN); */
-      /* register_code16(KC_LPRN); */
-      break;
-  }
-}
-
-void td_lshft_reset (qk_tap_dance_state_t *state, void *user_data) {
-  switch (td_state) {
-    case SINGLE_TAP:
-      unregister_code16(KC_LPRN);
-      break;
-    case SINGLE_HOLD:
-      /* unregister_mods(MOD_BIT(KC_LSFT)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here */
-      unregister_code (KC_LSFT);
-      break;
-    case DOUBLE_TAP:
-      unregister_code16(KC_LCBR);
-      break;
-    case DOUBLE_HOLD:
-      unregister_code (KC_LSFT);
-      break;
-    case DOUBLE_SINGLE_TAP: // allow nesting of 2 parens `((` within tapping term
-      unregister_code (KC_LSFT);
-      /* unregister_code16(KC_LPRN); */
-      break;
-  }
-  state = 0;
-}
-
-qk_tap_dance_action_t tap_dance_actions[] = {
-  [TD_LSHFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_lshft_finished, td_lshft_reset)
-};
