@@ -1,0 +1,1 @@
+COMMAND_ENABLED = no
