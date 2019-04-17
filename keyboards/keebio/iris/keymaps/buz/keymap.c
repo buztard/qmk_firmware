@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "action_layer.h"
 
 extern keymap_config_t keymap_config;
 
@@ -143,7 +144,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case QWERTY:
@@ -177,6 +177,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case VIM:
       if (record->event.pressed) {
+        layer_on(_VIM);
       } else {
         layer_off(_VIM);
       }
@@ -189,7 +190,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       } else {
         layer_off(_MOUSE);
       }
-      } else { layer_off(_MOUSE); }
       return false;
       break;
 

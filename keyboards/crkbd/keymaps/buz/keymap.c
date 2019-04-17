@@ -194,13 +194,13 @@ void matrix_scan_user(void) {
 }
 
 char matrix_line_str[24];
+
 const char *read_layer_state(void) {
   uint8_t layer = biton32(layer_state);
 
   strcpy(matrix_line_str, "Layer: ");
 
-  switch (layer)
-  {
+  switch (layer) {
     case _QWERTY:
       strcat(matrix_line_str, "Default");
       break;
@@ -225,7 +225,6 @@ const char *read_layer_state(void) {
 
   return matrix_line_str;
 }
-
 
 void matrix_render_user(struct CharacterMatrix *matrix) {
   if (is_master) {
@@ -268,7 +267,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case QWERTY:
       if (record->event.pressed) {
-        persistent_default_layer_set(1UL<<_QWERTY);
+        persistent_default_layer_set(1UL << _QWERTY);
       }
       return false;
       break;
@@ -293,40 +292,39 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
       break;
     case ADJUST:
-        if (record->event.pressed) {
-          layer_on(_ADJUST);
-        } else {
-          layer_off(_ADJUST);
-        }
-        return false;
-        break;
+      if (record->event.pressed) {
+        layer_on(_ADJUST);
+      } else {
+        layer_off(_ADJUST);
+      }
+      return false;
+      break;
     case RGB_MOD:
-      #ifdef RGBLIGHT_ENABLE
-        if (record->event.pressed) {
-          rgblight_mode(RGB_current_mode);
-          rgblight_step();
-          RGB_current_mode = rgblight_config.mode;
-        }
-      #endif
+#ifdef RGBLIGHT_ENABLE
+      if (record->event.pressed) {
+        rgblight_mode(RGB_current_mode);
+        rgblight_step();
+        RGB_current_mode = rgblight_config.mode;
+      }
+#endif
       return false;
       break;
     case RGBRST:
-      #ifdef RGBLIGHT_ENABLE
-        if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
-          rgblight_enable();
-          RGB_current_mode = rgblight_config.mode;
-        }
-      #endif
+#ifdef RGBLIGHT_ENABLE
+      if (record->event.pressed) {
+        eeconfig_update_rgblight_default();
+        rgblight_enable();
+        RGB_current_mode = rgblight_config.mode;
+      }
+#endif
       break;
     case RGBRAIN:
-      #ifdef RGB_MATRIX_ENABLE
-        if (record->event.pressed) {
-          rgb_matrix_mode(RGB_MATRIX_SOLID_REACTIVE_SIMPLE);
-        }
-      #endif
+#ifdef RGB_MATRIX_ENABLE
+      if (record->event.pressed) {
+        rgb_matrix_mode(RGB_MATRIX_SOLID_REACTIVE_SIMPLE);
+      }
+#endif
       break;
   }
   return true;
 }
-
