@@ -247,6 +247,14 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
 
     default:
       break;
+    case _VIM:
+      oled_write_P(PSTR("Vim    \n"), false);
+      break;
+    case _MOUSE:
+      oled_write_P(PSTR("Mouse  \n"), false);
+      break;
+    default:
+      oled_write_P(PSTR("Unknown\n"), false);
   }
   // Return same buffer with values changed
   raw_hid_send(data, length);
