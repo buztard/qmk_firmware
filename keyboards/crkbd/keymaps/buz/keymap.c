@@ -161,6 +161,49 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
+#ifdef RGB_MATRIX_ENABLE
+void rgb_matrix_layer_helper (uint8_t red, uint8_t green, uint8_t blue, bool default_layer) {
+  if (!rgb_matrix_config.enable) {
+      return;
+  }
+  rgb_led led;
+  for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+    led = g_rgb_leds[i];
+    if (led.matrix_co.raw < 0xFF) {
+      if (led.modifier) {
+          rgb_matrix_set_color( i, red, green, blue );
+          /* rgblight_sethsv_at (i, h, s, v); */
+      }
+    }
+  }
+}
+
+static int last = 0;
+
+void rgb_matrix_indicators_user(void) {
+  switch (biton32(layer_state)) {
+    case _RAISE:
+      rgb_matrix_layer_helper(0xFF, 0xFF, 0x00, false);
+      break;
+    case _LOWER:
+      rgb_matrix_layer_helper(0x00, 0xFF, 0x00, false);
+      break;
+    case _ADJUST:
+      rgb_matrix_layer_helper(0xFF, 0x00, 0x00, false);
+      break;
+    case _VIM:
+      rgb_matrix_layer_helper(0x00, 0x00, 0xFF, false);
+      break;
+  }
+  /* if (is_master && last < DRIVER_LED_TOTAL / 2) { */
+  /*     rgb_matrix_set_color(last, 0, 255, 0); */
+  /* } else if (!is_master && last >= DRIVER_LED_TOTAL / 2){ */
+  /*     rgb_matrix_set_color(last - 27, 0, 255, 0); */
+  /* } */
+  /* rgb_matrix_set_color(last, 0, 255, 0); */
+}
+#endif
+
 // OLED Driver Logic
 #ifdef OLED_DRIVER_ENABLE
 
@@ -184,6 +227,177 @@ static void render_logo(void) {
 
   oled_write_P(logo, false);
 }
+
+#ifdef RGB_MATRIX_ENABLE
+/* static char* itoa(int i, char b[]){ */
+/*     char const digit[] = "0123456789"; */
+/*     char* p = b; */
+/*     if(i<0){ */
+/*         *p++ = '-'; */
+/*         i *= -1; */
+/*     } */
+/*     int shifter = i; */
+/*     do{ //Move to where representation ends */
+/*         ++p; */
+/*         shifter = shifter/10; */
+/*     }while(shifter); */
+/*     *p = '\0'; */
+/*     do{ //Move back, inserting digits as u go */
+/*         *--p = digit[i%10]; */
+/*         i = i/10; */
+/*     }while(i); */
+/*     return b; */
+/* } */
+static void render_effect(bool head) {
+  oled_write_P(PSTR("\n"), false);
+  if (head) {
+    oled_write_P(PSTR("Effect: "), false);
+  }
+  if (!rgb_matrix_config.enable) {
+    oled_write_P(PSTR("Disabled\n"), false);
+    return;
+  }
+
+  switch (rgb_matrix_config.mode) {
+    case RGB_MATRIX_NONE:
+      oled_write_P(PSTR("None\n"), false);
+      break;
+    case RGB_MATRIX_SOLID_COLOR:
+      oled_write_P(PSTR("Solid color\n"), false);
+      break;
+#ifndef DISABLE_RGB_MATRIX_ALPHAS_MODS
+    case RGB_MATRIX_ALPHAS_MODS:
+      oled_write_P(PSTR("Alpha mods\n"), false);
+      break;
+#endif
+#ifndef DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN
+    case RGB_MATRIX_GRADIENT_UP_DOWN:
+      oled_write_P(PSTR("Gradient up/down\n"), false);
+      break;
+#endif
+#ifndef DISABLE_RGB_MATRIX_BREATHING
+    case RGB_MATRIX_BREATHING:
+      oled_write_P(PSTR("Breathing\n"), false);
+      break;
+#endif
+#ifndef DISABLE_RGB_MATRIX_CYCLE_ALL
+    case RGB_MATRIX_CYCLE_ALL:
+      oled_write_P(PSTR("Cycle all\n"), false);
+      break;
+#endif
+#ifndef DISABLE_RGB_MATRIX_CYCLE_LEFT_RIGHT
+    case RGB_MATRIX_CYCLE_LEFT_RIGHT:
+      oled_write_P(PSTR("Cycle left/right\n"), false);
+      break;
+#endif
+#ifndef DISABLE_RGB_MATRIX_CYCLE_UP_DOWN
+    case RGB_MATRIX_CYCLE_UP_DOWN:
+      oled_write_P(PSTR("Cycle up/down\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_CYCLE_UP_DOWN
+#ifndef DISABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
+    case RGB_MATRIX_RAINBOW_MOVING_CHEVRON:
+      oled_write_P(PSTR("Rb moving chevron\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
+#ifndef DISABLE_RGB_MATRIX_DUAL_BEACON
+    case RGB_MATRIX_DUAL_BEACON:
+      oled_write_P(PSTR("Dual beacon\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_DUAL_BEACON
+#ifndef DISABLE_RGB_MATRIX_RAINBOW_BEACON
+    case RGB_MATRIX_RAINBOW_BEACON:
+      oled_write_P(PSTR("Rainbow beacon\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_RAINBOW_BEACON
+#ifndef DISABLE_RGB_MATRIX_RAINBOW_PINWHEELS
+    case RGB_MATRIX_RAINBOW_PINWHEELS:
+      oled_write_P(PSTR("Rainbow pinwheels\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_RAINBOW_PINWHEELS
+#ifndef DISABLE_RGB_MATRIX_RAINDROPS
+    case RGB_MATRIX_RAINDROPS:
+      oled_write_P(PSTR("Raindrops\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_RAINDROPS
+#ifndef DISABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
+    case RGB_MATRIX_JELLYBEAN_RAINDROPS:
+      oled_write_P(PSTR("Jellybean rain\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
+#ifndef DISABLE_RGB_MATRIX_DIGITAL_RAIN
+    case RGB_MATRIX_DIGITAL_RAIN:
+      oled_write_P(PSTR("Digital rain\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_DIGITAL_RAIN
+#ifdef RGB_MATRIX_KEYREACTIVE_ENABLED
+#ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
+    case RGB_MATRIX_SOLID_REACTIVE_SIMPLE:
+      oled_write_P(PSTR("Reactive simple\n"), false);
+      break;
+#endif
+#ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE
+    case RGB_MATRIX_SOLID_REACTIVE:
+      oled_write_P(PSTR("Solid reactive\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE
+#ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
+    case RGB_MATRIX_SOLID_REACTIVE_WIDE:
+      oled_write_P(PSTR("Reactive wide\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
+#ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
+    case RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE:
+      oled_write_P(PSTR("Reactive multiwide\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
+#ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
+    case RGB_MATRIX_SOLID_REACTIVE_CROSS:
+      oled_write_P(PSTR("Reactive cross\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
+#ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
+    case RGB_MATRIX_SOLID_REACTIVE_MULTICROSS:
+      oled_write_P(PSTR("Reactive multicross\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
+#ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
+    case RGB_MATRIX_SOLID_REACTIVE_NEXUS:
+      oled_write_P(PSTR("Reactive nexus\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
+#ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
+    case RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS:
+      oled_write_P(PSTR("Reactive multinexus\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
+#ifndef DISABLE_RGB_MATRIX_SPLASH
+    case RGB_MATRIX_SPLASH:
+      oled_write_P(PSTR("Splash\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_SPLASH
+#ifndef DISABLE_RGB_MATRIX_MULTISPLASH
+    case RGB_MATRIX_MULTISPLASH:
+      oled_write_P(PSTR("Multisplash\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_MULTISPLASH
+#ifndef DISABLE_RGB_MATRIX_SOLID_SPLASH
+    case RGB_MATRIX_SOLID_SPLASH:
+      oled_write_P(PSTR("Solid splash\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_SOLID_SPLASH
+#ifndef DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
+    case RGB_MATRIX_SOLID_MULTISPLASH:
+      oled_write_P(PSTR("Solid multisplash\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
+#endif // RGB_MATRIX_KEYREACTIVE_ENABLED
+    default:
+      oled_write_P(PSTR("Unknown\n"), false);
+      break;
+  }
+}
+#endif
 
 static void render_status(void) {
   // Render to mode icon
@@ -255,8 +469,21 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
       break;
     default:
       oled_write_P(PSTR("Unknown\n"), false);
+      break;
   }
   // Return same buffer with values changed
   raw_hid_send(data, length);
 }
 #endif
+
+uint32_t layer_state_set_user(uint32_t state) {
+  switch (biton32(state)) {
+    case _LOWER:
+      last++;
+      if (last >= DRIVER_LED_TOTAL) {
+        last = 0;
+      }
+      break;
+  }
+  return state;
+}
