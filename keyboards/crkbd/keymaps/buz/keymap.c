@@ -487,3 +487,37 @@ uint32_t layer_state_set_user(uint32_t state) {
   }
   return state;
 }
+
+#ifdef RAW_ENABLE
+enum crkbd_command_id {
+  id_get_protocol_version = 0x01,  // always 0x01
+  id_matrix_get_mode,
+  id_matrix_set_mode,
+  id_oled_set_text,
+
+  id_unhandled = 0xFF,
+};
+
+void raw_hid_receive(uint8_t *data, uint8_t length) {
+  uint8_t *command_id = &(data[0]);
+
+  switch (*command_id) {
+    case id_get_protocol_version:
+      break;
+
+    case id_matrix_get_mode:
+      break;
+
+    case id_matrix_set_mode:
+      break;
+
+    case id_oled_set_text:
+      break;
+
+    default:
+      break;
+  }
+  // Return same buffer with values changed
+  raw_hid_send(data, length);
+}
+#endif
