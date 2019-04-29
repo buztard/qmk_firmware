@@ -231,49 +231,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-#ifdef RGB_MATRIX_ENABLE
-void rgb_matrix_layer_helper (uint8_t red, uint8_t green, uint8_t blue, bool default_layer) {
-  if (!rgb_matrix_config.enable) {
-      return;
-  }
-  rgb_led led;
-  for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-    led = g_rgb_leds[i];
-    if (led.matrix_co.raw < 0xFF) {
-      if (led.modifier) {
-          rgb_matrix_set_color( i, red, green, blue );
-          /* rgblight_sethsv_at (i, h, s, v); */
-      }
-    }
-  }
-}
-
-static int last = 0;
-
-void rgb_matrix_indicators_user(void) {
-  switch (biton32(layer_state)) {
-    case _RAISE:
-      rgb_matrix_layer_helper(0xFF, 0xFF, 0x00, false);
-      break;
-    case _LOWER:
-      rgb_matrix_layer_helper(0x00, 0xFF, 0x00, false);
-      break;
-    case _ADJUST:
-      rgb_matrix_layer_helper(0xFF, 0x00, 0x00, false);
-      break;
-    case _VIM:
-      rgb_matrix_layer_helper(0x00, 0x00, 0xFF, false);
-      break;
-  }
-  /* if (is_master && last < DRIVER_LED_TOTAL / 2) { */
-  /*     rgb_matrix_set_color(last, 0, 255, 0); */
-  /* } else if (!is_master && last >= DRIVER_LED_TOTAL / 2){ */
-  /*     rgb_matrix_set_color(last - 27, 0, 255, 0); */
-  /* } */
-  /* rgb_matrix_set_color(last, 0, 255, 0); */
-}
-#endif
-
 // OLED Driver Logic
 #ifdef OLED_DRIVER_ENABLE
 
@@ -523,18 +480,6 @@ void oled_task_user(void) {
 }
 
 #endif
-
-uint32_t layer_state_set_user(uint32_t state) {
-  switch (biton32(state)) {
-    case _LOWER:
-      last++;
-      if (last >= DRIVER_LED_TOTAL) {
-        last = 0;
-      }
-      break;
-  }
-  return state;
-}
 
 #ifdef RAW_ENABLE
 enum crkbd_command_id {
