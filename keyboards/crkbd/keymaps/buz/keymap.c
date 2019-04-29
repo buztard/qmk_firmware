@@ -4,6 +4,7 @@
   #include "lufa.h"
   #include "split_util.h"
 #endif
+#include "buz.h"
 #include "raw_hid.h"
 
 extern keymap_config_t keymap_config;
@@ -19,24 +20,8 @@ extern rgb_config_t rgb_matrix_config;
 
 extern uint8_t is_master;
 
-// Each layer gets a name for readability, which is then used in the keymap matrix below.
-// The underscores don't mean anything - you can have a layer called STUFF or any other name.
-// Layer names don't all need to be of the same length, obviously, and you can also skip them
-// entirely and just use numbers.
-#define _QWERTY 0
-#define _LOWER 1
-#define _RAISE 2
-#define _ADJUST 3
-#define _VIM 4
-#define _MOUSE 5
-
 enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  LOWER,
-  RAISE,
-  ADJUST,
-  BACKLIT,
-  RGBRST,
+  RGBRST = USER_SAFE_RANGE,
 };
 
 enum macro_keycodes {
@@ -60,14 +45,6 @@ enum macro_keycodes {
 #define KC_LSPI  RGB_SPI
 #define KC_LSPD  RGB_SPD
 #define KC_LMOD  RGB_MOD
-
-#define KC_GENT LGUI_T(KC_ENT)
-#define KC_CESC CTL_T(KC_ESC)
-#define KC_TABMS LT(_MOUSE, KC_TAB)
-#define KC_Z_VIM LT(_VIM, KC_Z)
-#define KC_O_LALT OSM(MOD_LALT)
-#define KC_O_RALT OSM(MOD_RALT)
-#define KC_SINS LSFT(KC_INSERT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_kc( \
@@ -427,7 +404,6 @@ static void render_effect(bool head) {
 #endif
 
 static void render_status(void) {
-  uint8_t layer = biton32(layer_state);
   // Render to mode icon
   /* static const char PROGMEM mode_logo[4][4] = { */
   /*   {0x95,0x96,0x0a,0}, */
@@ -443,30 +419,7 @@ static void render_status(void) {
   /*   oled_write_P(mode_logo[3], false); */
   /* } */
 
-  oled_write_P(PSTR("Layer: "), false);
-  switch (layer) {
-    case _QWERTY:
-      oled_write_P(PSTR("Default\n"), false);
-      break;
-    case _LOWER:
-      oled_write_P(PSTR("Lower  \n"), false);
-      break;
-    case _RAISE:
-      oled_write_P(PSTR("Raise  \n"), false);
-      break;
-    case _ADJUST:
-      oled_write_P(PSTR("Adjust \n"), false);
-      break;
-    case _VIM:
-      oled_write_P(PSTR("Vim    \n"), false);
-      break;
-    case _MOUSE:
-      oled_write_P(PSTR("Mouse  \n"), false);
-      break;
-    default:
-      oled_write_P(PSTR("Unknown\n"), false);
-      break;
-  }
+  oled_render_layer();
 #ifdef RGB_MATRIX_ENABLE
   render_effect(false);
 #endif
