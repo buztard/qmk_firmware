@@ -142,52 +142,8 @@ void matrix_init_user(void) {
     #endif
 }
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case QWERTY:
-      if (record->event.pressed) {
-        persistent_default_layer_set(1UL << _QWERTY);
-      }
-      return false;
-      break;
-    case LOWER:
-      if (record->event.pressed) {
-        layer_on(_LOWER);
-        update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_LOWER);
-        update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case RAISE:
-      if (record->event.pressed) {
-        layer_on(_RAISE);
-        update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_RAISE);
-        update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case ADJUST:
-      if (record->event.pressed) {
-        layer_on(_ADJUST);
-      } else {
-        layer_off(_ADJUST);
-      }
-      return false;
-      break;
-    /* case RGB_MOD: */
-/* #ifdef RGBLIGHT_ENABLE */
-    /*   if (record->event.pressed) { */
-    /*     rgblight_mode(RGB_current_mode); */
-    /*     rgblight_step(); */
-    /*     RGB_current_mode = rgblight_config.mode; */
-    /*   } */
-/* #endif */
-    /*   return false; */
-    /*   break; */
     case RGBRST:
 #ifdef RGBLIGHT_ENABLE
       if (record->event.pressed) {
@@ -200,10 +156,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       rgb_matrix_enable();
       rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
 #endif
-      break;
-    /*   break; */
-    /* case RGBRAIN: */
-    /*   break; */
+      return false;
   }
   return true;
 }
