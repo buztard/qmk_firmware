@@ -133,21 +133,17 @@ static void render_logo(void) {
 
 static void render_status(void) {
   // Render to mode icon
-  /* static const char PROGMEM mode_logo[4][4] = { */
-  /*   {0x95,0x96,0x0a,0}, */
-  /*   {0xb5,0xb6,0x0a,0}, */
-  /*   {0x97,0x98,0x0a,0}, */
-  /*   {0xb7,0xb8,0x0a,0} }; */
+  static const char PROGMEM mode_logo[4][4] = {
+      {0x99,0x9a,0},
+      {0xb9,0xba,0} };
 
-  /* if (keymap_config.swap_lalt_lgui != false) { */
-  /*   oled_write_P(mode_logo[0], false); */
-  /*   oled_write_P(mode_logo[1], false); */
-  /* } else { */
-  /*   oled_write_P(mode_logo[2], false); */
-  /*   oled_write_P(mode_logo[3], false); */
-  /* } */
-
+  oled_write_P(mode_logo[0], false);
+  oled_set_cursor(4, 0);
   oled_render_layer();
+  oled_write_P(mode_logo[1], false);
+  oled_set_cursor(4, 1);
+  oled_render_mods();
+
 #ifdef RGBLIGHT_ENABLE
   render_rgblight_effect_name();
 #endif // RGBLIGHT_ENABLE
@@ -157,10 +153,12 @@ static void render_status(void) {
 }
 
 void oled_task_user(void) {
-  if (is_master)
+  if (is_master) {
     render_status();
-  else
+  } else {
     render_logo();
+    oled_scroll_left();  // Turns on scrolling
+  }
 }
 
 #endif
