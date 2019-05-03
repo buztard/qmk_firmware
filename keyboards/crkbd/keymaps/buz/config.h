@@ -33,16 +33,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_FORCE_HOLD
 #define TAPPING_TERM 200
 
-/* #undef RGBLED_NUM */
-/* #define RGBLED_NUM 27 */
+#define LEADER_PER_KEY_TIMING
+#define LEADER_TIMEOUT 250
+
 #define RGBLIGHT_LIMIT_VAL 120
 #define RGBLIGHT_HUE_STEP 10
 #define RGBLIGHT_SAT_STEP 17
 #define RGBLIGHT_VAL_STEP 17
 
-// hardcore disable anything
 #define NO_ACTION_MACRO
 #define NO_ACTION_FUNCTION
+
+#ifdef OLED_FONT_H
+#undef OLED_FONT_H
+#endif
+#define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
 
 #ifdef RGBLIGHT_ENABLE
 #define RGBLIGHT_ANIMATIONS
@@ -59,10 +64,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* #define DISABLE_RGB_MATRIX_ALPHAS_MODS */
 /* #define DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN */
 /* #define DISABLE_RGB_MATRIX_BREATHING */
-/* #define DISABLE_RGB_MATRIX_CYCLE_ALL */
+#define DISABLE_RGB_MATRIX_CYCLE_ALL
 /* #define DISABLE_RGB_MATRIX_CYCLE_LEFT_RIGHT */
 /* #define DISABLE_RGB_MATRIX_CYCLE_UP_DOWN */
-/* #define DISABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON */
+#define DISABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
 #define DISABLE_RGB_MATRIX_DUAL_BEACON
 /* #define DISABLE_RGB_MATRIX_RAINBOW_BEACON */
 /* #define DISABLE_RGB_MATRIX_RAINBOW_PINWHEELS */
