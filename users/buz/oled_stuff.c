@@ -2,7 +2,7 @@
 
 #ifdef OLED_DRIVER_ENABLE
 void oled_render_layer(void) {
-  oled_write_P(PSTR("Layer: "), false);
+  oled_write_P(PSTR("L: "), false);
 
   switch (biton32(layer_state)) {
     case _QWERTY:
@@ -33,6 +33,39 @@ void oled_render_layer(void) {
       oled_write_P(PSTR("Unknown\n"), false);
       break;
   }
+}
+
+void oled_render_mods(void) {
+  uint8_t modifiers = get_mods();
+  uint8_t one_shot = get_oneshot_mods();
+  uint8_t led_usb_state = host_keyboard_leds();
+  bool mod = false;
+
+  oled_write_P(PSTR("M: "), false);
+  if ((modifiers & MOD_MASK_CTRL) || (one_shot & MOD_MASK_CTRL)) {
+    oled_write_P(PSTR("CTRL "), false);
+    mod = true;
+  }
+  if ((modifiers & MOD_MASK_GUI) || (one_shot & MOD_MASK_GUI)) {
+    oled_write_P(PSTR("GUI "), false);
+    mod = true;
+  }
+  if ((modifiers & MOD_MASK_ALT) || (one_shot & MOD_MASK_ALT)) {
+    oled_write_P(PSTR("ALT "), false);
+    mod = true;
+  }
+  if ((modifiers & MOD_MASK_SHIFT) || (one_shot & MOD_MASK_SHIFT)) {
+    oled_write_P(PSTR("SFT "), false);
+    mod = true;
+  }
+  if (led_usb_state & (1<<USB_LED_CAPS_LOCK)) {
+    oled_write_P(PSTR("CAP "), false);
+    mod = true;
+  }
+  if (!mod) {
+    oled_write_P(PSTR("None"), false);
+  }
+  oled_write_P(PSTR("\n"), false);
 }
 
 #ifdef RGBLIGHT_ENABLE
@@ -73,7 +106,13 @@ void render_rgblight_effect_name(void) {
 #endif // RGBLIGHT_ENABLE
 
 #ifdef RGB_MATRIX_ENABLE
+extern rgb_config_t rgb_matrix_config;
+
 void render_rgb_matrix_effect_name(void) {
+  if (!rgb_matrix_config.enable) {
+    oled_write_P(PSTR("RGB Disabled\n"), false);
+    return;
+  }
   switch (rgb_matrix_get_mode()) {
     case RGB_MATRIX_NONE:
       oled_write_P(PSTR("None\n"), false);
