@@ -76,6 +76,9 @@ void matrix_init_user(void) {
     #ifdef RGBLIGHT_ENABLE
       RGB_current_mode = rgblight_config.mode;
     #endif
+    #ifdef RGB_MATRIX_ENABLE
+      RGB_current_mode = rgb_matrix_config.mode;
+    #endif
 }
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
@@ -89,8 +92,15 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
       }
 #endif
 #ifdef RGB_MATRIX_ENABLE
-      rgb_matrix_enable();
-      rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
+      // eeconfig_update_rgb_matrix_default();
+      // rgb_matrix_enable();
+      // eeconfig_update_rgb_matrix(rgb_matrix_config.raw);
+      rgb_matrix_config.enable = 1;
+      rgb_matrix_config.mode = RGB_MATRIX_SOLID_COLOR;
+      rgb_matrix_config.hue = 0;
+      rgb_matrix_config.sat = 100;
+      rgb_matrix_config.val = 50;
+      rgb_matrix_mode(rgb_matrix_config.mode);
 #endif
       return false;
   }
@@ -101,7 +111,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 #ifdef OLED_DRIVER_ENABLE
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!has_usb())
+  if (!is_master)
     return OLED_ROTATION_180;  // flip 180 for offhand
   return rotation;
 }
