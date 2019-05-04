@@ -2,7 +2,7 @@
 #include "bootloader.h"
 #ifdef PROTOCOL_LUFA
   #include "lufa.h"
-  #include "split_util.h"
+  /* #include "split_util.h" */
 #endif
 #include "buz.h"
 #include "raw_hid.h"
@@ -35,7 +35,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TILD, _________________LOWER_L1__________________, _________________LOWER_R1__________________, _______,
     _______, _________________LOWER_L2__________________, _________________LOWER_R2__________________, KC_PIPE,
     KC_CAPS, _________________LOWER_L3__________________, _________________LOWER_R3__________________, _______,
-                               _______, _______, _______, KC_LEAD, _______, _______ \
+                               _______, _______, _______, _______, _______, _______ \
   ),
   [_RAISE] = LAYOUT_wrapper(
     KC_GRV,  _________________RAISE_L1__________________, _________________RAISE_R1__________________, KC_DEL,
@@ -111,7 +111,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 #ifdef OLED_DRIVER_ENABLE
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_master)
+  if (!is_keyboard_master())
     return OLED_ROTATION_180;  // flip 180 for offhand
   return rotation;
 }
@@ -153,7 +153,7 @@ static void render_status(void) {
 }
 
 void oled_task_user(void) {
-  if (is_master) {
+  if (is_keyboard_master()) {
     render_status();
   } else {
     render_logo();
@@ -161,81 +161,4 @@ void oled_task_user(void) {
   }
 }
 
-#endif
-
-#ifdef RAW_ENABLE
-enum crkbd_command_id {
-  id_get_protocol_version = 0x01,  // always 0x01
-  id_matrix_get_mode,
-  id_matrix_set_mode,
-  id_oled_set_text,
-
-  id_unhandled = 0xFF,
-};
-
-void raw_hid_receive(uint8_t *data, uint8_t length) {
-  uint8_t *command_id = &(data[0]);
-
-  switch (*command_id) {
-    case id_get_protocol_version:
-      break;
-
-    case id_matrix_get_mode:
-      break;
-
-    case id_matrix_set_mode:
-      break;
-
-    case id_oled_set_text:
-      break;
-
-    default:
-      break;
-    case _VIM:
-      oled_write_P(PSTR("Vim    \n"), false);
-      break;
-    case _MOUSE:
-      oled_write_P(PSTR("Mouse  \n"), false);
-      break;
-    default:
-      oled_write_P(PSTR("Unknown\n"), false);
-      break;
-  }
-  // Return same buffer with values changed
-  raw_hid_send(data, length);
-}
-#endif
-
-#ifdef RAW_ENABLE
-enum crkbd_command_id {
-  id_get_protocol_version = 0x01,  // always 0x01
-  id_matrix_get_mode,
-  id_matrix_set_mode,
-  id_oled_set_text,
-
-  id_unhandled = 0xFF,
-};
-
-void raw_hid_receive(uint8_t *data, uint8_t length) {
-  uint8_t *command_id = &(data[0]);
-
-  switch (*command_id) {
-    case id_get_protocol_version:
-      break;
-
-    case id_matrix_get_mode:
-      break;
-
-    case id_matrix_set_mode:
-      break;
-
-    case id_oled_set_text:
-      break;
-
-    default:
-      break;
-  }
-  // Return same buffer with values changed
-  raw_hid_send(data, length);
-}
 #endif

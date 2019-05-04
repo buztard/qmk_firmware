@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "config_common.h"
+
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0xFEED
 #define PRODUCT_ID      0x3060
@@ -25,6 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MANUFACTURER    foostan
 #define PRODUCT         Crkbd
 #define DESCRIPTION     A split keyboard with 3x6 vertically staggered keys and 3 thumb keys
+
+#define SOFT_SERIAL_PIN D2
+#define SELECT_SOFT_SERIAL_SPEED 1
 
 /* key matrix size */
 // Rows are doubled-up
@@ -56,6 +61,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef RGBLIGHT_ENABLE
 #define RGBLED_NUM 12    // Number of LEDs
 #endif
+
+#define RGBLIGHT_SPLIT
+#define RGBLED_SPLIT { 27, 27 }
 
 #ifdef RGB_MATRIX_ENABLE
 #define RGBLED_NUM 54    // Number of LEDs
