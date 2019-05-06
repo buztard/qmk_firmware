@@ -90,3 +90,18 @@ void raw_hid_receive(uint8_t *data, uint8_t length)
   raw_hid_send(data, length);
 }
 #endif
+
+#ifdef LEADER_ENABLE
+LEADER_EXTERNS();
+
+void matrix_scan_user(void) {
+  LEADER_DICTIONARY() {
+    leading = false;
+    leader_end();
+
+    SEQ_ONE_KEY(KC_S) {
+      SEND_STRING(SS_LCTRL("a")"s"SS_LCTRL("s"));
+    }
+  }
+}
+#endif
