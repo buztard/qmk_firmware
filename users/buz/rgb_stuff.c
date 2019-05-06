@@ -32,7 +32,7 @@ void rgb_matrix_layer_helper_rgb (uint8_t red, uint8_t green, uint8_t blue, bool
 void rgb_matrix_layer_helper_hsv (uint16_t hue, uint8_t sat, uint8_t val, bool default_layer) {
 }
 
-void rgb_matrix_indicators_user(void) {
+void xrgb_matrix_indicators_user(void) {
   if (!rgb_matrix_config.enable) {
       return;
   }
