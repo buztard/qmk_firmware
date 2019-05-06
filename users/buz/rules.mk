@@ -19,3 +19,15 @@ endif
 ifeq ($(strip $(OLED_DRIVER_ENABLE)), yes)
   SRC += oled_stuff.c
 endif
+
+ifeq ($(strip $(UCIS_ENABLE)), yes)
+  SRC += unicode.c
+endif
+
+ifeq ($(strip $(UNICODEMAP_ENABLE)), yes)
+  SRC += unicode.c
+endif
+
+ifeq ($(strip $(UNICODE_ENABLE)), yes)
+  SRC += unicode.c
+endif
