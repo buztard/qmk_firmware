@@ -98,4 +98,4 @@ enum userspace_custom_keycodes {
 
 #define _________________NUMPAD_R1_________________        _______,    KC_7,    KC_8,    KC_9, _______
 #define _________________NUMPAD_R2_________________        _______,    KC_4,    KC_5,    KC_6, _______
-#define _________________NUMPAD_R3_________________           KC_0,    KC_1,    KC_2,    KC_3, _______
+#define _________________NUMPAD_R3_________________           KC_0,    KC_1,    KC_2,    KC_3, KC_DOT
