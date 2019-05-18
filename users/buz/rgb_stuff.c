@@ -19,11 +19,10 @@ void layer_state_set_rgb(uint32_t state) {
 }
 
 #ifdef RGB_MATRIX_ENABLE
+extern led_config_t g_led_config;
 void rgb_matrix_layer_helper_rgb (uint8_t red, uint8_t green, uint8_t blue, bool default_layer) {
-  rgb_led led;
   for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-    led = g_rgb_leds[i];
-    if (HAS_FLAGS(led.flags, LED_FLAG_MODIFIER)) {
+    if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_MODIFIER)) {
       rgb_matrix_set_color(i, red, green, blue);
     }
   }
@@ -32,6 +31,7 @@ void rgb_matrix_layer_helper_rgb (uint8_t red, uint8_t green, uint8_t blue, bool
 void rgb_matrix_layer_helper_hsv (uint16_t hue, uint8_t sat, uint8_t val, bool default_layer) {
 }
 
+#if 0
 void xrgb_matrix_indicators_user(void) {
   if (!rgb_matrix_config.enable) {
       return;
@@ -51,4 +51,6 @@ void xrgb_matrix_indicators_user(void) {
       break;
   }
 }
+#endif
+
 #endif // RGB_MATRIX_ENABLE
