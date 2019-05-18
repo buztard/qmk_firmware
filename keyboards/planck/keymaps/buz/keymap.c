@@ -6,6 +6,10 @@
 #endif
 #define LAYOUT_wrapper(...) LAYOUT_planck_grid(__VA_ARGS__)
 
+enum planck_keycodes {
+  SESSION = USER_SAFE_RANGE,
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = LAYOUT_wrapper( \
   KC_TABMS,_________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC, \
@@ -25,7 +29,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_GRV,  _________________RAISE_L1__________________, _________________RAISE_R1__________________, _______, \
   _______, _________________RAISE_L2__________________, _________________RAISE_R2__________________, KC_BSLS, \
   _______, _________________RAISE_L2__________________, _________________RAISE_R3__________________, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  \
+  SESSION, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  \
 ),
 
 [_ADJUST] =  LAYOUT_wrapper( \
@@ -62,6 +66,21 @@ bool music_mask_user(uint16_t keycode) {
     case RAISE:
     case LOWER:
       return false;
+    default:
+      return true;
+  }
+}
+
+bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case SESSION:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("a"));
+        SEND_STRING("s");
+        SEND_STRING(SS_LCTRL("s"));
+      }
+      return false;
+
     default:
       return true;
   }
