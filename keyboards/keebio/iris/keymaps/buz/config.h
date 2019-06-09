@@ -35,6 +35,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLIGHT_SAT_STEP 8
 #define RGBLIGHT_VAL_STEP 8
 
+#define DEBOUNCE_DELAY 6
+
 // TAPPING_FORCE_HOLD breaks layer tapping
 #define TAPPING_FORCE_HOLD
 /* #define PERMISSIVE_HOLD */
