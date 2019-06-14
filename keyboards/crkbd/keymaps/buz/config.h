@@ -60,6 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef RGB_MATRIX_ENABLE
 #define RGB_MATRIX_KEYPRESSES
+#define RGB_MATRIX_FRAMEBUFFER_EFFECTS
 
 /* #define DISABLE_RGB_MATRIX_ALPHAS_MODS */
 /* #define DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN */
