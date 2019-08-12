@@ -95,12 +95,12 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
       // eeconfig_update_rgb_matrix_default();
       // rgb_matrix_enable();
       // eeconfig_update_rgb_matrix(rgb_matrix_config.raw);
-      rgb_matrix_config.enable = 1;
-      rgb_matrix_config.mode = RGB_MATRIX_SOLID_COLOR;
-      rgb_matrix_config.hue = 0;
-      rgb_matrix_config.sat = 100;
-      rgb_matrix_config.val = 50;
-      rgb_matrix_mode(rgb_matrix_config.mode);
+      // rgb_matrix_config.enable = 1;
+      // rgb_matrix_config.mode = RGB_MATRIX_SOLID_COLOR;
+      // rgb_matrix_config.hue = 0;
+      // rgb_matrix_config.sat = 100;
+      // rgb_matrix_config.val = 50;
+      // rgb_matrix_mode(rgb_matrix_config.mode);
 #endif
       return false;
   }
@@ -157,7 +157,7 @@ void oled_task_user(void) {
     render_status();
   } else {
     render_logo();
-    oled_scroll_left();  // Turns on scrolling
+    // oled_scroll_left();  // Turns on scrolling
   }
 }
 
