@@ -202,3 +202,55 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
   raw_hid_send(data, length);
 }
 #endif
+
+#ifdef RGB_MATRIX_ENABLE
+static void rgb_matrix_layer_helper_rgb (uint8_t red, uint8_t green, uint8_t blue, uint8_t flags) {
+    for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+        if (HAS_FLAGS(g_led_config.flags[i], flags)) {
+            rgb_matrix_set_color(i, red, green, blue);
+        }
+    }
+}
+
+void rgb_matrix_indicators_user(void) {
+    if (!rgb_matrix_config.enable) {
+        return;
+    }
+    switch (biton32(layer_state)) {
+        case _LOWER:
+            rgb_matrix_layer_helper_rgb (0x0, 0x9F, 0x0, LED_FLAG_UNDERGLOW);
+            break;
+
+        case _RAISE:
+            rgb_matrix_layer_helper_rgb (0x0, 0x0, 0x9F, LED_FLAG_UNDERGLOW);
+            break;
+
+        case _ADJUST:
+            rgb_matrix_layer_helper_rgb (0xFF, 0x0, 0x0, LED_FLAG_UNDERGLOW);
+            break;
+
+        case _VIM:
+#ifdef RGB_MATRIX_SPLIT_RIGHT
+            if (!is_master) {
+                rgb_matrix_set_color(19, 0x0, 0xFF, 0x0);
+                rgb_matrix_set_color(16, 0x0, 0xFF, 0x0);
+                rgb_matrix_set_color(11, 0x0, 0xFF, 0x0);
+                rgb_matrix_set_color(8, 0x0, 0xFF, 0x0);
+            }
+#endif
+            break;
+
+        case _NUM:
+            rgb_matrix_layer_helper_rgb (0xFF, 0xFF, 0x0, LED_FLAG_MODIFIER);
+            break;
+
+        case _JIRA:
+            rgb_matrix_layer_helper_rgb (95, 7, 53, LED_FLAG_UNDERGLOW);
+            break;
+
+        // default:
+        //     rgb_matrix_layer_helper_rgb (14, 30, 90, LED_FLAG_UNDERGLOW);
+        //     break;
+    }
+}
+#endif // RGB_MATRIX_ENABLE
