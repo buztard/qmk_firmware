@@ -14,6 +14,7 @@ enum userspace_layers {
   _MOUSE,
   _NUM,
   _FN,
+  _JIRA,
 };
 
 enum userspace_custom_keycodes {
