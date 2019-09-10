@@ -29,6 +29,9 @@ void oled_render_layer(void) {
     case _FN:
       oled_write_P(PSTR("FN     \n"), false);
       break;
+    case _JIRA:
+      oled_write_P(PSTR("JIRA   \n"), false);
+      break;
     default:
       oled_write_P(PSTR("Unknown\n"), false);
       break;
@@ -135,6 +138,36 @@ void render_rgb_matrix_effect_name(void) {
       oled_write_P(PSTR("Breathing\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_BREATHING
+#ifndef DISABLE_RGB_MATRIX_BAND_SAT
+    case RGB_MATRIX_BAND_SAT:
+      oled_write_P(PSTR("Band Sat\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_BAND_SAT
+#ifndef DISABLE_RGB_MATRIX_BAND_VAL
+    case RGB_MATRIX_BAND_VAL:
+      oled_write_P(PSTR("Band Val\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_BAND_VAL
+#ifndef DISABLE_RGB_MATRIX_BAND_PINWHEEL_SAT
+    case RGB_MATRIX_BAND_PINWHEEL_SAT:
+      oled_write_P(PSTR("Band PW Sat\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_BAND_PINWHEEL_SAT
+#ifndef DISABLE_RGB_MATRIX_BAND_PINWHEEL_VAL
+    case RGB_MATRIX_BAND_PINWHEEL_VAL:
+      oled_write_P(PSTR("Band PW Val\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_BAND_PINWHEEL_VAL
+#ifndef DISABLE_RGB_MATRIX_BAND_SPIRAL_SAT
+    case RGB_MATRIX_BAND_SPIRAL_SAT:
+      oled_write_P(PSTR("Band Spiral Sat\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_BAND_SPIRAL_SAT
+#ifndef DISABLE_RGB_MATRIX_BAND_SPIRAL_VAL
+    case RGB_MATRIX_BAND_SPIRAL_VAL:
+      oled_write_P(PSTR("Band Spiral Val\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_BAND_SPIRAL_VAL
 #ifndef DISABLE_RGB_MATRIX_CYCLE_ALL
     case RGB_MATRIX_CYCLE_ALL:
       oled_write_P(PSTR("Cycle all\n"), false);
@@ -150,9 +183,19 @@ void render_rgb_matrix_effect_name(void) {
       oled_write_P(PSTR("Cycle up/down\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_CYCLE_UP_DOWN
+#ifndef DISABLE_RGB_MATRIX_CYCLE_OUT_IN
+    case RGB_MATRIX_CYCLE_OUT_IN:
+      oled_write_P(PSTR("Cycle Out/In\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_CYCLE_OUT_IN
+#ifndef DISABLE_RGB_MATRIX_CYCLE_OUT_IN_DUAL
+    case RGB_MATRIX_CYCLE_OUT_IN_DUAL:
+      oled_write_P(PSTR("Cycle Out/In Dual\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_CYCLE_OUT_IN_DUAL
 #ifndef DISABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
     case RGB_MATRIX_RAINBOW_MOVING_CHEVRON:
-      oled_write_P(PSTR("Rb moving chevron\n"), false);
+      oled_write_P(PSTR("Moving chevron\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
 #ifndef DISABLE_RGB_MATRIX_DUAL_BEACON
@@ -160,14 +203,24 @@ void render_rgb_matrix_effect_name(void) {
       oled_write_P(PSTR("Dual beacon\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_DUAL_BEACON
+#ifndef DISABLE_RGB_MATRIX_CYCLE_PINWHEEL
+    case RGB_MATRIX_CYCLE_PINWHEEL:
+      oled_write_P(PSTR("Cycle Pinwheel\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_CYCLE_PINWHEEL
+#ifndef DISABLE_RGB_MATRIX_CYCLE_SPIRAL
+    case RGB_MATRIX_CYCLE_SPIRAL:
+      oled_write_P(PSTR("Cycle spiral\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_CYCLE_SPIRAL
 #ifndef DISABLE_RGB_MATRIX_RAINBOW_BEACON
     case RGB_MATRIX_RAINBOW_BEACON:
       oled_write_P(PSTR("Rainbow beacon\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_RAINBOW_BEACON
 #ifndef DISABLE_RGB_MATRIX_RAINBOW_PINWHEELS
-    case RGB_MATRIX_RAINBOW_PINWHEELS:
-      oled_write_P(PSTR("Rainbow pinwheels\n"), false);
+    case RGB_MATRIX_PINWHEELS:
+      oled_write_P(PSTR("Pinwheels\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_RAINBOW_PINWHEELS
 #ifndef DISABLE_RGB_MATRIX_RAINDROPS
@@ -180,22 +233,29 @@ void render_rgb_matrix_effect_name(void) {
       oled_write_P(PSTR("Jellybean rain\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
+#ifdef RGB_MATRIX_FRAMEBUFFER_EFFECTS
+#ifndef DISABLE_RGB_MATRIX_TYPING_HEATMAP
+    case RGB_MATRIX_TYPING_HEATMAP:
+      oled_write_P(PSTR("Typing heatmap\n"), false);
+      break;
+#endif // DISABLE_RGB_MATRIX_TYPING_HEATMAP
 #ifndef DISABLE_RGB_MATRIX_DIGITAL_RAIN
     case RGB_MATRIX_DIGITAL_RAIN:
       oled_write_P(PSTR("Digital rain\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_DIGITAL_RAIN
+#endif // RGB_MATRIX_FRAMEBUFFER_EFFECTS
 #ifdef RGB_MATRIX_KEYREACTIVE_ENABLED
-#ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
-    case RGB_MATRIX_SOLID_REACTIVE_SIMPLE:
-      oled_write_P(PSTR("Reactive simple\n"), false);
-      break;
-#endif
 #ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE
     case RGB_MATRIX_SOLID_REACTIVE:
       oled_write_P(PSTR("Solid reactive\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE
+#ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
+    case RGB_MATRIX_SOLID_REACTIVE_SIMPLE:
+      oled_write_P(PSTR("Reactive simple\n"), false);
+      break;
+#endif
 #ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
     case RGB_MATRIX_SOLID_REACTIVE_WIDE:
       oled_write_P(PSTR("Reactive wide\n"), false);
