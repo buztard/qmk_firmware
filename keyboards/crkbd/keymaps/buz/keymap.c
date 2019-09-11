@@ -230,18 +230,22 @@ void rgb_matrix_indicators_user(void) {
             break;
 
         case _VIM:
-#ifdef RGB_MATRIX_SPLIT_RIGHT
-            if (!is_master) {
-                rgb_matrix_set_color(19, 0x0, 0xFF, 0x0);
-                rgb_matrix_set_color(16, 0x0, 0xFF, 0x0);
-                rgb_matrix_set_color(11, 0x0, 0xFF, 0x0);
-                rgb_matrix_set_color(8, 0x0, 0xFF, 0x0);
-            }
-#endif
+            rgb_matrix_set_color(g_led_config.matrix_co[5][5], 0x0, 0xFF, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[5][4], 0x0, 0xFF, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[5][3], 0x0, 0xFF, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[5][2], 0x0, 0xFF, 0x0);
             break;
 
         case _NUM:
-            rgb_matrix_layer_helper_rgb (0xFF, 0xFF, 0x0, LED_FLAG_MODIFIER);
+            rgb_matrix_set_color(g_led_config.matrix_co[4][2], 0xFF, 0xFF, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[4][3], 0xFF, 0xFF, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[4][4], 0xFF, 0xFF, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[5][2], 0xFF, 0xFF, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[5][3], 0xFF, 0xFF, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[5][4], 0xFF, 0xFF, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[6][2], 0xFF, 0xFF, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[6][3], 0xFF, 0xFF, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[6][4], 0xFF, 0xFF, 0x0);
             break;
 
         case _JIRA:
