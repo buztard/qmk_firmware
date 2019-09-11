@@ -5,6 +5,10 @@
 #include "oled_stuff.h"
 #endif
 
+#ifdef TAP_DANCE_ENABLE
+#include "tap_dances.h"
+#endif
+
 enum userspace_layers {
   _QWERTY = 0,
   _LOWER,
