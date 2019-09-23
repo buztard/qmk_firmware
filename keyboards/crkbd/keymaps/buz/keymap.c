@@ -18,6 +18,8 @@ extern rgblight_config_t rgblight_config;
 extern rgb_config_t rgb_matrix_config;
 #endif
 
+static uint32_t oled_timer = 0;
+
 extern uint8_t is_master;
 
 enum custom_keycodes {
@@ -45,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_ADJUST] = LAYOUT_wrapper(
     RESET,   _________________ADJUST_L1_________________, _________________ADJUST_R1_________________, RESET,
-    _______, _________________ADJUST_L2_________________, _______,TG(_JIRA), _______, _______, KC_SINS, RGBRST,
+    _______, _________________ADJUST_L2_________________, _______,TG(_JIRA), DEBUG,   _______, KC_SINS, RGBRST,
     XXXXXXX, _________________ADJUST_L3_________________, _________________ADJUST_R3_________________, _______,
                                _______, _______, _______, _______, _______, _______ \
   ),
@@ -88,6 +90,17 @@ void matrix_init_user(void) {
 }
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+#ifdef OLED_DRIVER_ENABLE
+        oled_timer = timer_read32();
+#endif
+#ifndef SPLIT_KEYBOARD
+        if (keycode == RESET && !is_master) {
+            return false;
+        }
+#endif
+    }
+
   switch (keycode) {
     case RGBRST:
 #ifdef RGBLIGHT_ENABLE
@@ -95,9 +108,16 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
         eeconfig_update_rgblight_default();
         rgblight_enable();
         RGB_current_mode = rgblight_config.mode;
+        // Godspeed: H:40 S:48 V:54 SPEED:111
+        // Dasher:
       }
 #endif
 #ifdef RGB_MATRIX_ENABLE
+      if (record->event.pressed) {
+#ifdef CONSOLE_ENABLE
+          uprintf("H:%d S:%d V:%d SPEED:%d\n", rgb_matrix_config.hsv.h, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v, rgb_matrix_config.speed);
+#endif
+      }
       // eeconfig_update_rgb_matrix_default();
       // rgb_matrix_enable();
       // eeconfig_update_rgb_matrix(rgb_matrix_config.raw);
@@ -159,11 +179,23 @@ static void render_status(void) {
 }
 
 void oled_task_user(void) {
+    if (timer_elapsed32(oled_timer) > 60000) {
+        oled_off();
+        return;
+    } else if (timer_elapsed32(oled_timer) > 10000) {
+        oled_scroll_left();
+        return;
+    } else {
+        oled_scroll_off();
+    }
+#ifndef SPLIT_KEYBOARD
+    oled_on();
+#endif
+
   if (is_master) {
     render_status();
   } else {
     render_logo();
-    // oled_scroll_left();  // Turns on scrolling
   }
 }
 
