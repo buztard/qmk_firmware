@@ -14,12 +14,16 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (!process_record_keymap(keycode, record)) {
+      return false;
+  }
+
   switch (keycode) {
     case QWERTY:
       if (record->event.pressed) {
         set_single_persistent_default_layer(_QWERTY);
       }
-      break;
+      return false;
 
     case LOWER:
       if (record->event.pressed) {
@@ -74,7 +78,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
   }
 
-  return process_record_keymap(keycode, record);
+  return true;
 }
 
 uint32_t layer_state_set_user(uint32_t state) {
