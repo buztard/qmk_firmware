@@ -9,11 +9,6 @@
 
 extern keymap_config_t keymap_config;
 
-#ifdef RGBLIGHT_ENABLE
-//Following line allows macro to read current RGB settings
-extern rgblight_config_t rgblight_config;
-#endif
-
 #ifdef RGB_MATRIX_ENABLE
 extern rgb_config_t rgb_matrix_config;
 #endif
@@ -77,16 +72,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
-int RGB_current_mode;
-
 
 void matrix_init_user(void) {
-    #ifdef RGBLIGHT_ENABLE
-      RGB_current_mode = rgblight_config.mode;
-    #endif
-    #ifdef RGB_MATRIX_ENABLE
-      RGB_current_mode = rgb_matrix_config.mode;
-    #endif
 }
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
@@ -101,13 +88,22 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 #endif
     }
 
+  /* if (!record->event.pressed && last_key == VIM_LEADER && keycode == VIM_LEADER) { */
+  /*     last_key = KC_NO; */
+  /*     if (biton32(layer_state) == _VIM) { */
+  /*         layer_off(_VIM); */
+  /*     } else { */
+  /*         layer_on(_VIM); */
+  /*     } */
+  /*     return false; */
+  /* } */
+
   switch (keycode) {
     case RGBRST:
 #ifdef RGBLIGHT_ENABLE
       if (record->event.pressed) {
         eeconfig_update_rgblight_default();
         rgblight_enable();
-        RGB_current_mode = rgblight_config.mode;
         // Godspeed: H:40 S:48 V:54 SPEED:111
         // Dasher:
       }
@@ -130,6 +126,11 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 #endif
       return false;
   }
+
+  /* // set last_key */
+  /* if (record->event.pressed) { */
+  /*     last_key = keycode; */
+  /* } */
   return true;
 }
 
