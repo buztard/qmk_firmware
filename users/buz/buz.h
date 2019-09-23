@@ -66,8 +66,8 @@ enum userspace_custom_keycodes {
 #define _________________LOWER_L3__________________        _________________FUNC_RIGHT________________
 
 #define _________________LOWER_R1__________________        KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN
-#define _________________LOWER_R2__________________        _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR
-#define _________________LOWER_R3__________________        _______, KC_LCBR, KC_RCBR, _______, _______
+#define _________________LOWER_R2__________________        KC_F11,  KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR
+#define _________________LOWER_R3__________________        KC_F12,  _______, _______, _______, _______
 
 #define _________________RAISE_L1__________________        ________________NUMBER_LEFT________________
 #define _________________RAISE_L2__________________        KC_MNXT, KC_MPLY, KC_VOLU, KC_PGUP, KC_HOME
@@ -75,7 +75,7 @@ enum userspace_custom_keycodes {
 
 #define _________________RAISE_R1__________________        ________________NUMBER_RIGHT_______________
 #define _________________RAISE_R2__________________        _______, KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC
-#define _________________RAISE_R3__________________        _______, KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR
+#define _________________RAISE_R3__________________        _______, _______, _______, KC_LCBR, KC_RCBR
 
 #define _________________ADJUST_L1_________________        RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI
 #define _________________ADJUST_L2_________________        RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD
