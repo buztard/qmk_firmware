@@ -1,13 +1,10 @@
 #include QMK_KEYBOARD_H
-#include "bootloader.h"
 #ifdef PROTOCOL_LUFA
-  #include "lufa.h"
-  #include "split_util.h"
+#    include "lufa.h"
+#    include "split_util.h"
 #endif
 #include "buz.h"
 #include "raw_hid.h"
-
-extern keymap_config_t keymap_config;
 
 #ifdef RGB_MATRIX_ENABLE
 extern rgb_config_t rgb_matrix_config;
@@ -18,9 +15,10 @@ static uint32_t oled_timer = 0;
 extern uint8_t is_master;
 
 enum custom_keycodes {
-  RGBRST = USER_SAFE_RANGE,
+    RGBRST = USER_SAFE_RANGE,
 };
 
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
     KC_TABMS,_________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
@@ -71,10 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                _______, _______, _______, _______, _______, _______ \
   ),
 };
-
-
-void matrix_init_user(void) {
-}
+// clang-format on
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
@@ -88,95 +83,61 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 #endif
     }
 
-  /* if (!record->event.pressed && last_key == VIM_LEADER && keycode == VIM_LEADER) { */
-  /*     last_key = KC_NO; */
-  /*     if (biton32(layer_state) == _VIM) { */
-  /*         layer_off(_VIM); */
-  /*     } else { */
-  /*         layer_on(_VIM); */
-  /*     } */
-  /*     return false; */
-  /* } */
-
-  switch (keycode) {
-    case RGBRST:
+    switch (keycode) {
+        case RGBRST:
 #ifdef RGBLIGHT_ENABLE
-      if (record->event.pressed) {
-        eeconfig_update_rgblight_default();
-        rgblight_enable();
-        // Godspeed: H:40 S:48 V:54 SPEED:111
-        // Dasher:
-      }
-#endif
+            if (record->event.pressed) {
+                eeconfig_update_rgblight_default();
+                rgblight_enable();
+                // Godspeed: H:40 S:48 V:54 SPEED:111
+                // Dasher:
+            }
+#endif  // RGBLIGHT_ENABLE
 #ifdef RGB_MATRIX_ENABLE
-      if (record->event.pressed) {
-#ifdef CONSOLE_ENABLE
-          uprintf("H:%d S:%d V:%d SPEED:%d\n", rgb_matrix_config.hsv.h, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v, rgb_matrix_config.speed);
-#endif
-      }
-      // eeconfig_update_rgb_matrix_default();
-      // rgb_matrix_enable();
-      // eeconfig_update_rgb_matrix(rgb_matrix_config.raw);
-      // rgb_matrix_config.enable = 1;
-      // rgb_matrix_config.mode = RGB_MATRIX_SOLID_COLOR;
-      // rgb_matrix_config.hue = 0;
-      // rgb_matrix_config.sat = 100;
-      // rgb_matrix_config.val = 50;
-      // rgb_matrix_mode(rgb_matrix_config.mode);
-#endif
-      return false;
-  }
-
-  /* // set last_key */
-  /* if (record->event.pressed) { */
-  /*     last_key = keycode; */
-  /* } */
-  return true;
+            if (record->event.pressed) {
+#    ifdef CONSOLE_ENABLE
+                uprintf("H:%d S:%d V:%d SPEED:%d\n", rgb_matrix_config.hsv.h, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v, rgb_matrix_config.speed);
+#    endif  // CONSOLE_ENABLE
+            }
+#endif  // RGB_MATRIX_ENABLE
+            return false;
+    }
+    return true;
 }
 
-// OLED Driver Logic
 #ifdef OLED_DRIVER_ENABLE
-
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_master)
-    return OLED_ROTATION_180;  // flip 180 for offhand
-  return rotation;
+    if (!is_master) return OLED_ROTATION_180;
+    return rotation;
 }
 
 static void render_logo(void) {
-  static const char PROGMEM logo[] = {
-      0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
-      0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
-      0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4,
-      0};
-
-  /* static const char PROGMEM logo[] = { */
-  /*   0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,0x90,0x91,0x92,0x93,0x94, */
-  /*   0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,0xb0,0xb1,0xb2,0xb3,0xb4, */
-  /*   0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,0xd0,0xd1,0xd2,0xd3,0xd4,0}; */
-
-  oled_write_P(logo, false);
+    // clang-format off
+    static const char PROGMEM logo[] = {
+        0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
+        0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
+        0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4, 0};
+    // clang-format on
+    oled_write_P(logo, false);
 }
 
 static void render_status(void) {
-  // Render to mode icon
-  static const char PROGMEM mode_logo[4][4] = {
-      {0x99,0x9a,0},
-      {0xb9,0xba,0} };
+    // Render to mode icon
+    static const char PROGMEM mode_logo[4][4] = {{0x99, 0x9a, 0}, {0xb9, 0xba, 0}};
 
-  oled_write_P(mode_logo[0], false);
-  oled_set_cursor(4, 0);
-  oled_render_layer();
-  oled_write_P(mode_logo[1], false);
-  oled_set_cursor(4, 1);
-  oled_render_mods();
+    oled_write_P(mode_logo[0], false);
+    oled_set_cursor(4, 0);
+    oled_render_layer();
+    oled_write_P(mode_logo[1], false);
+    oled_set_cursor(4, 1);
+    oled_render_mods();
 
-#ifdef RGBLIGHT_ENABLE
-  render_rgblight_effect_name();
-#endif // RGBLIGHT_ENABLE
-#ifdef RGB_MATRIX_ENABLE
-  render_rgb_matrix_effect_name();
-#endif // RGB_MATRIX_ENABLE
+#    ifdef RGBLIGHT_ENABLE
+    render_rgblight_effect_name();
+#    endif  // RGBLIGHT_ENABLE
+#    ifdef RGB_MATRIX_ENABLE
+    render_rgb_matrix_effect_name();
+#    endif  // RGB_MATRIX_ENABLE
 }
 
 void oled_task_user(void) {
@@ -189,55 +150,54 @@ void oled_task_user(void) {
     } else {
         oled_scroll_off();
     }
-#ifndef SPLIT_KEYBOARD
+#    ifndef SPLIT_KEYBOARD
     oled_on();
-#endif
+#    endif
 
-  if (is_master) {
-    render_status();
-  } else {
-    render_logo();
-  }
+    if (is_master) {
+        render_status();
+    } else {
+        render_logo();
+    }
 }
-
-#endif
+#endif  // OLED_DRIVER_ENABLE
 
 #ifdef RAW_ENABLE
 enum crkbd_command_id {
-  id_get_protocol_version = 0x01,  // always 0x01
-  id_matrix_get_mode,
-  id_matrix_set_mode,
-  id_oled_set_text,
+    id_get_protocol_version = 0x01,  // always 0x01
+    id_matrix_get_mode,
+    id_matrix_set_mode,
+    id_oled_set_text,
 
-  id_unhandled = 0xFF,
+    id_unhandled = 0xFF,
 };
 
 void raw_hid_receive(uint8_t *data, uint8_t length) {
-  uint8_t *command_id = &(data[0]);
+    uint8_t *command_id = &(data[0]);
 
-  switch (*command_id) {
-    case id_get_protocol_version:
-      break;
+    switch (*command_id) {
+        case id_get_protocol_version:
+            break;
 
-    case id_matrix_get_mode:
-      break;
+        case id_matrix_get_mode:
+            break;
 
-    case id_matrix_set_mode:
-      break;
+        case id_matrix_set_mode:
+            break;
 
-    case id_oled_set_text:
-      break;
+        case id_oled_set_text:
+            break;
 
-    default:
-      break;
-  }
-  // Return same buffer with values changed
-  raw_hid_send(data, length);
+        default:
+            break;
+    }
+    // Return same buffer with values changed
+    raw_hid_send(data, length);
 }
-#endif
+#endif  // RAW_ENABLE
 
 #ifdef RGB_MATRIX_ENABLE
-static void rgb_matrix_layer_helper_rgb (uint8_t red, uint8_t green, uint8_t blue, uint8_t flags) {
+static void rgb_matrix_layer_helper_rgb(uint8_t red, uint8_t green, uint8_t blue, uint8_t flags) {
     for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
         if (HAS_FLAGS(g_led_config.flags[i], flags)) {
             rgb_matrix_set_color(i, red, green, blue);
@@ -249,21 +209,21 @@ void rgb_matrix_indicators_user(void) {
     if (!rgb_matrix_config.enable) {
         return;
     }
-    if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
+    if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
         rgb_matrix_set_color(g_led_config.matrix_co[2][0], 0xFF, 0x0, 0x0);
     }
 
     switch (biton32(layer_state)) {
         case _LOWER:
-            rgb_matrix_layer_helper_rgb (0x0, 0x9F, 0x0, LED_FLAG_UNDERGLOW);
+            rgb_matrix_layer_helper_rgb(0x0, 0x9F, 0x0, LED_FLAG_UNDERGLOW);
             break;
 
         case _RAISE:
-            rgb_matrix_layer_helper_rgb (0x0, 0x0, 0x9F, LED_FLAG_UNDERGLOW);
+            rgb_matrix_layer_helper_rgb(0x0, 0x0, 0x9F, LED_FLAG_UNDERGLOW);
             break;
 
         case _ADJUST:
-            rgb_matrix_layer_helper_rgb (0xFF, 0x0, 0x0, LED_FLAG_UNDERGLOW);
+            rgb_matrix_layer_helper_rgb(0xFF, 0x0, 0x0, LED_FLAG_UNDERGLOW);
             break;
 
         case _VIM:
@@ -286,12 +246,8 @@ void rgb_matrix_indicators_user(void) {
             break;
 
         case _JIRA:
-            rgb_matrix_layer_helper_rgb (95, 7, 53, LED_FLAG_UNDERGLOW);
+            rgb_matrix_layer_helper_rgb(95, 7, 53, LED_FLAG_UNDERGLOW);
             break;
-
-        // default:
-        //     rgb_matrix_layer_helper_rgb (14, 30, 90, LED_FLAG_UNDERGLOW);
-        //     break;
     }
 }
-#endif // RGB_MATRIX_ENABLE
+#endif  // RGB_MATRIX_ENABLE
