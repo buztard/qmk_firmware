@@ -2,36 +2,40 @@
 #include "quantum.h"
 
 #ifdef OLED_DRIVER_ENABLE
-#include "oled_stuff.h"
+#    include "oled_stuff.h"
 #endif
 
 #ifdef TAP_DANCE_ENABLE
-#include "tap_dances.h"
+#    include "tap_dances.h"
+#    define KC_TD_LALT TD(TD_LALT)
+#    define KC_TD_RALT TD(TD_RALT)
+#else
+#    define KC_TD_LALT OSM(MOD_LALT)
+#    define KC_TD_RALT OSM(MOD_RALT)
 #endif
 
 enum userspace_layers {
-  _QWERTY = 0,
-  _LOWER,
-  _RAISE,
-  _ADJUST,
-  _VIM,
-  _MOUSE,
-  _NUM,
-  _FN,
-  _JIRA,
+    _QWERTY = 0,
+    _LOWER,
+    _RAISE,
+    _ADJUST,
+    _VIM,
+    _MOUSE,
+    _NUM,
+    _FN,
+    _JIRA,
 };
 
 enum userspace_custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  LOWER,
-  RAISE,
-  ADJUST,
-  MOUSE,
-  VIM,
-  NUM,
-  USER_SAFE_RANGE,
+    QWERTY = SAFE_RANGE,
+    LOWER,
+    RAISE,
+    ADJUST,
+    MOUSE,
+    VIM,
+    NUM,
+    USER_SAFE_RANGE,
 };
-
 
 #define KC_CESC CTL_T(KC_ESC)
 #define KC_GENT LGUI_T(KC_ENT)
@@ -45,6 +49,7 @@ enum userspace_custom_keycodes {
 
 #define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
 
+// clang-format off
 #define ___________________BLANK___________________        _______, _______, _______, _______, _______
 
 #define _________________QWERTY_L1_________________        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T
@@ -104,3 +109,4 @@ enum userspace_custom_keycodes {
 #define _________________NUMPAD_R1_________________        _______,    KC_7,    KC_8,    KC_9, _______
 #define _________________NUMPAD_R2_________________        _______,    KC_4,    KC_5,    KC_6, _______
 #define _________________NUMPAD_R3_________________           KC_0,    KC_1,    KC_2,    KC_3, KC_DOT
+// clang-format on
