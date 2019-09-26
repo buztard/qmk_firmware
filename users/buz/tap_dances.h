@@ -2,13 +2,9 @@
 
 // tap dance keycodes
 enum {
-    TD_RALT = 0
+    TD_LALT = 0,
+    TD_RALT
 };
-
-typedef struct {
-    bool is_press_action;
-    int state;
-} tap_state;
 
 typedef enum {
     SINGLE_TAP,
@@ -16,6 +12,8 @@ typedef enum {
     DOUBLE_TAP,
     DOUBLE_HOLD,
     DOUBLE_SINGLE_TAP,
+    TRIPLE_TAP,
+    TRIPLE_HOLD,
     TAP_END
 } td_state_t;
 
