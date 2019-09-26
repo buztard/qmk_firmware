@@ -307,6 +307,14 @@ void render_rgb_matrix_effect_name(void) {
       break;
 #endif // DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
 #endif // RGB_MATRIX_KEYREACTIVE_ENABLED
+#ifdef RGB_MATRIX_EFFECT_CUSTOM_CRKBD
+    case RGB_MATRIX_CUSTOM_DASHER:
+      oled_write_P(PSTR("Dasher\n"), false);
+      break;
+    case RGB_MATRIX_CUSTOM_GODSPEED:
+      oled_write_P(PSTR("Godspeed\n"), false);
+      break;
+#endif // RGB_MATRIX_EFFECT_CUSTOM_CRKBD
     default:
       oled_write_P(PSTR("Unknown\n"), false);
       break;
