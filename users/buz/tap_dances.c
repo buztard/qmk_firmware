@@ -35,7 +35,7 @@ void td_lalt_finished(qk_tap_dance_state_t *state, void *user_data) {
     tap_lalt = cur_dance(state);
     switch (tap_lalt) {
         case SINGLE_TAP:
-            register_code(KC_DEL);
+            register_mods(MOD_BIT(KC_LALT));
             break;
         case SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LALT));
@@ -47,10 +47,8 @@ void td_lalt_finished(qk_tap_dance_state_t *state, void *user_data) {
                 layer_on(_MOUSE);
             }
             break;
-        case DOUBLE_SINGLE_TAP:
-            tap_code16(KC_DEL);
-            register_code(KC_DEL);
-            break;
+        case DOUBLE_HOLD:
+            layer_on(_MOUSE);
         default:
             break;
     }
@@ -59,13 +57,13 @@ void td_lalt_finished(qk_tap_dance_state_t *state, void *user_data) {
 void td_lalt_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (tap_lalt) {
         case SINGLE_TAP:
-            unregister_code(KC_DEL);
+            unregister_mods(MOD_BIT(KC_LALT));
             break;
         case SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_LALT));
             break;
-        case DOUBLE_SINGLE_TAP:
-            unregister_code(KC_DEL);
+        case DOUBLE_HOLD:
+            layer_off(_MOUSE);
             break;
         default:
             break;
@@ -77,7 +75,7 @@ void td_ralt_finished(qk_tap_dance_state_t *state, void *user_data) {
     tap_ralt = cur_dance(state);
     switch (tap_ralt) {
         case SINGLE_TAP:
-            register_code(KC_BSPC);
+            register_mods(MOD_BIT(KC_RALT));
             break;
         case SINGLE_HOLD:
             register_mods(MOD_BIT(KC_RALT));
@@ -90,18 +88,7 @@ void td_ralt_finished(qk_tap_dance_state_t *state, void *user_data) {
             }
             break;
         case DOUBLE_HOLD:
-            register_mods(MOD_BIT(KC_LALT));
-            break;
-        case DOUBLE_SINGLE_TAP:
-            tap_code16(KC_BSPC);
-            register_code(KC_BSPC);
-            break;
-        case TRIPLE_TAP:
-            if (biton32(layer_state) == _MOUSE) {
-                layer_off(_MOUSE);
-            } else {
-                layer_on(_MOUSE);
-            }
+            layer_on(_VIM);
             break;
         default:
             break;
@@ -111,7 +98,7 @@ void td_ralt_finished(qk_tap_dance_state_t *state, void *user_data) {
 void td_ralt_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (tap_ralt) {
         case SINGLE_TAP:
-            unregister_code(KC_BSPC);
+            unregister_mods(MOD_BIT(KC_RALT));
             break;
         case SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_RALT));
@@ -119,10 +106,7 @@ void td_ralt_reset(qk_tap_dance_state_t *state, void *user_data) {
         case DOUBLE_TAP:
             break;
         case DOUBLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LALT));
-            break;
-        case DOUBLE_SINGLE_TAP:
-            unregister_code(KC_BSPC);
+            layer_off(_VIM);
             break;
         default:
             break;
