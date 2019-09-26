@@ -24,7 +24,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TABMS,_________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
     KC_CESC, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_QUOT,
     KC_LSPO, _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, KC_RSPC,
-                               KC_O_LALT, LOWER, KC_GENT, KC_SPC, RAISE, KC_O_RALT \
+                              KC_TD_LALT, LOWER, KC_GENT, KC_SPC, RAISE, KC_TD_RALT \
   ),
   [_LOWER] = LAYOUT_wrapper(
     KC_TILD, _________________LOWER_L1__________________, _________________LOWER_R1__________________, _______,
@@ -41,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] = LAYOUT_wrapper(
     RESET,   _________________ADJUST_L1_________________, _________________ADJUST_R1_________________, RESET,
     _______, _________________ADJUST_L2_________________, _______,TG(_JIRA), DEBUG,   _______, KC_SINS, RGBRST,
-    XXXXXXX, _________________ADJUST_L3_________________, _________________ADJUST_R3_________________, _______,
+    KC_CAPS, _________________ADJUST_L3_________________, _________________ADJUST_R3_________________, _______,
                                _______, _______, _______, _______, _______, _______ \
   ),
   [_VIM] = LAYOUT_wrapper(
@@ -167,6 +167,8 @@ enum crkbd_command_id {
     id_get_protocol_version = 0x01,  // always 0x01
     id_matrix_get_mode,
     id_matrix_set_mode,
+    id_matrix_get_hsv,
+    id_matrix_set_hsv,
     id_oled_set_text,
 
     id_unhandled = 0xFF,
@@ -183,6 +185,18 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
             break;
 
         case id_matrix_set_mode:
+            break;
+
+        case id_matrix_get_hsv:
+            data[1] = rgb_matrix_config.hsv.h;
+            data[2] = rgb_matrix_config.hsv.s;
+            data[3] = rgb_matrix_config.hsv.v;
+            break;
+
+        case id_matrix_set_hsv:
+            rgb_matrix_config.hsv.h = data[1];
+            rgb_matrix_config.hsv.s = data[2];
+            rgb_matrix_config.hsv.v = data[3];
             break;
 
         case id_oled_set_text:
@@ -215,7 +229,7 @@ void rgb_matrix_indicators_user(void) {
 
     switch (biton32(layer_state)) {
         case _LOWER:
-            rgb_matrix_layer_helper_rgb(0x0, 0x9F, 0x0, LED_FLAG_UNDERGLOW);
+            rgb_matrix_layer_helper_rgb(95, 7, 53, LED_FLAG_UNDERGLOW);
             break;
 
         case _RAISE:
@@ -233,20 +247,27 @@ void rgb_matrix_indicators_user(void) {
             rgb_matrix_set_color(g_led_config.matrix_co[5][2], 0x0, 0xFF, 0x0);
             break;
 
+        case _MOUSE:
+            rgb_matrix_set_color(g_led_config.matrix_co[5][5], 0xff, 0x0, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[5][4], 0xff, 0x0, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[5][3], 0xff, 0x0, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[5][2], 0xff, 0x0, 0x0);
+            break;
+
         case _NUM:
-            rgb_matrix_set_color(g_led_config.matrix_co[4][2], 0xFF, 0xFF, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[4][3], 0xFF, 0xFF, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[4][4], 0xFF, 0xFF, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[5][2], 0xFF, 0xFF, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[5][3], 0xFF, 0xFF, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[5][4], 0xFF, 0xFF, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[6][2], 0xFF, 0xFF, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[6][3], 0xFF, 0xFF, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[6][4], 0xFF, 0xFF, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[4][2], 95, 7, 53);
+            rgb_matrix_set_color(g_led_config.matrix_co[4][3], 95, 7, 53);
+            rgb_matrix_set_color(g_led_config.matrix_co[4][4], 95, 7, 53);
+            rgb_matrix_set_color(g_led_config.matrix_co[5][2], 95, 7, 53);
+            rgb_matrix_set_color(g_led_config.matrix_co[5][3], 95, 7, 53);
+            rgb_matrix_set_color(g_led_config.matrix_co[5][4], 95, 7, 53);
+            rgb_matrix_set_color(g_led_config.matrix_co[6][2], 95, 7, 53);
+            rgb_matrix_set_color(g_led_config.matrix_co[6][3], 95, 7, 53);
+            rgb_matrix_set_color(g_led_config.matrix_co[6][4], 95, 7, 53);
             break;
 
         case _JIRA:
-            rgb_matrix_layer_helper_rgb(95, 7, 53, LED_FLAG_UNDERGLOW);
+            rgb_matrix_layer_helper_rgb(0x0, 0x9F, 0x0, LED_FLAG_UNDERGLOW);
             break;
     }
 }
