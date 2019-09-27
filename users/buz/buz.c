@@ -11,6 +11,38 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
+    // special case for vim layer...
+    if (biton(layer_state) == _VIM) {
+        static uint16_t last_code = KC_NO;
+
+        bool left_shift  = (keyboard_report->mods & MOD_BIT(KC_LSHIFT));
+        bool right_shift = (keyboard_report->mods & MOD_BIT(KC_RSHIFT));
+
+        switch (keycode) {
+            case KC_G:
+                if (record->event.pressed) {
+                    if (left_shift || right_shift) {
+                        if (left_shift) unregister_code(KC_LSHIFT);
+                        if (right_shift) unregister_code(KC_RSHIFT);
+                        register_code(KC_END);
+                        unregister_code(KC_END);
+                        last_code = KC_NO;
+                    } else if (last_code == KC_G) {
+                        register_code(KC_HOME);
+                        unregister_code(KC_HOME);
+                        last_code = KC_NO;
+                    } else {
+                        last_code = keycode;
+                    }
+                }
+                return false;
+
+            default:
+                last_code = KC_NO;
+                break;
+        }
+    }
+
     switch (keycode) {
         case QWERTY:
             if (record->event.pressed) {
