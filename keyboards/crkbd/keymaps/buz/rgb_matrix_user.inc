@@ -67,3 +67,5 @@ static bool GODSPEED(effect_params_t* params) {
     return led_max < DRIVER_LED_TOTAL;
 }
 #endif  // RGB_MATRIX_CUSTOM_EFFECT_IMPLS
+
+/* vim: set ft=c: */
