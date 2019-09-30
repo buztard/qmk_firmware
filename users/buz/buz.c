@@ -12,7 +12,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     // special case for vim layer...
-    if (biton(layer_state) == _VIM) {
+    if (IS_LAYER_ON(_VIM)) {
         static uint16_t last_code = KC_NO;
 
         bool left_shift  = (keyboard_report->mods & MOD_BIT(KC_LSHIFT));
