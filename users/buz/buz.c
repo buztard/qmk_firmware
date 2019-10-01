@@ -111,16 +111,3 @@ uint32_t layer_state_set_user(uint32_t state) {
     layer_state_set_rgb(state);
     return layer_state_set_keymap(state);
 }
-
-#ifdef LEADER_ENABLE
-LEADER_EXTERNS();
-
-void matrix_scan_user(void) {
-    LEADER_DICTIONARY() {
-        leading = false;
-        leader_end();
-
-        SEQ_ONE_KEY(KC_S) { SEND_STRING(SS_LCTRL("a") "s" SS_LCTRL("s")); }
-    }
-}
-#endif

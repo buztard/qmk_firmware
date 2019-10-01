@@ -8,6 +8,10 @@ ifeq ($(strip $(TAP_DANCE_ENABLE)), yes)
   SRC += tap_dances.c
 endif
 
+ifeq ($(strip $(LEADER_ENABLE)), yes)
+  SRC += leader.c
+endif
+
 ifeq ($(strip $(RGBLIGHT_ENABLE)), yes)
   SRC += rgb_stuff.c
 endif
