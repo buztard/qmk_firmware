@@ -219,6 +219,10 @@ static void rgb_matrix_layer_helper_rgb(uint8_t red, uint8_t green, uint8_t blue
     }
 }
 
+#    ifdef LEADER_ENABLE
+extern bool leading;
+#    endif
+
 void rgb_matrix_indicators_user(void) {
     if (!rgb_matrix_config.enable) {
         return;
@@ -270,5 +274,11 @@ void rgb_matrix_indicators_user(void) {
             rgb_matrix_layer_helper_rgb(0x0, 0x9F, 0x0, LED_FLAG_UNDERGLOW);
             break;
     }
+
+#    ifdef LEADER_ENABLE
+    if (leading) {
+        rgb_matrix_layer_helper_rgb(0xff, 0x0, 0x0, LED_FLAG_MODIFIER);
+    }
+#    endif
 }
 #endif  // RGB_MATRIX_ENABLE
