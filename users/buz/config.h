@@ -3,11 +3,14 @@
 #define TAPPING_FORCE_HOLD
 #ifdef TAPPING_TERM
 #    undef TAPPING_TERM
-#    define TAPPING_TERM 200
 #endif
+#define TAPPING_TERM 200
 
 #define LEADER_PER_KEY_TIMING
-#define LEADER_TIMEOUT 250
+#ifdef LEADER_TIMEOUT
+#    undef LEADER_TIMEOUT
+#endif
+#define LEADER_TIMEOUT 500
 
 #ifndef LEADER_ENABLE
 #    define KC_LEAD KC_TRANSPARENT
