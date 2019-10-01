@@ -40,8 +40,13 @@ static void td_lalt_finished(qk_tap_dance_state_t *state, void *user_data) {
     tap_lalt = cur_dance(state);
     switch (tap_lalt) {
         case SINGLE_TAP:
+#ifdef LEADER_ENABLE
+            qk_leader_start();
+#else
             register_mods(MOD_BIT(KC_LALT));
+#endif
             break;
+        case SINGLE_SHORT_TAP:
         case SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LALT));
             break;
@@ -62,8 +67,11 @@ static void td_lalt_finished(qk_tap_dance_state_t *state, void *user_data) {
 static void td_lalt_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (tap_lalt) {
         case SINGLE_TAP:
+#ifndef LEADER_ENABLE
             unregister_mods(MOD_BIT(KC_LALT));
+#endif
             break;
+        case SINGLE_SHORT_TAP:
         case SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_LALT));
             break;
