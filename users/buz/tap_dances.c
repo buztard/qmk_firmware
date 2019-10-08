@@ -94,6 +94,7 @@ static void td_ralt_finished(qk_tap_dance_state_t *state, void *user_data) {
             register_mods(MOD_BIT(KC_RALT));
             break;
         case DOUBLE_TAP:
+        case DOUBLE_SINGLE_TAP:
             if (IS_LAYER_ON(_VIM)) {
                 layer_off(_VIM);
             } else {
@@ -117,6 +118,7 @@ static void td_ralt_reset(qk_tap_dance_state_t *state, void *user_data) {
             break;
         case DOUBLE_TAP:
             break;
+        case DOUBLE_SINGLE_TAP:
         case DOUBLE_HOLD:
             layer_off(_VIM);
             break;
