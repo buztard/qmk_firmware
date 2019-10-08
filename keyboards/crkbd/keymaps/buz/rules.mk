@@ -19,11 +19,17 @@ RGB_MATRIX_ENABLE = WS2812  # Enable RGB matrix.
 SWAP_HANDS_ENABLE = no      # Enable one-hand typing
 VELOCIKEY_ENABLE = no       # Enable Velocikey feature.
 OLED_DRIVER_ENABLE = yes    # OLED_ENABLE (+5000)
-LEADER_ENABLE = no
-TAP_DANCE_ENABLE = no
+TAP_DANCE_ENABLE = yes
+LEADER_ENABLE = yes
+RGB_MATRIX_CUSTOM_USER=yes
+
+LINK_TIME_OPTIMIZATION_ENABLE = yes
+
 
 # Do not enable SLEEP_LED_ENABLE. it uses the same timer as BACKLIGHT_ENABLE
 SLEEP_LED_ENABLE = no    # Breathing sleep LED during USB suspend
 RAW_ENABLE = no
 
 BOOTLOADER = atmel-dfu
+
+UNICODEMAP_ENABLE = no
