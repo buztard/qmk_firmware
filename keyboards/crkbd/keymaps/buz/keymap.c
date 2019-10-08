@@ -232,13 +232,13 @@ void rgb_matrix_indicators_user(void) {
     }
 
     switch (biton32(layer_state)) {
-        case _LOWER:
-            rgb_matrix_layer_helper_rgb(95, 7, 53, LED_FLAG_UNDERGLOW);
-            break;
+        // case _LOWER:
+        //     rgb_matrix_layer_helper_rgb(95, 7, 53, LED_FLAG_UNDERGLOW);
+        //     break;
 
-        case _RAISE:
-            rgb_matrix_layer_helper_rgb(0x0, 0x0, 0x9F, LED_FLAG_UNDERGLOW);
-            break;
+        // case _RAISE:
+        //     rgb_matrix_layer_helper_rgb(0x0, 0x0, 0x9F, LED_FLAG_UNDERGLOW);
+        //     break;
 
         case _ADJUST:
             rgb_matrix_layer_helper_rgb(0xFF, 0x0, 0x0, LED_FLAG_UNDERGLOW);
@@ -252,6 +252,11 @@ void rgb_matrix_indicators_user(void) {
             break;
 
         case _MOUSE:
+            rgb_matrix_set_color(g_led_config.matrix_co[0][2], 0xff, 0x0, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[1][1], 0xff, 0x0, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[1][2], 0xff, 0x0, 0x0);
+            rgb_matrix_set_color(g_led_config.matrix_co[1][3], 0xff, 0x0, 0x0);
+
             rgb_matrix_set_color(g_led_config.matrix_co[5][5], 0xff, 0x0, 0x0);
             rgb_matrix_set_color(g_led_config.matrix_co[5][4], 0xff, 0x0, 0x0);
             rgb_matrix_set_color(g_led_config.matrix_co[5][3], 0xff, 0x0, 0x0);
