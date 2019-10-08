@@ -1,5 +1,7 @@
 #include "buz.h"
 
+extern uint8_t is_master;
+
 __attribute__((weak)) void layer_state_set_rgb(uint32_t state) {}
 
 __attribute__((weak)) uint32_t layer_state_set_keymap(uint32_t state) { return state; }
@@ -101,6 +103,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 layer_off(_NUM);
             }
             return false;
+
+        case MAKE:
+            SEND_STRING("make " QMK_KEYBOARD ":" QMK_KEYMAP
+#if (defined(BOOTLOADER_DFU) || defined(BOOTLOADER_LUFA_DFU) || defined(BOOTLOADER_QMK_DFU))
+                        ":dfu"
+#elif defined(BOOTLOADER_HALFKAY)
+                        ":teensy"
+#elif defined(BOOTLOADER_CATERINA)
+                        ":avrdude"
+#endif
+#ifdef RGB_MATRIX_SPLIT_RIGHT
+                        " RGB_MATRIX_SPLIT_RIGHT=yes"
+#endif
+                        SS_TAP(X_ENTER));
+#ifndef SPLIT_KEYBOARD
+            if (is_master) {
+                reset_keyboard();
+            }
+#else
+            reset_keyboard();
+#endif
     }
 
     return true;
