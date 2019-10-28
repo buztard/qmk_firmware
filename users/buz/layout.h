@@ -15,6 +15,16 @@
 
 #define KC_SINS LSFT(KC_INSERT)
 
+// use tap dance variants if enabled
+#ifdef TAP_DANCE_ENABLE
+#    include "tap_dances.h"
+#    define KC_TD_LALT TD(TD_LALT)
+#    define KC_TD_RALT TD(TD_RALT)
+#else
+#    define KC_TD_LALT OSM(MOD_LALT)
+#    define KC_TD_RALT OSM(MOD_RALT)
+#endif
+
 enum userspace_custom_keycodes {
     QWERTY = SAFE_RANGE,
     LOWER,
@@ -232,4 +242,5 @@ enum userspace_layers {
  * │        │        │        │        │        │        │        │        │        │        │        │        │        │
  * └────────┴────────┴────────┴────────┴────────┴────────┘        └────────┴────────┴────────┴────────┴────────┴────────┘
  */
+
 // clang-format on

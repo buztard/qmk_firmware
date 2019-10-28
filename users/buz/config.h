@@ -1,6 +1,7 @@
 #pragma once
 
 #define TAPPING_FORCE_HOLD
+
 #ifdef TAPPING_TERM
 #    undef TAPPING_TERM
 #endif
