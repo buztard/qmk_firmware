@@ -1,10 +1,9 @@
 #include "buz.h"
 
-extern uint8_t is_master;
+extern uint8_t     is_master;
+userspace_config_t userspace_config;
 
-__attribute__((weak)) void layer_state_set_rgb(uint32_t state) {}
-
-__attribute__((weak)) uint32_t layer_state_set_keymap(uint32_t state) { return state; }
+__attribute__((weak)) layer_state_t layer_state_set_keymap(uint32_t state) { return state; }
 
 __attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t *record) { return true; }
 
@@ -104,19 +103,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
+        case OLED:
+            if (record->event.pressed) {
+                userspace_config.oled_enabled ^= 1;
+                eeconfig_update_user(userspace_config.raw);
+            }
+            return false;
+
+        case RGB_LYR:
+            if (record->event.pressed) {
+                userspace_config.rgb_layer_change ^= 1;
+                eeconfig_update_user(userspace_config.raw);
+            }
+            return false;
+
         case MAKE:
-            SEND_STRING("make " QMK_KEYBOARD ":" QMK_KEYMAP
-#if (defined(BOOTLOADER_DFU) || defined(BOOTLOADER_LUFA_DFU) || defined(BOOTLOADER_QMK_DFU))
-                        ":dfu"
-#elif defined(BOOTLOADER_HALFKAY)
-                        ":teensy"
-#elif defined(BOOTLOADER_CATERINA)
-                        ":avrdude"
-#endif
+            SEND_STRING("make " QMK_KEYBOARD ":" QMK_KEYMAP ":flash");
 #ifdef RGB_MATRIX_SPLIT_RIGHT
-                        " RGB_MATRIX_SPLIT_RIGHT=yes"
+            SEND_STRING(" RGB_MATRIX_SPLIT_RIGHT=yes");
 #endif
-                        SS_TAP(X_ENTER));
+#ifdef FLAVOR
+            SEND_STRING(" FLAVOR=" FLAVOR);
+#endif
+            SEND_STRING(SS_TAP(X_ENTER));
+
 #ifndef SPLIT_KEYBOARD
             if (is_master) {
                 reset_keyboard();
@@ -124,6 +134,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #else
             reset_keyboard();
 #endif
+            return false;
     }
 
     return true;
@@ -131,6 +142,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 uint32_t layer_state_set_user(uint32_t state) {
     state = update_tri_layer_state(state, _RAISE, _LOWER, _ADJUST);
-    layer_state_set_rgb(state);
+    // #if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
+    //     rgb_layer_indicator_user();
+    // #endif
     return layer_state_set_keymap(state);
 }
+
+void eeconfig_init_user(void) {
+    userspace_config.raw              = 0;
+    userspace_config.rgb_layer_change = true;
+    userspace_config.oled_enabled     = true;
+    eeconfig_update_user(userspace_config.raw);
+}
+
+void matrix_init_user(void) { userspace_config.raw = eeconfig_read_user(); }

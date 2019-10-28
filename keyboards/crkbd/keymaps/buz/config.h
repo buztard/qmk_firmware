@@ -33,11 +33,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_FORCE_HOLD
 #define TAPPING_TERM 200
 
-#define RGBLIGHT_LIMIT_VAL 120
-#define RGBLIGHT_HUE_STEP 10
-#define RGBLIGHT_SAT_STEP 17
-#define RGBLIGHT_VAL_STEP 17
-
 #ifdef OLED_FONT_H
 #undef OLED_FONT_H
 #endif
@@ -45,23 +40,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define OLED_DISABLE_TIMEOUT
 // #define OLED_SCROLL_TIMEOUT 60000
 
-#ifdef RGBLIGHT_ENABLE
-#define RGBLIGHT_ANIMATIONS
-/* #undef RGBLIGHT_ANIMATIONS */
-/* #define RGBLIGHT_EFFECT_BREATHING */
-/* #define RGBLIGHT_EFFECT_RAINBOW_MOOD */
-/* #define RGBLIGHT_EFFECT_RAINBOW_SWIRL */
-/* #define RGBLIGHT_EFFECT_STATIC_GRADIENT */
-#endif
-
+// RGB matrix configuration
 #ifdef RGB_MATRIX_ENABLE
+
 #define RGB_MATRIX_KEYPRESSES
 #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 150
-// #define RGB_MATRIX_FRAMEBUFFER_EFFECTS
+#define RGB_MATRIX_FRAMEBUFFER_EFFECTS
 
-// #define DISABLE_RGB_MATRIX_ALPHAS_MODS
+#ifndef FLAVOR_ACAB
+#undef RGB_MATRIX_FRAMEBUFFER_EFFECTS
+
+#define DISABLE_RGB_MATRIX_ALPHAS_MODS
 // #define DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN
-#ifdef LEADER_ENABLE
 #define DISABLE_RGB_MATRIX_BREATHING
 #define DISABLE_RGB_MATRIX_BAND_SAT
 #define DISABLE_RGB_MATRIX_BAND_VAL
@@ -96,7 +86,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DISABLE_RGB_MATRIX_MULTISPLASH
 #define DISABLE_RGB_MATRIX_SOLID_SPLASH
 #define DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
-#endif // LEADER_ENABLE
+#endif
 
 #define LEADER_PER_KEY_TIMING
 #define LEADER_ON_KEY_PROCESSING

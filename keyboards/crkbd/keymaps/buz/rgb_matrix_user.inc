@@ -1,12 +1,16 @@
+#ifdef FLAVOR_DASHER
 RGB_MATRIX_EFFECT(DASHER)
-RGB_MATRIX_EFFECT(GODSPEED)
+#endif
 
-#define RGB_MATRIX_EFFECT_CUSTOM_CRKBD
+#ifdef FLAVOR_GODSPEED
+RGB_MATRIX_EFFECT(GODSPEED)
+#endif
+
 #define DASHER_ALPHA 160, 207, 0
 #define DASHER_MODS 112, 255, 0
-#define DASHER_UNDERGLOW 160, 207, 0
+#define DASHER_UNDERGLOW 160, 207, 255
 
-#define GODSPEED_ALPHA 32, 18, 0
+#define GODSPEED_ALPHA 32, 191, 0
 #define GODSPEED_MODS 40, 48, 0
 #define GODSPEED_UNDERGLOW 40, 48, 0
 #define GODSPEED_RED 248, 255, 0
@@ -16,11 +20,12 @@ RGB_MATRIX_EFFECT(GODSPEED)
 #ifdef RGB_MATRIX_CUSTOM_EFFECT_IMPLS
 extern uint8_t is_master;
 
-static RGB get_color(uint8_t h, uint8_t s, uint8_t v) {
+RGB get_color(uint8_t h, uint8_t s, uint8_t v) {
     HSV hsv = {h, s, v ? v : rgb_matrix_config.hsv.v};
     return hsv_to_rgb(hsv);
 }
 
+#    ifdef FLAVOR_DASHER
 static bool DASHER(effect_params_t* params) {
     RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
@@ -39,7 +44,9 @@ static bool DASHER(effect_params_t* params) {
     }
     return led_max < DRIVER_LED_TOTAL;
 }
+#    endif  // FLAVOR_DASHER
 
+#    ifdef FLAVOR_GODSPEED
 static bool GODSPEED(effect_params_t* params) {
     RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
@@ -66,6 +73,7 @@ static bool GODSPEED(effect_params_t* params) {
     }
     return led_max < DRIVER_LED_TOTAL;
 }
-#endif  // RGB_MATRIX_CUSTOM_EFFECT_IMPLS
+#    endif  // FLAVOR_GODSPEED
+#endif      // RGB_MATRIX_CUSTOM_EFFECT_IMPLS
 
 /* vim: set ft=c: */
