@@ -4,15 +4,19 @@
 #    include "split_util.h"
 #endif
 #include "buz.h"
-#include "raw_hid.h"
+#include "version.h"
 
 #ifdef RGB_MATRIX_ENABLE
 extern rgb_config_t rgb_matrix_config;
 #endif
 
+#ifdef OLED_DRIVER_ENABLE
 static uint32_t oled_timer = 0;
+#endif
 
 extern uint8_t is_master;
+
+extern userspace_config_t userspace_config;
 
 enum custom_keycodes {
     RGBRST = USER_SAFE_RANGE,
@@ -40,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_ADJUST] = LAYOUT_wrapper(
     RESET,   _________________ADJUST_L1_________________, _________________ADJUST_R1_________________, RESET,
-    _______, _________________ADJUST_L2_________________, _______,TG(_JIRA), DEBUG,   _______, KC_SINS, RGBRST,
+    _______, _________________ADJUST_L2_________________, _______, _______, DEBUG,   RGB_LYR, KC_SINS, RGBRST,
     KC_CAPS, _________________ADJUST_L3_________________, _________________ADJUST_R3_________________, _______,
                                _______, _______, _______, _______, _______, _______ \
   ),
@@ -61,12 +65,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, ___________________BLANK___________________, _________________NUMPAD_R2_________________, _______,
     _______, ___________________BLANK___________________, _________________NUMPAD_R3_________________, _______,
                                _______, _______, _______, _______, KC_0,    _______ \
-  ),
-  [_JIRA] = LAYOUT_wrapper(
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, KC_P,    _______, _______, KC_N,    _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-                               _______, _______, _______, _______, _______, _______ \
   ),
 };
 // clang-format on
@@ -93,13 +91,6 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
                 // Dasher:
             }
 #endif  // RGBLIGHT_ENABLE
-#ifdef RGB_MATRIX_ENABLE
-            if (record->event.pressed) {
-#    ifdef CONSOLE_ENABLE
-                uprintf("H:%d S:%d V:%d SPEED:%d\n", rgb_matrix_config.hsv.h, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v, rgb_matrix_config.speed);
-#    endif  // CONSOLE_ENABLE
-            }
-#endif  // RGB_MATRIX_ENABLE
             return false;
     }
     return true;
@@ -126,21 +117,25 @@ static void render_status(void) {
     static const char PROGMEM mode_logo[4][4] = {{0x99, 0x9a, 0}, {0xb9, 0xba, 0}};
 
     oled_write_P(mode_logo[0], false);
-    oled_set_cursor(4, 0);
+    oled_set_cursor(3, 0);
     oled_render_layer();
     oled_write_P(mode_logo[1], false);
-    oled_set_cursor(4, 1);
+    oled_set_cursor(3, 1);
     oled_render_mods();
 
-#    ifdef RGBLIGHT_ENABLE
-    render_rgblight_effect_name();
+#    if defined(RGBLIGHT_ENABLE) && defined(OLED_EXTRAS)
+    oled_render_rgblight_effect_name();
 #    endif  // RGBLIGHT_ENABLE
-#    ifdef RGB_MATRIX_ENABLE
-    render_rgb_matrix_effect_name();
+#    if defined(RGB_MATRIX_ENABLE) && defined(OLED_EXTRAS)
+    oled_render_rgb_matrix_effect_name();
 #    endif  // RGB_MATRIX_ENABLE
 }
 
 void oled_task_user(void) {
+    if (!userspace_config.oled_enabled) {
+        oled_off();
+        return;
+    }
     if (timer_elapsed32(oled_timer) > 60000) {
         oled_off();
         return;
@@ -162,54 +157,6 @@ void oled_task_user(void) {
 }
 #endif  // OLED_DRIVER_ENABLE
 
-#ifdef RAW_ENABLE
-enum crkbd_command_id {
-    id_get_protocol_version = 0x01,  // always 0x01
-    id_matrix_get_mode,
-    id_matrix_set_mode,
-    id_matrix_get_hsv,
-    id_matrix_set_hsv,
-    id_oled_set_text,
-
-    id_unhandled = 0xFF,
-};
-
-void raw_hid_receive(uint8_t *data, uint8_t length) {
-    uint8_t *command_id = &(data[0]);
-
-    switch (*command_id) {
-        case id_get_protocol_version:
-            break;
-
-        case id_matrix_get_mode:
-            break;
-
-        case id_matrix_set_mode:
-            break;
-
-        case id_matrix_get_hsv:
-            data[1] = rgb_matrix_config.hsv.h;
-            data[2] = rgb_matrix_config.hsv.s;
-            data[3] = rgb_matrix_config.hsv.v;
-            break;
-
-        case id_matrix_set_hsv:
-            rgb_matrix_config.hsv.h = data[1];
-            rgb_matrix_config.hsv.s = data[2];
-            rgb_matrix_config.hsv.v = data[3];
-            break;
-
-        case id_oled_set_text:
-            break;
-
-        default:
-            break;
-    }
-    // Return same buffer with values changed
-    raw_hid_send(data, length);
-}
-#endif  // RAW_ENABLE
-
 #ifdef RGB_MATRIX_ENABLE
 static void rgb_matrix_layer_helper_rgb(uint8_t red, uint8_t green, uint8_t blue, uint8_t flags) {
     for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
@@ -224,7 +171,7 @@ extern bool leading;
 #    endif
 
 void rgb_matrix_indicators_user(void) {
-    if (!rgb_matrix_config.enable) {
+    if (!rgb_matrix_config.enable || !userspace_config.rgb_layer_change) {
         return;
     }
     if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
@@ -252,10 +199,10 @@ void rgb_matrix_indicators_user(void) {
             break;
 
         case _MOUSE:
-            rgb_matrix_set_color(g_led_config.matrix_co[0][2], 0xff, 0x0, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[1][1], 0xff, 0x0, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[1][2], 0xff, 0x0, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[1][3], 0xff, 0x0, 0x0);
+            // rgb_matrix_set_color(g_led_config.matrix_co[0][2], 0xff, 0x0, 0x0);
+            // rgb_matrix_set_color(g_led_config.matrix_co[1][1], 0xff, 0x0, 0x0);
+            // rgb_matrix_set_color(g_led_config.matrix_co[1][2], 0xff, 0x0, 0x0);
+            // rgb_matrix_set_color(g_led_config.matrix_co[1][3], 0xff, 0x0, 0x0);
 
             rgb_matrix_set_color(g_led_config.matrix_co[5][5], 0xff, 0x0, 0x0);
             rgb_matrix_set_color(g_led_config.matrix_co[5][4], 0xff, 0x0, 0x0);
@@ -274,15 +221,11 @@ void rgb_matrix_indicators_user(void) {
             rgb_matrix_set_color(g_led_config.matrix_co[6][3], 95, 7, 53);
             rgb_matrix_set_color(g_led_config.matrix_co[6][4], 95, 7, 53);
             break;
-
-        case _JIRA:
-            rgb_matrix_layer_helper_rgb(0x0, 0x9F, 0x0, LED_FLAG_UNDERGLOW);
-            break;
     }
 
 #    ifdef LEADER_ENABLE
     if (leading) {
-        rgb_matrix_layer_helper_rgb(0xff, 0x0, 0x0, LED_FLAG_MODIFIER);
+        rgb_matrix_layer_helper_rgb(0x0, 0xff, 0x0, LED_FLAG_MODIFIER);
     }
 #    endif
 }
