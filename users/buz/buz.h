@@ -5,6 +5,10 @@
 #    include "oled_stuff.h"
 #endif
 
+#if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
+#    include "rgb.h"
+#endif
+
 #ifdef TAP_DANCE_ENABLE
 #    include "tap_dances.h"
 #    define KC_TD_LALT TD(TD_LALT)
@@ -13,6 +17,18 @@
 #    define KC_TD_LALT OSM(MOD_LALT)
 #    define KC_TD_RALT OSM(MOD_RALT)
 #endif
+
+layer_state_t layer_state_set_keymap(layer_state_t state);
+
+typedef union {
+    uint32_t raw;
+    struct {
+        bool rgb_layer_change : 1;
+        bool oled_enabled : 1;
+    };
+} userspace_config_t;
+
+extern userspace_config_t userspace_config;
 
 enum userspace_layers {
     _QWERTY = 0,
@@ -23,7 +39,6 @@ enum userspace_layers {
     _MOUSE,
     _NUM,
     _FN,
-    _JIRA,
 };
 
 enum userspace_custom_keycodes {
@@ -34,12 +49,17 @@ enum userspace_custom_keycodes {
     MOUSE,
     VIM,
     NUM,
-    MAKE,
+    MAKE,     // compile/flash qmk
+    RGB_LYR,  // toggle rgb layer indication
+    OLED,     // toggle oled display
     USER_SAFE_RANGE,
 };
 
 #define KC_CESC CTL_T(KC_ESC)
+#define KC_CSPC CTL_T(KC_SPC)
 #define KC_GENT LGUI_T(KC_ENT)
+#define CTL_ESC CTL_T(KC_ESC)
+#define GUI_ENT LGUI_T(KC_ENT)
 
 #define KC_TABMS LT(_MOUSE, KC_TAB)
 #define KC_Z_VIM LT(_VIM, KC_Z)
@@ -85,11 +105,11 @@ enum userspace_custom_keycodes {
 
 #define _________________ADJUST_L1_________________        RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI
 #define _________________ADJUST_L2_________________        RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD
-#define _________________ADJUST_L3_________________        _______, _______, _______, _______, _______
+#define _________________ADJUST_L3_________________        _______, RESET,   EEP_RST, _______, _______
 
-#define _________________ADJUST_R1_________________        AU_TOG,  _______, _______, _______, _______
-#define _________________ADJUST_R2_________________        MU_TOG,  _______, _______, _______, KC_SINS
-#define _________________ADJUST_R3_________________        CK_TOGG, MAKE,    _______, _______, _______
+#define _________________ADJUST_R1_________________        AU_TOG,  _______, _______, OLED,    _______
+#define _________________ADJUST_R2_________________        MU_TOG,  _______, _______, RGB_LYR, KC_SINS
+#define _________________ADJUST_R3_________________        CK_TOGG, MAKE,    DEBUG,   _______, _______
 
 #define __________________VIM_L1___________________        _______, _______, _______, _______, _______
 #define __________________VIM_L2___________________        _______, _______, KC_PGDN, _______, _______
