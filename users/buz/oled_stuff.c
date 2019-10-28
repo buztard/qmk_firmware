@@ -1,12 +1,22 @@
 #include "buz.h"
 
 #ifdef OLED_DRIVER_ENABLE
+#ifdef LEADER_ENABLE
+extern bool leading;
+#endif
+
 void oled_render_layer(void) {
   oled_write_P(PSTR("L: "), false);
 
+#ifdef LEADER_ENABLE
+  if (leading) {
+      oled_write_P(PSTR("(lead) "), false);
+  }
+#endif
+
   switch (biton32(layer_state)) {
     case _QWERTY:
-      oled_write_P(PSTR("Default\n"), false);
+      oled_write_P(PSTR("QUERTY\n"), false);
       break;
     case _LOWER:
       oled_write_P(PSTR("Lower  \n"), false);
@@ -28,9 +38,6 @@ void oled_render_layer(void) {
       break;
     case _FN:
       oled_write_P(PSTR("FN     \n"), false);
-      break;
-    case _JIRA:
-      oled_write_P(PSTR("JIRA   \n"), false);
       break;
     default:
       oled_write_P(PSTR("Unknown\n"), false);
@@ -72,7 +79,7 @@ void oled_render_mods(void) {
 }
 
 #ifdef RGBLIGHT_ENABLE
-void render_rgblight_effect_name(void) {
+void oled_render_rgblight_effect_name(void) {
   switch (rgblight_get_mode()) {
     case RGBLIGHT_MODE_STATIC_LIGHT:
       oled_write_P(PSTR("Static\n"), false);
@@ -111,7 +118,7 @@ void render_rgblight_effect_name(void) {
 #ifdef RGB_MATRIX_ENABLE
 extern rgb_config_t rgb_matrix_config;
 
-void render_rgb_matrix_effect_name(void) {
+void oled_render_rgb_matrix_effect_name(void) {
   if (!rgb_matrix_config.enable) {
     oled_write_P(PSTR("RGB Disabled\n"), false);
     return;
@@ -307,14 +314,16 @@ void render_rgb_matrix_effect_name(void) {
       break;
 #endif // DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
 #endif // RGB_MATRIX_KEYREACTIVE_ENABLED
-#ifdef RGB_MATRIX_EFFECT_CUSTOM_CRKBD
+#if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_DASHER)
     case RGB_MATRIX_CUSTOM_DASHER:
       oled_write_P(PSTR("Dasher\n"), false);
       break;
+#endif // FLAVOR_DASHER
+#if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_GODSPEED)
     case RGB_MATRIX_CUSTOM_GODSPEED:
       oled_write_P(PSTR("Godspeed\n"), false);
       break;
-#endif // RGB_MATRIX_EFFECT_CUSTOM_CRKBD
+#endif // FLAVOR_GODSPEED
     default:
       oled_write_P(PSTR("Unknown\n"), false);
       break;

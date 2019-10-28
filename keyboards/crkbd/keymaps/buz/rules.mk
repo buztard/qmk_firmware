@@ -19,9 +19,10 @@ RGB_MATRIX_ENABLE = WS2812  # Enable RGB matrix.
 SWAP_HANDS_ENABLE = no      # Enable one-hand typing
 VELOCIKEY_ENABLE = no       # Enable Velocikey feature.
 OLED_DRIVER_ENABLE = yes    # OLED_ENABLE (+5000)
-TAP_DANCE_ENABLE = yes
-LEADER_ENABLE = yes
-RGB_MATRIX_CUSTOM_USER=yes
+
+TAP_DANCE_ENABLE ?= yes
+LEADER_ENABLE ?= yes
+RGB_MATRIX_CUSTOM_USER ?= yes
 
 LINK_TIME_OPTIMIZATION_ENABLE = yes
 
@@ -33,3 +34,19 @@ RAW_ENABLE = no
 BOOTLOADER = atmel-dfu
 
 UNICODEMAP_ENABLE = no
+
+# ifeq ($(strip $(FLAVOR)), $(filter $(strip $(FLAVOR)), godspeed dasher))
+# 	TAP_DANCE_ENABLE = yes
+# 	LEADER_ENABLE = yes
+# endif
+
+# This board is about RGB, no unnecessary stuff!
+# All Colors Are Beautiful :)
+ifeq ($(strip $(FLAVOR)), acab)
+	EXTRAKEY_ENABLE = no
+	MOUSEKEY_ENABLE = no
+	TAP_DANCE_ENABLE = no
+	LEADER_ENABLE = no
+	RGB_MATRIX_CUSTOM_USER = no
+	OLED_DRIVER_ENABLE = no
+endif

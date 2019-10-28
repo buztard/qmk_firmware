@@ -1,26 +1,14 @@
 #include QMK_KEYBOARD_H
+#include "buz.h"
 
 #define _QWERTY 0
 #define _FN 1
 #define _ADJUST 2
 #define _MOUSE 3
 
-#define KC_CESC LCTL_T(KC_ESC)
-#define KC_CTAB LCTL_T(KC_TAB)
-#define KC_CENT LGUI_T(KC_ENT)
-#define KC_SINS LSFT(KC_INSERT)
-
-#define KC_OGUI OSM(MOD_LGUI)
-#define KC_OALT OSM(MOD_RALT)
-
 #define L_FN MO(_FN)
 #define L_ADJ MO(_ADJUST)
 #define L_MS MO(_MOUSE)
-
-enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  MYLED,
-};
 
 /**
  * Notes:
@@ -53,10 +41,10 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT_all(
       KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  XXXXXXX, KC_BSPC,
-      KC_CTAB, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,
+      KC_TABMS,KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,
       KC_CESC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_ENT,
       KC_LSPO, XXXXXXX, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, XXXXXXX, KC_RSPC, L_ADJ,
-      L_MS,    KC_OGUI, KC_LALT,          KC_CENT,          L_FN,             KC_SPC,           KC_OALT, KC_RGUI, XXXXXXX, KC_APP,  KC_RCTL
+      L_MS,    KC_LGUI, KC_LALT,          KC_GENT,          L_FN,             KC_SPC,         KC_O_RALT, KC_RGUI, XXXXXXX, KC_APP,  KC_RCTL
     ),
 
     [_FN] = LAYOUT_all(
@@ -70,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ADJUST] = LAYOUT_all(
       _______, RGB_M_P, RGB_M_B, RGB_M_R, RGB_M_SW,RGB_M_SN,RGB_M_K, RGB_M_X, RGB_M_G, RGB_M_T, _______, _______, _______, _______, _______,
       _______, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, _______, _______, _______, _______, _______, _______, _______, _______, RESET,
-      MYLED,   RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, _______, _______, _______, _______, _______, _______, _______, _______,
+      _______, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, _______, _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, BL_DEC,  BL_TOGG, BL_INC,  BL_STEP, _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
@@ -130,21 +118,3 @@ void raw_hid_receive(uint8_t *data, uint8_t length)
   /* raw_hid_send(data, length); */
 }
 #endif
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  /* send_key_hid( keycode ); */
-
-  switch (keycode) {
-    case MYLED:
-      for (int i = 0; i < RGBLED_NUM; ++i) {
-          if (i % 2) {
-              rgblight_sethsv_at (300, 255, 100, i);
-          } else {
-              rgblight_sethsv_at (180, 255, 100, i);
-          }
-      }
-      return false;
-  }
-
-  return true;
-}
