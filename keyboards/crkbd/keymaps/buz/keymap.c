@@ -192,34 +192,23 @@ void rgb_matrix_indicators_user(void) {
             break;
 
         case _VIM:
-            rgb_matrix_set_color(g_led_config.matrix_co[5][5], 0x0, 0xFF, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[5][4], 0x0, 0xFF, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[5][3], 0x0, 0xFF, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[5][2], 0x0, 0xFF, 0x0);
+            for (int i = 2; i < 6; i++) {
+                rgb_matrix_set_color(g_led_config.matrix_co[5][i], RGB_GREEN);
+            }
             break;
 
         case _MOUSE:
-            // rgb_matrix_set_color(g_led_config.matrix_co[0][2], 0xff, 0x0, 0x0);
-            // rgb_matrix_set_color(g_led_config.matrix_co[1][1], 0xff, 0x0, 0x0);
-            // rgb_matrix_set_color(g_led_config.matrix_co[1][2], 0xff, 0x0, 0x0);
-            // rgb_matrix_set_color(g_led_config.matrix_co[1][3], 0xff, 0x0, 0x0);
-
-            rgb_matrix_set_color(g_led_config.matrix_co[5][5], 0xff, 0x0, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[5][4], 0xff, 0x0, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[5][3], 0xff, 0x0, 0x0);
-            rgb_matrix_set_color(g_led_config.matrix_co[5][2], 0xff, 0x0, 0x0);
+            for (int i = 2; i < 6; i++) {
+                rgb_matrix_set_color(g_led_config.matrix_co[5][i], RGB_ORANGE);
+            }
             break;
 
         case _NUM:
-            rgb_matrix_set_color(g_led_config.matrix_co[4][2], 95, 7, 53);
-            rgb_matrix_set_color(g_led_config.matrix_co[4][3], 95, 7, 53);
-            rgb_matrix_set_color(g_led_config.matrix_co[4][4], 95, 7, 53);
-            rgb_matrix_set_color(g_led_config.matrix_co[5][2], 95, 7, 53);
-            rgb_matrix_set_color(g_led_config.matrix_co[5][3], 95, 7, 53);
-            rgb_matrix_set_color(g_led_config.matrix_co[5][4], 95, 7, 53);
-            rgb_matrix_set_color(g_led_config.matrix_co[6][2], 95, 7, 53);
-            rgb_matrix_set_color(g_led_config.matrix_co[6][3], 95, 7, 53);
-            rgb_matrix_set_color(g_led_config.matrix_co[6][4], 95, 7, 53);
+            for (int i = 2; i < 5; i++) {
+                for (int j = 4; j < 7; j++) {
+                    rgb_matrix_set_color(g_led_config.matrix_co[j][i], 95, 7, 53);
+                }
+            }
             break;
     }
 
