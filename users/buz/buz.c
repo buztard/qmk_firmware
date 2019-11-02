@@ -1,6 +1,5 @@
 #include "buz.h"
 
-extern uint8_t     is_master;
 userspace_config_t userspace_config;
 
 __attribute__((weak)) layer_state_t layer_state_set_keymap(uint32_t state) { return state; }
@@ -118,22 +117,41 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
 
         case MAKE:
-            SEND_STRING("make " QMK_KEYBOARD ":" QMK_KEYMAP ":flash");
+            if (record->event.pressed) {
+                uint8_t temp_mod = get_mods();
+                uint8_t temp_osm = get_oneshot_mods();
+                clear_mods();
+                clear_oneshot_mods();
+
+                // open new terminal if in neovim, but should not harm my zsh
+                // otherwise
+                SEND_STRING(SS_LALT(SS_TAP(X_ENTER)));
+
+                SEND_STRING("make " QMK_KEYBOARD ":" QMK_KEYMAP);
+                if ((temp_mod | temp_osm) & MOD_MASK_SHIFT) {
+                    SEND_STRING(":flash");
+                }
 #ifdef RGB_MATRIX_SPLIT_RIGHT
-            SEND_STRING(" RGB_MATRIX_SPLIT_RIGHT=yes");
+                SEND_STRING(" RGB_MATRIX_SPLIT_RIGHT=yes");
 #endif
 #ifdef FLAVOR
-            SEND_STRING(" FLAVOR=" FLAVOR);
+                SEND_STRING(" FLAVOR=" FLAVOR);
 #endif
-            SEND_STRING(SS_TAP(X_ENTER));
+                SEND_STRING(SS_TAP(X_ENTER));
 
-#ifndef SPLIT_KEYBOARD
-            if (is_master) {
-                reset_keyboard();
-            }
+                if ((temp_mod | temp_osm) & MOD_MASK_SHIFT) {
+#if !defined(SPLIT_KEYBOARD) && (defined(KEYBOARD_crkbd_rev1) || defined(KEYBOARD_helix_rev2) || defined(KEYBOARD_lily58_rev1))
+                    // this should cover my split boards that doesn't use split common
+                    extern uint8_t is_master;
+
+                    if (is_master) {
+                        reset_keyboard();
+                    }
 #else
-            reset_keyboard();
+                    reset_keyboard();
 #endif
+                }
+            }
             return false;
     }
 
