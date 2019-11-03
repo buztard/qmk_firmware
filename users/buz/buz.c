@@ -140,16 +140,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_TAP(X_ENTER));
 
                 if ((temp_mod | temp_osm) & MOD_MASK_SHIFT) {
-#if !defined(SPLIT_KEYBOARD) && (defined(KEYBOARD_crkbd_rev1) || defined(KEYBOARD_helix_rev2) || defined(KEYBOARD_lily58_rev1))
-                    // this should cover my split boards that doesn't use split common
-                    extern uint8_t is_master;
-
-                    if (is_master) {
+                    if (is_keyboard_master()) {
                         reset_keyboard();
                     }
-#else
-                    reset_keyboard();
-#endif
                 }
             }
             return false;
