@@ -84,32 +84,52 @@ void oled_render_rgblight_effect_name(void) {
     case RGBLIGHT_MODE_STATIC_LIGHT:
       oled_write_P(PSTR("Static\n"), false);
       break;
+#ifdef RGBLIGHT_EFFECT_BREATHING
     case RGBLIGHT_MODE_BREATHING:
       oled_write_P(PSTR("Breathing\n"), false);
       break;
+#endif
+#ifdef RGBLIGHT_EFFECT_RAINBOW_MOOD
     case RGBLIGHT_MODE_RAINBOW_MOOD:
       oled_write_P(PSTR("Rainbow mood\n"), false);
       break;
+#endif
+#ifdef RGBLIGHT_EFFECT_RAINBOW_SWIRL
     case RGBLIGHT_MODE_RAINBOW_SWIRL:
       oled_write_P(PSTR("Rainbow swirl\n"), false);
       break;
+#endif
+#ifdef RGBLIGHT_EFFECT_SNAKE
     case RGBLIGHT_MODE_SNAKE:
       oled_write_P(PSTR("Snake\n"), false);
       break;
+#endif
+#ifdef RGBLIGHT_EFFECT_KNIGHT
     case RGBLIGHT_MODE_KNIGHT:
       oled_write_P(PSTR("Knight\n"), false);
       break;
+#endif
+#ifdef RGBLIGHT_EFFECT_CHRISTMAS
     case RGBLIGHT_MODE_CHRISTMAS:
       oled_write_P(PSTR("Christmas\n"), false);
       break;
+#endif
+#ifdef RGBLIGHT_EFFECT_STATIC_GRADIENT
     case RGBLIGHT_MODE_STATIC_GRADIENT:
       oled_write_P(PSTR("Gradient\n"), false);
       break;
+#endif
+#ifdef RGBLIGHT_EFFECT_RGB_TEST
     case RGBLIGHT_MODE_RGB_TEST:
       oled_write_P(PSTR("RGB test\n"), false);
       break;
+#endif
+#ifdef RGBLIGHT_EFFECT_ALTERNATING
     case RGBLIGHT_MODE_ALTERNATING:
       oled_write_P(PSTR("Alternating\n"), false);
+      break;
+#endif
+    default:
       break;
   }
 }
