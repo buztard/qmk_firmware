@@ -98,7 +98,9 @@ void rgb_layer_indicator_user(void) {
 
     if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
         rgblight_set_color(COLOR_CAPSLOCK);
+#ifdef RGBLIGHT_EFFECT_BREATHING
         rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING+3);
+#endif
     }
 }
 #endif
