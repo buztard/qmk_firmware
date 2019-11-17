@@ -15,7 +15,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TABMS,_________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC, \
   KC_CESC, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_QUOT, \
   KC_LSPO, _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, KC_RSPC, \
-  VIM,     MOUSE, NUM,     KC_LALT,   LOWER,   KC_GENT, KC_SPC,  RAISE, KC_O_RALT, KC_APP,  KC_RBRC, KC_RCTL  \
+  VIM,     MOUSE, NUM,  KC_TD_LALT,   LOWER,   KC_GENT, KC_SPC, RAISE, KC_TD_RALT, KC_APP,  KC_RBRC, KC_RCTL  \
 ),
 
 [_LOWER] = LAYOUT_wrapper( \
@@ -28,7 +28,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_RAISE] = LAYOUT_wrapper( \
   KC_GRV,  _________________RAISE_L1__________________, _________________RAISE_R1__________________, _______, \
   _______, _________________RAISE_L2__________________, _________________RAISE_R2__________________, KC_BSLS, \
-  _______, _________________RAISE_L2__________________, _________________RAISE_R3__________________, _______, \
+  _______, _________________RAISE_L3__________________, _________________RAISE_R3__________________, _______, \
   SESSION, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  \
 ),
 
