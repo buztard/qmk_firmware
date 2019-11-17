@@ -14,7 +14,8 @@ RGB_MATRIX_ENABLE = no      # Enable RGB matrix.
 SWAP_HANDS_ENABLE = no      # Enable one-hand typing
 VELOCIKEY_ENABLE = no       # Enable Velocikey feature.
 OLED_DRIVER_ENABLE = yes    # OLED_ENABLE (+5000)
-ENCODER_ENABLE = yes        # ENables the use of one or more encoders
+ENCODER_ENABLE = yes        # Enables the use of one or more encoders
 TAP_DANCE_ENABLE = yes
 LEADER_ENABLE = yes
+
 BOOTLOADER = atmel-dfu
