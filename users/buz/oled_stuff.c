@@ -18,6 +18,9 @@ void oled_render_layer(void) {
     case _QWERTY:
       oled_write_P(PSTR("QUERTY\n"), false);
       break;
+    case _COLEMAK:
+      oled_write_P(PSTR("COLEMAK\n"), false);
+      break;
     case _LOWER:
       oled_write_P(PSTR("Lower  \n"), false);
       break;
