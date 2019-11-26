@@ -32,6 +32,7 @@ extern userspace_config_t userspace_config;
 
 enum userspace_layers {
     _QWERTY = 0,
+    _COLEMAK,
     _LOWER,
     _RAISE,
     _ADJUST,
@@ -43,6 +44,7 @@ enum userspace_layers {
 
 enum userspace_custom_keycodes {
     QWERTY = SAFE_RANGE,
+    COLEMAK,
     LOWER,
     RAISE,
     ADJUST,
@@ -87,6 +89,14 @@ enum userspace_custom_keycodes {
 #define _________________FUNC_LEFT_________________        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5
 #define _________________FUNC_RIGHT________________        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10
 
+#define _________________COLEMAK_L1________________        KC_Q,    KC_W,    KC_F,    KC_P,    KC_G
+#define _________________COLEMAK_L2________________        KC_A,    KC_R,    KC_S,    KC_T,    KC_D
+#define _________________COLEMAK_L3________________        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B
+
+#define _________________COLEMAK_R1________________        KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN
+#define _________________COLEMAK_R2________________        KC_H,    KC_N,    KC_E,    KC_I,    KC_O
+#define _________________COLEMAK_R3________________        KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLASH
+
 #define _________________LOWER_L1__________________        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC
 #define _________________LOWER_L2__________________        _________________FUNC_LEFT_________________
 #define _________________LOWER_L3__________________        _________________FUNC_RIGHT________________
@@ -107,8 +117,8 @@ enum userspace_custom_keycodes {
 #define _________________ADJUST_L2_________________        RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD
 #define _________________ADJUST_L3_________________        _______, RESET,   EEP_RST, _______, _______
 
-#define _________________ADJUST_R1_________________        AU_TOG,  _______, _______, OLED,    _______
-#define _________________ADJUST_R2_________________        MU_TOG,  _______, _______, RGB_LYR, KC_SINS
+#define _________________ADJUST_R1_________________        AU_TOG,  QWERTY,  _______, OLED,    _______
+#define _________________ADJUST_R2_________________        MU_TOG,  COLEMAK, _______, RGB_LYR, KC_SINS
 #define _________________ADJUST_R3_________________        CK_TOGG, MAKE,    DEBUG,   _______, _______
 
 #define __________________VIM_L1___________________        _______, _______, _______, _______, _______

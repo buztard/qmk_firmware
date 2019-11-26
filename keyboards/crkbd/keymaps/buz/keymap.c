@@ -30,6 +30,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LSPO, _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, KC_RSPC,
                               KC_TD_LALT, LOWER, KC_GENT, KC_SPC, RAISE, KC_TD_RALT \
   ),
+  [_COLEMAK] = LAYOUT_wrapper(
+    KC_TABMS,_________________COLEMAK_L1________________, _________________COLEMAK_R1________________, KC_BSPC,
+    KC_CESC, _________________COLEMAK_L2________________, _________________COLEMAK_R2________________, KC_QUOT,
+    KC_LSPO, _________________COLEMAK_L3________________, _________________COLEMAK_R3________________, KC_RSPC,
+                              KC_TD_LALT, LOWER, KC_GENT, KC_SPC, RAISE, KC_TD_RALT \
+  ),
   [_LOWER] = LAYOUT_wrapper(
     KC_TILD, _________________LOWER_L1__________________, _________________LOWER_R1__________________, _______,
     _______, _________________LOWER_L2__________________, _________________LOWER_R2__________________, KC_PIPE,
