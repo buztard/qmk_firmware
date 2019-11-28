@@ -1,15 +1,7 @@
 #include QMK_KEYBOARD_H
 #include "buz.h"
-#include "lib/lib8tion/lib8tion.h"
-
-extern userspace_config_t userspace_config;
 
 // clang-format off
-/**
- * Based on the default iris layout, but the default QWERTY layer is modified
- * to be more like a default querty layout to not hurt my muscle memory too
- * much.
- */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
@@ -111,67 +103,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 // clang-format on
-
-#ifdef XXxRGBLIGHT_ENABLE
-bool layer_indicator_keymap(void) {
-
-    switch (biton32(layer_state)) {
-        case _LOWER ... _NUM:
-            return true;
-
-        case _QWERTY:
-            rgblight_sethsv_noeeprom(HSV_BLUE);
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-            return false;
-    }
-    return true;
-}
-#endif
-
-#ifdef RGBLIGHT_ENABLE
-extern rgblight_config_t rgblight_config;
-
-static void rgblight_set_color(uint8_t h, uint8_t s, uint8_t v) { rgblight_sethsv_noeeprom(h, s, scale8(rgblight_config.val, v)); }
-
-layer_state_t layer_state_set_keymap(layer_state_t state) {
-    if (!userspace_config.rgb_layer_change) {
-        return state;
-    }
-
-    // default mode
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-
-    switch (biton32(state)) {
-        case _MOUSE:
-            // rgblight_sethsv_noeeprom_red();
-            rgblight_set_color(213, 255, 255);
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_KNIGHT);
-            break;
-
-        case _VIM:
-            // rgblight_sethsv_noeeprom_green();
-            rgblight_set_color(85, 255, 255);
-            break;
-
-        case _NUM:
-            rgblight_set_color(43, 255, 255);
-            break;
-
-        case _ADJUST:
-            rgblight_set_color(0, 255, 255);
-            break;
-
-        default:
-            rgblight_set_color(128, 207, 100);
-            break;
-    }
-
-    if (get_oneshot_mods()) rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING);
-
-    if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
-        rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING+2);
-    }
-
-    return state;
-}
-#endif  // RGBLIGHT_ENABLE
