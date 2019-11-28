@@ -14,13 +14,7 @@ void oled_render_layer(void) {
   }
 #endif
 
-  switch (biton32(layer_state)) {
-    case _QWERTY:
-      oled_write_P(PSTR("QUERTY\n"), false);
-      break;
-    case _COLEMAK:
-      oled_write_P(PSTR("COLEMAK\n"), false);
-      break;
+  switch (get_highest_layer(layer_state)) {
     case _LOWER:
       oled_write_P(PSTR("Lower  \n"), false);
       break;
@@ -43,8 +37,17 @@ void oled_render_layer(void) {
       oled_write_P(PSTR("FN     \n"), false);
       break;
     default:
-      oled_write_P(PSTR("Unknown\n"), false);
-      break;
+      switch (get_highest_layer(default_layer_state)) {
+          case _QWERTY:
+              oled_write_P(PSTR("QUERTY\n"), false);
+              break;
+          case _COLEMAK:
+              oled_write_P(PSTR("COLEMAK\n"), false);
+              break;
+          default:
+              oled_write_P(PSTR("Unknown\n"), false);
+              break;
+      }
   }
 }
 
