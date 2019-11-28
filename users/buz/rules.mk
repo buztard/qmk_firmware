@@ -66,8 +66,8 @@ endif
 ifeq ($(strip $(FLAVOR)), vilebloom)
 	OPT_DEFS += -DFLAVOR_VILEBLOOM -DFLAVOR=\"vilebloom\"
 endif
-ifeq ($(strip $(FLAVOR)), leviatan)
-	OPT_DEFS += -DFLAVOR_LEVIATAN -DFLAVOR=\"leviatan\"
+ifeq ($(strip $(FLAVOR)), leviathan)
+	OPT_DEFS += -DFLAVOR_LEVIATHAN -DFLAVOR=\"leviathan\"
 endif
 ifeq ($(strip $(FLAVOR)), dev/tty)
 	OPT_DEFS += -DFLAVOR_DEV_TTY -DFLAVOR=\"dev/tty\"
