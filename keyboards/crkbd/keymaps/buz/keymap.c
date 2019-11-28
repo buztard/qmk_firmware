@@ -184,7 +184,7 @@ void rgb_matrix_indicators_user(void) {
         rgb_matrix_set_color(g_led_config.matrix_co[2][0], 0xFF, 0x0, 0x0);
     }
 
-    switch (biton32(layer_state)) {
+    switch (get_highest_layer(layer_state)) {
         // case _LOWER:
         //     rgb_matrix_layer_helper_rgb(95, 7, 53, LED_FLAG_UNDERGLOW);
         //     break;
