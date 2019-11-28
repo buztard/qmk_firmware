@@ -16,8 +16,10 @@
 #include QMK_KEYBOARD_H
 #include "buz.h"
 
+extern userspace_config_t userspace_config;
+extern rgblight_config_t  rgblight_config;
 
-
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
     KC_TABMS,_________________QWERTY_L1_________________,                                     _________________QWERTY_R1_________________, KC_BSPC,
@@ -90,6 +92,7 @@ static void render_qmk_logo(void) {
 
   oled_write_P(qmk_logo, false);
 }
+// clang-format on
 
 static void render_status(void) {
     // QMK Logo and version information
@@ -105,8 +108,13 @@ static void render_status(void) {
 }
 
 void oled_task_user(void) {
+    if (!userspace_config.oled_enabled) {
+        oled_off();
+        return;
+    }
+
     if (is_keyboard_master()) {
-        render_status(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
+        render_status();  // Renders the current keyboard state (layer, lock, caps, scroll, etc)
     } else {
         render_kyria_logo();
     }
@@ -122,8 +130,7 @@ void encoder_update_user(uint8_t index, bool clockwise) {
         } else {
             tap_code(KC_VOLD);
         }
-    }
-    else if (index == 1) {
+    } else if (index == 1) {
         // Page up/Page down
         if (clockwise) {
             tap_code(KC_PGDN);
@@ -131,5 +138,46 @@ void encoder_update_user(uint8_t index, bool clockwise) {
             tap_code(KC_PGUP);
         }
     }
+}
+#endif
+
+#ifdef RGBLIGHT_ENABLE
+static void rgblight_set_color(uint8_t h, uint8_t s, uint8_t v) { rgblight_sethsv_noeeprom(h, s, rgblight_config.val); }
+
+layer_state_t layer_state_set_keymap(layer_state_t state) {
+    if (!rgblight_config.enable || !userspace_config.rgb_layer_change) {
+        return state;
+    }
+
+    switch (get_highest_layer(state)) {
+        case _ADJUST:
+            rgblight_set_color(HSV_AZURE);
+            break;
+
+        case _VIM:
+            rgblight_set_color(HSV_GREEN);
+            break;
+
+        case _MOUSE:
+            rgblight_set_color(HSV_PURPLE);
+            break;
+
+        case _NUM:
+            rgblight_set_color(HSV_ORANGE);
+            break;
+
+        default:
+            rgblight_set_color(HSV_RED);
+            break;
+    }
+
+    if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
+        rgblight_set_color(HSV_WHITE);
+#    ifdef RGBLIGHT_EFFECT_BREATHING
+        rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3);
+#    endif
+    }
+
+    return state;
 }
 #endif
