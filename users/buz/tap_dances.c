@@ -2,9 +2,10 @@
 #include "tap_dances.h"
 #include "buz.h"
 
-static td_state_t tap_lalt = TAP_END;
-static td_state_t tap_ralt = TAP_END;
-static td_state_t tap_f    = TAP_END;
+static td_state_t tap_lalt  = TAP_END;
+static td_state_t tap_ralt  = TAP_END;
+static td_state_t tap_f     = TAP_END;
+static td_state_t tap_raise = TAP_END;
 
 static int cur_dance(qk_tap_dance_state_t *state) {
     if (state->count == 1) {
@@ -90,6 +91,7 @@ static void td_ralt_finished(qk_tap_dance_state_t *state, void *user_data) {
         case SINGLE_SHORT_TAP:
         case SINGLE_TAP:
             set_oneshot_mods(MOD_BIT(KC_RALT));
+            break;
         case SINGLE_HOLD:
             register_mods(MOD_BIT(KC_RALT));
             break;
@@ -172,8 +174,57 @@ static void td_f_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
+static void td_raise_finished(qk_tap_dance_state_t *state, void *user_data) {
+    tap_raise = cur_dance(state);
+    switch (tap_raise) {
+        case SINGLE_SHORT_TAP:
+        case SINGLE_TAP:
+            // set_oneshot_layer(_RAISE, ONESHOT_START);
+            // clear_oneshot_layer_state(ONESHOT_PRESSED);
+            break;
+        case SINGLE_HOLD:
+            layer_on(_RAISE);
+            break;
+        case DOUBLE_TAP:
+        case DOUBLE_SINGLE_TAP:
+            if (IS_LAYER_ON(_VIM)) {
+                layer_off(_VIM);
+            } else {
+                layer_on(_VIM);
+            }
+        case DOUBLE_HOLD:
+            layer_on(_VIM);
+            break;
+        default:
+            break;
+    }
+}
+
+static void td_raise_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (tap_raise) {
+        case SINGLE_TAP:
+        case SINGLE_SHORT_TAP:
+            // clear_oneshot_layer_state(ONESHOT_PRESSED);
+            // layer_off(_RAISE);
+            break;
+        case SINGLE_HOLD:
+            layer_off(_RAISE);
+            break;
+        case DOUBLE_TAP:
+            break;
+        case DOUBLE_SINGLE_TAP:
+        case DOUBLE_HOLD:
+            layer_off(_VIM);
+            break;
+        default:
+            break;
+    }
+    tap_raise = TAP_END;
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = {
-    [TD_LALT] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_lalt_finished, td_lalt_reset, 200),
-    [TD_RALT] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_ralt_finished, td_ralt_reset, 200),
-    [TD_F]    = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_f_finished, td_f_reset, 175),
+    [TD_LALT]  = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_lalt_finished, td_lalt_reset, 200),
+    [TD_RALT]  = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_ralt_finished, td_ralt_reset, 200),
+    [TD_RAISE] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_raise_finished, td_raise_reset, 200),
+    [TD_F]     = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_f_finished, td_f_reset, 175),
 };
