@@ -56,8 +56,17 @@ endif
 ifeq ($(strip $(FLAVOR)), leviatan)
 	OPT_DEFS += -DFLAVOR_LEVIATAN -DFLAVOR=\"leviatan\"
 endif
-ifeq ($(strip $(FLAVOR)), tty)
-	OPT_DEFS += -DFLAVOR_TTY -DFLAVOR=\"tty\"
+ifeq ($(strip $(FLAVOR)), dev/tty)
+	OPT_DEFS += -DFLAVOR_DEV_TTY -DFLAVOR=\"dev/tty\"
+endif
+ifeq ($(strip $(FLAVOR)), troubledminds)
+	OPT_DEFS += -DFLAVOR_TROUBLED_MINDS -DFLAVOR=\"troubledminds\"
+endif
+ifeq ($(strip $(FLAVOR)), symbiosis)
+	OPT_DEFS += -DFLAVOR_SYMBIOSIS -DFLAVOR=\"symbiosis\"
+endif
+ifeq ($(strip $(FLAVOR)), bigbang)
+	OPT_DEFS += -DFLAVOR_BIG_BANG -DFLAVOR=\"bigbang\"
 endif
 ifeq ($(strip $(FLAVOR)), acab)
 	OPT_DEFS += -DFLAVOR_ACAB -DFLAVOR=\"acab\"
