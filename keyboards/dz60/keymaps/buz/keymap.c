@@ -1,43 +1,11 @@
 #include QMK_KEYBOARD_H
 #include "buz.h"
 
-#define _QWERTY 0
-#define _FN 1
-#define _ADJUST 2
-#define _MOUSE 3
-
 #define L_FN MO(_FN)
 #define L_ADJ MO(_ADJUST)
 #define L_MS MO(_MOUSE)
 
-/**
- * Notes:
- * This layer doesn't abuse the grave key as escape. Escape is combined with
- * ctrl on the CapsLock key.
- *
- * The fn layer contains some keys for Vim style navigation:
- * - HJKL arrow keys
- * - <C-d> <C-u> as well as <C-f> <C-b> for PGDOWN and PGUP
- * - TODO: gg and G
- *
- * I'm not yet sure whether to an ANSI or ISO layout. I'll try both and decide later on.
- */
-
-
-/**
- * QWERTY ansi
- * ,-----------------------------------------------------------------------------------------.
- * | `   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   | 0   | -   | =   | Backspace |
- * |-----------------------------------------------------------------------------------------+
- * | Tab    | Q   | W   | E   | R   | T   | Y   | U   | I   | O   | P   | [   | ]   |  \     |
- * |-----------------------------------------------------------------------------------------+
- * | Ctrl/Esc | A   | S   | D   | F   | G   | H   | J   | K   | L   | ;   | '   | Enter      |
- * |-----------------------------------------------------------------------------------------+
- * | Shift     | Z   | X   | C   | V   | B   | N   | M   | ,   | .   | /   |   Shift   | Fn3 |
- * |-----------------------------------------------------------------------------------------+
- * | Fn2  | Alt  | Gui  |  Ctrl/Enter  |  Fn  |      Space      | RAlt | Gui  | Fn3  | Ctrl  |
- * `-----------------------------------------------------------------------------------------'
- */
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT_all(
       KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  XXXXXXX, KC_BSPC,
@@ -71,50 +39,4 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, KC_BTN1, KC_BTN3, KC_BTN2, _______, _______, _______, _______, _______
     ),
 };
-
-#ifdef RAW_ENABLE
-void raw_hid_receive(uint8_t *data, uint8_t length)
-{
-	uint8_t *command_id = &(data[0]);
-  uint8_t r, g, b, led;
-
-  switch (*command_id) {
-    case 0x01:
-      rgblight_disable_noeeprom();
-      break;
-
-    case 0x02:
-      rgblight_enable_noeeprom();
-      break;
-
-    case 0x11:
-      rgblight_mode_noeeprom(data[1]);
-      break;
-
-    case 0x12:
-      r = data[1];
-      g = data[2];
-      b = data[3];
-      rgblight_enable_noeeprom();
-      /* rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT); */
-      rgblight_setrgb(r, g, b);
-      break;
-
-    case 0x13:
-      r = data[1];
-      g = data[2];
-      b = data[3];
-      led = data[4];
-      /* rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT); */
-      rgblight_setrgb_at(r, g, b, led);
-      break;
-
-    case 0x14:
-    default:
-      break;
-  }
-
-  // Return the same data again.
-  /* raw_hid_send(data, length); */
-}
-#endif
+// clang-format on
