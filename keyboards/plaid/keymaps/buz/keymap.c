@@ -15,6 +15,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     VIM,     MOUSE, NUM,  KC_TD_LALT,   LOWER,   KC_GENT, KC_SPC, RAISE, KC_TD_RALT, KC_APP,  KC_RBRC, KC_RCTL
   ),
 
+  [_COLEMAK] = LAYOUT_wrapper(
+    KC_TABMS,_________________COLEMAK_L1________________, _________________COLEMAK_R1________________, KC_BSPC,
+    KC_CESC, _________________COLEMAK_L2________________, _________________COLEMAK_R2________________, KC_QUOT,
+    KC_LSPO, _________________COLEMAK_L3________________, _________________COLEMAK_R3________________, KC_RSPC,
+    VIM,     MOUSE, NUM,  KC_TD_LALT,   LOWER,   KC_GENT, KC_SPC, RAISE, KC_TD_RALT, KC_APP,  KC_RBRC, KC_RCTL
+  ),
+
   [_LOWER] = LAYOUT_wrapper(
     KC_TILD, _________________LOWER_L1__________________, _________________LOWER_R1__________________, KC_DEL,
     _______, _________________LOWER_L2__________________, _________________LOWER_R2__________________, KC_PIPE,
