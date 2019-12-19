@@ -2,52 +2,7 @@
 #include "buz.h"
 
 
-// #define _BASE 0
-// #define _RAISE 1
-// #define _LOWER 2
-
-// // Fillers to make layering more clear
-
-// #define ____ KC_TRNS
-
-// #define SFT_ESC  SFT_T(KC_ESC)
-// #define CTL_BSPC CTL_T(KC_BSPC)
-// #define ALT_SPC  ALT_T(KC_SPC)
-// #define SFT_ENT  SFT_T(KC_ENT)
-
-// #define KC_ML KC_MS_LEFT
-// #define KC_MR KC_MS_RIGHT
-// #define KC_MU KC_MS_UP
-// #define KC_MD KC_MS_DOWN
-// #define KC_MB1 KC_MS_BTN1
-// #define KC_MB2 KC_MS_BTN1
-
-// #define RAISE MO(_RAISE)
-// #define LOWER MO(_LOWER)
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
-/* Base (qwerty)
- * +-----------------------------------------+                             +-----------------------------------------+
- * | ESC  |   q  |   w  |   e  |   r  |   t  |                             |   y  |   u  |   i  |   o  |   p  |      |
- * |------+------+------+------+------+------|                             |------+------+------+------+------+------|
- * | TAB  |   a  |   s  |   d  |   f  |   g  |                             |   h  |   j  |   k  |   l  |   ;  |      |
- * |------+------+------+------+------+------|                             |------+------+------+------+------+------|
- * | SHFT |   z  |   x  |   c  |   v  |   b  |                             |   n  |   m  |   ,  |   .  |   /  |      |
- * +------+------+------+------+-------------+                             +-------------+------+------+------+------+
- *               |  [   |   ]  |                                                         |      |      |
- *               +-------------+-------------+                             +-------------+-------------+
- *                             |      |      |                             |      |      |
- *                             |------+------|                             |------+------|
- *                             |      |      |                             |      |      |
- *                             +-------------+                             +-------------+
- *                                           +-------------+ +-------------+
- *                                           |      |      | |      |      |
- *                                           |------+------| |------+------|
- *                                           |      |      | |      |      |
- *                                           +-------------+ +-------------+
- */
-
 [_QWERTY] = LAYOUT_wrapper(
     KC_TABMS,_________________QWERTY_L1_________________,  _________________QWERTY_R1_________________, KC_BSPC,
     KC_CESC, _________________QWERTY_L2_________________,  _________________QWERTY_R2_________________, KC_QUOT,
@@ -63,9 +18,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_CESC, _________________COLEMAK_L2________________,  _________________COLEMAK_R2________________, KC_QUOT,
     KC_LSPO, _________________COLEMAK_L3________________,  _________________COLEMAK_R3________________, KC_RSPC,
                            KC_LCBR, KC_RCBR,                            KC_LBRC, KC_RBRC,
-                                    LOWER,   KC_SPC,            KC_ENT,  RAISE,
-                                    KC_TAB,  KC_HOME,           KC_END,  KC_DEL,
-                                    KC_BSPC, KC_GRV,            KC_LGUI, KC_LALT
+                                    LOWER,   KC_GENT,           KC_SPC,  RAISE,
+                                 KC_TD_LALT, KC_LSPO,           KC_RSPC, KC_TD_RALT,
+                                    KC_CESC, KC_DEL,            KC_PGUP, KC_PGDN
 ),
 
 [_LOWER] = LAYOUT_wrapper(
