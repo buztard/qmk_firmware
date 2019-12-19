@@ -81,7 +81,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
         oled_timer = timer_read32();
 #endif
 #ifndef SPLIT_KEYBOARD
-        if (keycode == RESET && !is_master) {
+        if ((keycode == RESET || keycode == MAKE) && !is_master) {
             return false;
         }
 #endif
