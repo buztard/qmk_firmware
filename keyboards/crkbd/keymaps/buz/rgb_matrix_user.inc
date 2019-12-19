@@ -12,7 +12,7 @@ RGB_MATRIX_EFFECT(GODSPEED)
 
 #define GODSPEED_ALPHA 32, 191, 0
 #define GODSPEED_MODS 40, 48, 0
-#define GODSPEED_UNDERGLOW 40, 48, 0
+#define GODSPEED_UNDERGLOW 128, 207, 0
 #define GODSPEED_RED 248, 255, 0
 #define GODSPEED_YELLOW 32, 207, 0
 #define GODSPEED_BLUE 128, 207, 0
@@ -54,7 +54,7 @@ static bool GODSPEED(effect_params_t* params) {
     RGB mods      = get_color(GODSPEED_BLUE);
     RGB yellow    = get_color(GODSPEED_YELLOW);
     RGB red       = get_color(GODSPEED_RED);
-    RGB underglow = get_color(GODSPEED_ALPHA);
+    RGB underglow = get_color(GODSPEED_UNDERGLOW);
 
     for (uint8_t i = led_min; i < led_max; i++) {
         if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_KEYLIGHT)) {
