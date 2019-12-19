@@ -20,8 +20,8 @@ SWAP_HANDS_ENABLE = no      # Enable one-hand typing
 VELOCIKEY_ENABLE = no       # Enable Velocikey feature.
 OLED_DRIVER_ENABLE = yes    # OLED_ENABLE (+5000)
 
-TAP_DANCE_ENABLE ?= yes
-LEADER_ENABLE ?= yes
+TAP_DANCE_ENABLE = yes
+LEADER_ENABLE = no
 RGB_MATRIX_CUSTOM_USER ?= yes
 
 LINK_TIME_OPTIMIZATION_ENABLE = yes
