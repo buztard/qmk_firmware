@@ -48,7 +48,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TABMS,_________________QWERTY_L1_________________,                   _________________QWERTY_R1_________________, KC_BSPC,
       KC_CESC, _________________QWERTY_L2_________________,                   _________________QWERTY_R2_________________, KC_QUOT,
       KC_LSPO, _________________QWERTY_L3_________________, KC_LBRC, KC_RBRC, _________________QWERTY_R3_________________, KC_RSPC,
-      RGB_TOG, RGB_MOD, RGBRST, KC_TD_LALT, LOWER, KC_GENT, KC_GENT, KC_SPC,  KC_SPC, RAISE, KC_TD_RALT, _______, RGB_MOD, RGB_TOG
+      RGB_TOG, RGB_MOD, RGBRST, KC_LCTL, KC_TD_LALT, LOWER, KC_GENT, KC_SPC, RAISE, KC_TD_RALT, _______, _______, RGB_MOD, RGB_TOG
+  ),
+
+  [_COLEMAK] = LAYOUT_wrapper(
+      KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
+      KC_TABMS,_________________COLEMAK_L1________________,                   _________________COLEMAK_R1________________, KC_BSPC,
+      KC_CESC, _________________COLEMAK_L2________________,                   _________________COLEMAK_R2________________, KC_QUOT,
+      KC_LSPO, _________________COLEMAK_L3________________, KC_LBRC, KC_RBRC, _________________COLEMAK_R3________________, KC_RSPC,
+      RGB_TOG, RGB_MOD, RGBRST, KC_LCTL, KC_TD_LALT, LOWER, KC_GENT, KC_SPC, RAISE, KC_TD_RALT, _______, _______, RGB_MOD, RGB_TOG
   ),
 
   [_LOWER] = LAYOUT_wrapper(
