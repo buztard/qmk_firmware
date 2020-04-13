@@ -222,9 +222,150 @@ static void td_raise_reset(qk_tap_dance_state_t *state, void *user_data) {
     tap_raise = TAP_END;
 }
 
+static void td_semicolon_finished(qk_tap_dance_state_t *state, void *user_data) {
+    tap_f = cur_dance(state);
+
+    switch (tap_f) {
+        case SINGLE_SHORT_TAP:
+        case SINGLE_TAP:
+            register_code(KC_SCLN);
+            break;
+        case SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_RCTL));
+            break;
+        default:
+            break;
+    }
+}
+
+static void td_semicolon_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (tap_f) {
+        case SINGLE_SHORT_TAP:
+        case SINGLE_TAP:
+            unregister_code(KC_SCLN);
+            break;
+        case SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_RCTL));
+            break;
+        default:
+            break;
+    }
+}
+
+static void td_o_finished(qk_tap_dance_state_t *state, void *user_data) {
+    tap_f = cur_dance(state);
+
+    switch (tap_f) {
+        case SINGLE_SHORT_TAP:
+        case SINGLE_TAP:
+            register_code(KC_O);
+            break;
+        case SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_RCTL));
+            break;
+        default:
+            break;
+    }
+}
+
+static void td_o_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (tap_f) {
+        case SINGLE_SHORT_TAP:
+        case SINGLE_TAP:
+            unregister_code(KC_O);
+            break;
+        case SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_RCTL));
+            break;
+        default:
+            break;
+    }
+}
+
+static void td_gui_finished(qk_tap_dance_state_t *state, void *user_data) {
+    tap_f = cur_dance(state);
+
+    switch (tap_f) {
+        case SINGLE_SHORT_TAP:
+        case SINGLE_TAP:
+        case SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_LGUI));
+            break;
+        case DOUBLE_TAP:
+        case DOUBLE_SINGLE_TAP:
+        case DOUBLE_HOLD:
+            register_mods(MOD_BIT(KC_LALT));
+            break;
+        default:
+            break;
+    }
+}
+
+static void td_gui_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (tap_f) {
+        case SINGLE_TAP:
+        case SINGLE_SHORT_TAP:
+        case SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LGUI));
+            break;
+        case DOUBLE_TAP:
+        case DOUBLE_SINGLE_TAP:
+        case DOUBLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LALT));
+            break;
+        default:
+            break;
+    }
+}
+
+static void td_space_finished(qk_tap_dance_state_t *state, void *user_data) {
+    tap_f = cur_dance(state);
+
+    switch (tap_f) {
+        case SINGLE_SHORT_TAP:
+        case SINGLE_TAP:
+            register_code(KC_SPC);
+            break;
+        case SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_LGUI));
+            break;
+        case DOUBLE_TAP:
+        case DOUBLE_SINGLE_TAP:
+        case DOUBLE_HOLD:
+            tap_code(KC_SPC);
+            register_code(KC_SPC);
+            break;
+        default:
+            break;
+    }
+}
+
+static void td_space_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (tap_f) {
+        case SINGLE_TAP:
+        case SINGLE_SHORT_TAP:
+            unregister_code(KC_SPC);
+            break;
+        case SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LGUI));
+            break;
+        case DOUBLE_TAP:
+        case DOUBLE_SINGLE_TAP:
+        case DOUBLE_HOLD:
+            unregister_code(KC_SPC);
+            break;
+        default:
+            break;
+    }
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = {
-    [TD_LALT]  = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_lalt_finished, td_lalt_reset, 200),
-    [TD_RALT]  = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_ralt_finished, td_ralt_reset, 200),
+    [TD_LALT]  = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_lalt_finished, td_lalt_reset, 300),
+    [TD_RALT]  = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_ralt_finished, td_ralt_reset, 300),
     [TD_RAISE] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_raise_finished, td_raise_reset, 200),
     [TD_F]     = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_f_finished, td_f_reset, 175),
+    [TD_SCLN]  = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_semicolon_finished, td_semicolon_reset, 100),
+    [TD_O]     = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_o_finished, td_o_reset, 100),
+    [TD_GUI]   = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_gui_finished, td_gui_reset, 200),
+    [TD_SPC]   = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, td_space_finished, td_space_reset, 200),
 };

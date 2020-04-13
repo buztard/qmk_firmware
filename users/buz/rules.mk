@@ -14,7 +14,7 @@ VELOCIKEY_ENABLE = no  # Enable Velocikey feature.
 TAP_DANCE_ENABLE = yes # Enable Tap Dance feature.
 LEADER_ENABLE = no     # Enable leader key.
 
-SRC += buz.c
+SRC += buz.c tapping.c
 
 ifeq ($(PLATFORM), AVR)
   EXTRAFLAGS += -flto
@@ -54,6 +54,10 @@ endif
 
 ifeq ($(strip $(UNICODE_ENABLE)), yes)
   SRC += unicode.c
+endif
+
+ifeq ($(strip $(COMBO_ENABLE)), yes)
+  SRC += combos.c
 endif
 
 # settings for different flavors
