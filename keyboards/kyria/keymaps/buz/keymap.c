@@ -1,68 +1,65 @@
-/* Copyright 2019 Thomas Baart <thomas@splitkb.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 #include QMK_KEYBOARD_H
 #include "buz.h"
 
 extern userspace_config_t userspace_config;
 extern rgblight_config_t  rgblight_config;
 
+enum custom_keycodes {
+    TMUX_PN = USER_SAFE_RANGE,
+    TMUX_PP,
+};
+
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
     KC_TABMS,_________________QWERTY_L1_________________,                                     _________________QWERTY_R1_________________, KC_BSPC,
-    KC_CESC, _________________QWERTY_L2_________________,                                     _________________QWERTY_R2_________________, KC_QUOT,
-    KC_LSPO, _________________QWERTY_L3_________________, KC_MINS, KC_PGUP, KC_PGDN, KC_EQL,  _________________QWERTY_R3_________________, KC_RSPC,
-                            KC_MUTE, KC_LBRC, KC_TD_LALT, LOWER,   KC_GENT, KC_SPC,  RAISE,   KC_TD_RALT, KC_RBRC, KC_MUTE
+    KC_CESC, _________________QWERTY_L2_________________,                                     _________________QWERTY_R2_________________, LCTL_T(KC_QUOT),
+    KC_LSPO, _________________QWERTY_L3_________________, KC_MINS, TMUX_PP, TMUX_PN, KC_EQL,  _________________QWERTY_R3_________________, KC_RSPC,
+                            KC_MUTE, KC_TD_LALT, LOWER,   KC_GENT, TMUX_WP, TMUX_WN, KC_SPC,  RAISE,   KC_TD_RALT, KC_MUTE
   ),
+
   [_COLEMAK] = LAYOUT_wrapper(
     KC_TABMS,_________________COLEMAK_L1________________,                                     _________________COLEMAK_R1________________, KC_BSPC,
     KC_CESC, _________________COLEMAK_L2________________,                                     _________________COLEMAK_R2________________, KC_QUOT,
     KC_LSPO, _________________COLEMAK_L3________________, KC_MINS, KC_PGUP, KC_PGDN, KC_EQL,  _________________COLEMAK_R3________________, KC_RSPC,
-                            KC_MUTE, KC_LBRC, KC_TD_LALT, LOWER,   KC_GENT, KC_SPC,  RAISE,   KC_TD_RALT, KC_RBRC, KC_MUTE
+                            KC_MUTE, KC_TD_LALT, LOWER,   KC_GENT, KC_LSPO, KC_RSPC, KC_SPC,  RAISE,   KC_TD_RALT, KC_MUTE
   ),
+
   [_LOWER] = LAYOUT_wrapper(
     KC_TILD, _________________LOWER_L1__________________,                                     _________________LOWER_R1__________________, _______,
     _______, _________________LOWER_L2__________________,                                     _________________LOWER_R2__________________, KC_PIPE,
     KC_CAPS, _________________LOWER_L3__________________, _______, _______, _______, _______, _________________LOWER_R3__________________, _______,
                                _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
   ),
+
   [_RAISE] = LAYOUT_wrapper(
     KC_GRV,  _________________RAISE_L1__________________,                                     _________________RAISE_R1__________________, KC_DEL,
     _______, _________________RAISE_L2__________________,                                     _________________RAISE_R2__________________, KC_BSLS,
     _______, _________________RAISE_L3__________________, _______, _______, _______, _______, _________________RAISE_R3__________________, _______,
                                _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
   ),
+
   [_ADJUST] = LAYOUT_wrapper(
     KC_GRV,  _________________ADJUST_L1_________________,                                     _________________ADJUST_R1_________________, KC_DEL,
     _______, _________________ADJUST_L2_________________,                                     _________________ADJUST_R2_________________, KC_BSLS,
     _______, _________________ADJUST_L3_________________, _______, _______, _______, _______, _________________ADJUST_R3_________________, _______,
                                _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
   ),
+
   [_VIM] = LAYOUT_wrapper(
     _______, __________________VIM_L1___________________,                                     __________________VIM_R1___________________, _______,
     _______, __________________VIM_L2___________________,                                     __________________VIM_R2___________________, _______,
     _______, __________________VIM_L3___________________, _______, _______, _______, _______, __________________VIM_R3___________________, _______,
                                _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
   ),
+
   [_MOUSE] = LAYOUT_wrapper(
     _______, _________________MOUSE_L1__________________,                                     _________________MOUSE_R1__________________, _______,
     _______, _________________MOUSE_L2__________________,                                     _________________MOUSE_R2__________________, _______,
     _______, _________________MOUSE_L3__________________, _______, _______, _______, _______, _________________MOUSE_R2__________________, _______,
                                _______, _______, _______, _______, _______, KC_BTN1, KC_BTN3, KC_BTN2, _______, _______
   ),
+
   [_NUM] = LAYOUT_wrapper(
     _______, ___________________BLANK___________________,                                     _________________NUMPAD_R1_________________, _______,
     _______, ___________________BLANK___________________,                                     _________________NUMPAD_R2_________________, _______,
@@ -130,18 +127,54 @@ void oled_task_user(void) {
 #ifdef ENCODER_ENABLE
 void encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
-        // Volume control
-        if (clockwise) {
-            tap_code(KC_VOLU);
-        } else {
-            tap_code(KC_VOLD);
+        switch (get_highest_layer(layer_state)) {
+            case _RAISE:
+                if (!clockwise) {
+                    SEND_STRING(SS_LCTL("a") "o");
+                } else {
+                    SEND_STRING(SS_LCTL("a") "O");
+                }
+                break;
+
+            case _MOUSE:
+                if (!clockwise) {
+                    tap_code(KC_MS_DOWN);
+                } else {
+                    tap_code(KC_MS_UP);
+                }
+                break;
+
+            default:
+                if (!clockwise) {
+                    tap_code(KC_VOLU);
+                } else {
+                    tap_code(KC_VOLD);
+                }
+                break;
         }
     } else if (index == 1) {
-        // Page up/Page down
-        if (clockwise) {
-            tap_code(KC_PGDN);
-        } else {
-            tap_code(KC_PGUP);
+        switch (get_highest_layer(layer_state)) {
+            case _LOWER:
+                if (!clockwise) {
+                    SEND_STRING(SS_LCTL("an"));
+                } else {
+                    SEND_STRING(SS_LCTL("ap"));
+                }
+                break;
+            case _MOUSE:
+                if (!clockwise) {
+                    tap_code(KC_MS_RIGHT);
+                } else {
+                    tap_code(KC_MS_LEFT);
+                }
+                break;
+            default:
+                if (!clockwise) {
+                    tap_code(KC_PGDN);
+                } else {
+                    tap_code(KC_PGUP);
+                }
+                break;
         }
     }
 }
@@ -187,3 +220,22 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
     return state;
 }
 #endif
+
+bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TMUX_PP:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("a") "O");
+            }
+            break;
+        case TMUX_PN:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("a") "o");
+            }
+            break;
+
+        default:
+            return true;
+    }
+    return false;
+}

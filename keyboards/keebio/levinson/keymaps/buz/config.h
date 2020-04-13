@@ -27,13 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* #define USE_I2C */
 
 /* Select hand configuration */
+#define EE_HANDS
 
-// XXX: I just broke off my left hands micro USB.
-/* #define MASTER_LEFT */
-#define MASTER_RIGHT
-// #define EE_HANDS
-
-#define TAPPING_FORCE_HOLD
 #undef RGBLED_NUM
 #define RGBLED_NUM 12
 #define RGBLIGHT_ANIMATIONS

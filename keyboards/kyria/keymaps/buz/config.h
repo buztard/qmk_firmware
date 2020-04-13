@@ -22,7 +22,6 @@
 #    define OLED_DISPLAY_128X64
 #endif
 
-
 #ifdef RGBLIGHT_ENABLE
 #    define RGBLIGHT_HUE_STEP 8
 #    define RGBLIGHT_SAT_STEP 8
