@@ -6,6 +6,10 @@ enum {
     TD_RALT,
     TD_F,
     TD_RAISE,
+    TD_SCLN,
+    TD_O,
+    TD_GUI,
+    TD_SPC,
 };
 
 typedef enum {

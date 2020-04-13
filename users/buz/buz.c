@@ -7,10 +7,14 @@ __attribute__((weak)) layer_state_t layer_state_set_keymap(uint32_t state) { ret
 __attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t *record) { return true; }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    static uint16_t lsft_timer;
+    static uint16_t rsft_timer;
+
     if (!process_record_keymap(keycode, record)) {
         return false;
     }
 
+#if 0
     // special case for vim layer...
     if (IS_LAYER_ON(_VIM)) {
         static uint16_t last_code = KC_NO;
@@ -42,8 +46,49 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 break;
         }
     }
+#endif
 
     switch (keycode) {
+        case LSFT:
+            if (record->event.pressed) {
+                lsft_timer = timer_read();
+                // register_mods(MOD_BIT(KC_LSFT));
+                register_code(KC_LSFT);
+#ifdef CONSOLE_ENABLE
+                uprintf("+LSFT\n");
+#endif
+            } else {
+                // unregister_mods(MOD_BIT(KC_LSFT));
+                unregister_code(KC_LSFT);
+#ifdef CONSOLE_ENABLE
+                uprintf("-LSFT %u\n", record->tap.interrupted);
+#endif
+                if (timer_elapsed(lsft_timer) < TAPPING_TERM) {
+                    tap_code16(KC_LPRN);
+                }
+            }
+            return false;
+
+        case RSFT:
+            if (record->event.pressed) {
+                rsft_timer = timer_read();
+                // register_mods(MOD_BIT(KC_RSFT));
+                register_code(KC_RSFT);
+#ifdef CONSOLE_ENABLE
+                uprintf("+RSFT\n");
+#endif
+            } else {
+                // unregister_mods(MOD_BIT(KC_RSFT));
+                unregister_code(KC_RSFT);
+#ifdef CONSOLE_ENABLE
+                uprintf("-RSFT %u\n", record->tap.interrupted);
+#endif
+                if (timer_elapsed(rsft_timer) < TAPPING_TERM) {
+                    tap_code16(KC_RPRN);
+                }
+            }
+            return false;
+
         case QWERTY:
             if (record->event.pressed) {
                 set_single_persistent_default_layer(_QWERTY);
@@ -114,6 +159,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 eeconfig_update_user(userspace_config.raw);
             }
             return false;
+
+        case TMUX_WP:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("ap"));
+            }
+            break;
+
+        case TMUX_WN:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("an"));
+            }
+            break;
 
         case RGB_LYR:
             if (record->event.pressed) {

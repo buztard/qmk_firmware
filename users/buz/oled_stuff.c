@@ -149,6 +149,8 @@ void oled_render_rgb_matrix_effect_name(void) {
     oled_write_P(PSTR("RGB Disabled\n"), false);
     return;
   }
+  oled_write_P(PSTR("R: "), false);
+
   switch (rgb_matrix_get_mode()) {
     case RGB_MATRIX_NONE:
       oled_write_P(PSTR("None\n"), false);
@@ -296,7 +298,7 @@ void oled_render_rgb_matrix_effect_name(void) {
 #endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
 #ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
     case RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE:
-      oled_write_P(PSTR("Reactive multiwide\n"), false);
+      oled_write_P(PSTR("Reactive wide\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
 #ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
@@ -306,7 +308,7 @@ void oled_render_rgb_matrix_effect_name(void) {
 #endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
 #ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
     case RGB_MATRIX_SOLID_REACTIVE_MULTICROSS:
-      oled_write_P(PSTR("Reactive multicross\n"), false);
+      oled_write_P(PSTR("Reactive cross\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
 #ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
@@ -316,7 +318,7 @@ void oled_render_rgb_matrix_effect_name(void) {
 #endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
 #ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
     case RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS:
-      oled_write_P(PSTR("Reactive multinexus\n"), false);
+      oled_write_P(PSTR("Reactive nexus\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
 #ifndef DISABLE_RGB_MATRIX_SPLASH
@@ -326,7 +328,7 @@ void oled_render_rgb_matrix_effect_name(void) {
 #endif // DISABLE_RGB_MATRIX_SPLASH
 #ifndef DISABLE_RGB_MATRIX_MULTISPLASH
     case RGB_MATRIX_MULTISPLASH:
-      oled_write_P(PSTR("Multisplash\n"), false);
+      oled_write_P(PSTR("Splash\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_MULTISPLASH
 #ifndef DISABLE_RGB_MATRIX_SOLID_SPLASH
@@ -336,7 +338,7 @@ void oled_render_rgb_matrix_effect_name(void) {
 #endif // DISABLE_RGB_MATRIX_SOLID_SPLASH
 #ifndef DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
     case RGB_MATRIX_SOLID_MULTISPLASH:
-      oled_write_P(PSTR("Solid multisplash\n"), false);
+      oled_write_P(PSTR("Solid splash\n"), false);
       break;
 #endif // DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
 #endif // RGB_MATRIX_KEYREACTIVE_ENABLED
@@ -350,6 +352,16 @@ void oled_render_rgb_matrix_effect_name(void) {
       oled_write_P(PSTR("Godspeed\n"), false);
       break;
 #endif // FLAVOR_GODSPEED
+#if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_LEVIATHAN)
+    case RGB_MATRIX_CUSTOM_LEVIATHAN:
+      oled_write_P(PSTR("Leviathan\n"), false);
+      break;
+#endif // FLAVOR_LEVIATHAN
+#if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_TROUBLED_MINDS)
+    case RGB_MATRIX_CUSTOM_TROUBLED_MINDS:
+      oled_write_P(PSTR("Troubled minds\n"), false);
+      break;
+#endif // FLAVOR_TROUBLED_MINDS
     default:
       oled_write_P(PSTR("Unknown\n"), false);
       break;
