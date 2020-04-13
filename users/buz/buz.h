@@ -56,10 +56,11 @@ enum userspace_custom_keycodes {
     MAKE,     // compile/flash qmk
     RGB_LYR,  // toggle rgb layer indication
     OLED,     // toggle oled display
-    LSFT,
-    RSFT,
     USER_SAFE_RANGE,
 };
+
+#define LSPO LSFT_T(KC_NO)
+#define RSPC RSFT_T(KC_NO)
 
 #define KC_CESC CTL_T(KC_ESC)
 #define KC_CSPC CTL_T(KC_SPC)
