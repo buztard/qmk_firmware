@@ -1,19 +1,23 @@
 #include QMK_KEYBOARD_H
-#include "debug.h"
-#include "action_layer.h"
-#include "version.h"
+#include "buz.h"
 
-#define BASE 0 // default layer
-#define SYMB 1 // symbols
-#define MDIA 2 // media keys
+#ifdef LAYOUT_wrapper
+#    undef LAYOUT_wrapper
+#endif
+#define LAYOUT_wrapper(...) LAYOUT_ergodox(__VA_ARGS__)
+
+#define BASE 0  // default layer
+#define SYMB 1  // symbols
+#define MDIA 2  // media keys
 
 enum custom_keycodes {
-  PLACEHOLDER = SAFE_RANGE, // can always be here
-  EPRM,
-  VRSN,
-  RGB_SLD
+    PLACEHOLDER = SAFE_RANGE,  // can always be here
+    EPRM,
+    VRSN,
+    RGB_SLD
 };
 
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
@@ -38,25 +42,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
 // Otherwise, it needs KC_*
-[BASE] = LAYOUT_ergodox(  // layer 0 : default
+[BASE] = LAYOUT_wrapper(  // layer 0 : default
         // left hand
-        KC_GRV,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_LBRC,
-        KC_TAB,         KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   KC_LCBR,
-        CTL_T(KC_ESC),  KC_A,         KC_S,   KC_D,   KC_F,   KC_G,
-        KC_LSFT,        KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   KC_LPRN,
-        LT(SYMB,KC_GRV),KC_UNDS,      KC_PLUS,KC_MINS,KC_EQL,
-                                              ALT_T(KC_APP),  KC_LGUI,
-                                                              KC_HOME,
-                                              LGUI_T(KC_ENT), KC_BSPC, KC_END,
+        KC_GRV,         ________________NUMBER_LEFT________________, KC_LBRC,
+        KC_TABMS,       _________________QWERTY_L1_________________, KC_LCBR,
+        CTL_T(KC_ESC),  _________________QWERTY_L2_________________,
+        KC_LSPO,        _________________QWERTY_L3_________________, KC_LPRN,
+          LT(SYMB,KC_GRV), KC_UNDS, KC_PLUS, KC_MINS, KC_EQL,
+                                                             KC_APP, KC_LGUI,
+                                                                     KC_HOME,
+                                                     LOWER, KC_GENT, KC_END,
         // right hand
-             KC_RBRC, KC_6,   KC_7,  KC_8,   KC_9,   KC_0,             KC_BSPC,
-             KC_RCBR, KC_Y,   KC_U,  KC_I,   KC_O,   KC_P,             KC_BSLS,
-                      KC_H,   KC_J,  KC_K,   KC_L,   LT(MDIA, KC_SCLN),GUI_T(KC_QUOT),
-             KC_RPRN, KC_N,   KC_M,  KC_COMM,KC_DOT, CTL_T(KC_SLSH),   KC_RSFT,
-                                  KC_LCBR, KC_RCBR,KC_LBRC,KC_RBRC,          KC_FN1,
-             KC_LALT,        CTL_T(KC_ESC),
+             KC_RBRC, ________________NUMBER_RIGHT_______________, KC_BSPC,
+             KC_RCBR, _________________QWERTY_R1_________________, KC_BSLS,
+                      _________________QWERTY_R2_________________, RCTL_T(KC_QUOT),
+             KC_RPRN, _________________QWERTY_R3_________________, KC_RSPC,
+                                  KC_LCBR, KC_RCBR, KC_LBRC, KC_RBRC, KC_FN1,
+             KC_LALT, CTL_T(KC_ESC),
              KC_PGUP,
-             OSM(MOD_RALT),KC_TAB, KC_SPC
+             OSM(MOD_RALT), KC_SPC, RAISE
     ),
 
 
@@ -144,7 +148,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        _______, _______, KC_WBAK
 ),
 };
+// clang-format on
 
+#if 0
 const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_TOGGLE(SYMB)                // FN1 - Momentary Layer 1 (Symbols)
 };
@@ -184,9 +190,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case RGB_SLD:
       if (record->event.pressed) {
-        #ifdef RGBLIGHT_ENABLE
+#    ifdef RGBLIGHT_ENABLE
           rgblight_mode(1);
-        #endif
+#    endif
       }
       return false;
       break;
@@ -196,9 +202,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
-#ifdef RGBLIGHT_COLOR_LAYER_0
+#    ifdef RGBLIGHT_COLOR_LAYER_0
   rgblight_setrgb(RGBLIGHT_COLOR_LAYER_0);
-#endif
+#    endif
 };
 
 // Runs constantly in the background, in a loop.
@@ -216,60 +222,60 @@ uint32_t layer_state_set_user(uint32_t state) {
   uint8_t layer = biton32(state);
   switch (layer) {
       case 0:
-        #ifdef RGBLIGHT_COLOR_LAYER_0
+#    ifdef RGBLIGHT_COLOR_LAYER_0
           rgblight_setrgb(RGBLIGHT_COLOR_LAYER_0);
-        #else
-        #ifdef RGBLIGHT_ENABLE
+#    else
+#        ifdef RGBLIGHT_ENABLE
           rgblight_init();
-        #endif
-        #endif
+#        endif
+#    endif
         break;
       case 1:
         ergodox_right_led_1_on();
-        #ifdef RGBLIGHT_COLOR_LAYER_1
+#    ifdef RGBLIGHT_COLOR_LAYER_1
           rgblight_setrgb(RGBLIGHT_COLOR_LAYER_1);
-        #endif
+#    endif
         break;
       case 2:
         ergodox_right_led_2_on();
-        #ifdef RGBLIGHT_COLOR_LAYER_2
+#    ifdef RGBLIGHT_COLOR_LAYER_2
           rgblight_setrgb(RGBLIGHT_COLOR_LAYER_2);
-        #endif
+#    endif
         break;
       case 3:
         ergodox_right_led_3_on();
-        #ifdef RGBLIGHT_COLOR_LAYER_3
+#    ifdef RGBLIGHT_COLOR_LAYER_3
           rgblight_setrgb(RGBLIGHT_COLOR_LAYER_3);
-        #endif
+#    endif
         break;
       case 4:
         ergodox_right_led_1_on();
         ergodox_right_led_2_on();
-        #ifdef RGBLIGHT_COLOR_LAYER_4
+#    ifdef RGBLIGHT_COLOR_LAYER_4
           rgblight_setrgb(RGBLIGHT_COLOR_LAYER_4);
-        #endif
+#    endif
         break;
       case 5:
         ergodox_right_led_1_on();
         ergodox_right_led_3_on();
-        #ifdef RGBLIGHT_COLOR_LAYER_5
+#    ifdef RGBLIGHT_COLOR_LAYER_5
           rgblight_setrgb(RGBLIGHT_COLOR_LAYER_5);
-        #endif
+#    endif
         break;
       case 6:
         ergodox_right_led_2_on();
         ergodox_right_led_3_on();
-        #ifdef RGBLIGHT_COLOR_LAYER_6
+#    ifdef RGBLIGHT_COLOR_LAYER_6
           rgblight_setrgb(RGBLIGHT_COLOR_LAYER_6);
-        #endif
+#    endif
         break;
       case 7:
         ergodox_right_led_1_on();
         ergodox_right_led_2_on();
         ergodox_right_led_3_on();
-        #ifdef RGBLIGHT_COLOR_LAYER_7
+#    ifdef RGBLIGHT_COLOR_LAYER_7
           rgblight_setrgb(RGBLIGHT_COLOR_LAYER_7);
-        #endif
+#    endif
         break;
       default:
         break;
@@ -277,3 +283,4 @@ uint32_t layer_state_set_user(uint32_t state) {
 
   return state;
 };
+#endif

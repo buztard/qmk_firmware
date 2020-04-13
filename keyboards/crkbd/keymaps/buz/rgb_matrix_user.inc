@@ -6,16 +6,13 @@ RGB_MATRIX_EFFECT(DASHER)
 RGB_MATRIX_EFFECT(GODSPEED)
 #endif
 
-#define DASHER_ALPHA 160, 207, 0
-#define DASHER_MODS 112, 255, 0
-#define DASHER_UNDERGLOW 160, 207, 255
+#ifdef FLAVOR_LEVIATHAN
+RGB_MATRIX_EFFECT(LEVIATHAN)
+#endif
 
-#define GODSPEED_ALPHA 32, 191, 0
-#define GODSPEED_MODS 40, 48, 0
-#define GODSPEED_UNDERGLOW 128, 207, 0
-#define GODSPEED_RED 248, 255, 0
-#define GODSPEED_YELLOW 32, 207, 0
-#define GODSPEED_BLUE 128, 207, 0
+#ifdef FLAVOR_TROUBLED_MINDS
+RGB_MATRIX_EFFECT(TROUBLED_MINDS)
+#endif
 
 #ifdef RGB_MATRIX_CUSTOM_EFFECT_IMPLS
 extern uint8_t is_master;
@@ -26,12 +23,16 @@ RGB get_color(uint8_t h, uint8_t s, uint8_t v) {
 }
 
 #    ifdef FLAVOR_DASHER
+#        define DASHER_ALPHA 160, 207, 0
+#        define DASHER_MODS 112, 255, 0
+#        define DASHER_UNDERGLOW 160, 207, 255
+
 static bool DASHER(effect_params_t* params) {
     RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
     RGB alpha     = get_color(DASHER_ALPHA);
     RGB mods      = get_color(DASHER_MODS);
-    RGB underglow = get_color(DASHER_UNDERGLOW);
+    RGB underglow = get_color(160, 207, rgb_matrix_config.hsv.v + 100 > 255 ? 255 : rgb_matrix_config.hsv.v + 100);
 
     for (uint8_t i = led_min; i < led_max; i++) {
         if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_KEYLIGHT)) {
@@ -47,6 +48,13 @@ static bool DASHER(effect_params_t* params) {
 #    endif  // FLAVOR_DASHER
 
 #    ifdef FLAVOR_GODSPEED
+#        define GODSPEED_ALPHA 32, 191, 0
+#        define GODSPEED_MODS 40, 48, 0
+#        define GODSPEED_UNDERGLOW 128, 207, 0
+#        define GODSPEED_RED 248, 255, 0
+#        define GODSPEED_YELLOW 32, 207, 0
+#        define GODSPEED_BLUE 128, 207, 0
+
 static bool GODSPEED(effect_params_t* params) {
     RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
@@ -74,6 +82,47 @@ static bool GODSPEED(effect_params_t* params) {
     return led_max < DRIVER_LED_TOTAL;
 }
 #    endif  // FLAVOR_GODSPEED
+
+#    ifdef FLAVOR_LEVIATHAN
+#        define LEVIATHAN_GREEN 85, 255, 0
+
+static bool LEVIATHAN(effect_params_t* params) {
+    RGB_MATRIX_USE_LIMITS(led_min, led_max);
+
+    RGB color = get_color(LEVIATHAN_GREEN);
+
+    for (uint8_t i = led_min; i < led_max; i++) {
+        rgb_matrix_set_color(i, color.r, color.g, color.b);
+    }
+    return led_max < DRIVER_LED_TOTAL;
+}
+#    endif  // FLAVOR_LEVIATHAN
+
+#    ifdef FLAVOR_TROUBLED_MINDS
+#        define ALPHA 200, 255, 0
+#        define MODS 85, 255, 0
+#        define UNDERGLOW 85, 255, 0
+
+static bool TROUBLED_MINDS(effect_params_t* params) {
+    RGB_MATRIX_USE_LIMITS(led_min, led_max);
+
+    RGB alpha     = get_color(ALPHA);
+    RGB mods      = get_color(MODS);
+    RGB underglow = get_color(UNDERGLOW);
+
+    for (uint8_t i = led_min; i < led_max; i++) {
+        if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_KEYLIGHT)) {
+            rgb_matrix_set_color(i, alpha.r, alpha.g, alpha.b);
+        } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_MODIFIER)) {
+            rgb_matrix_set_color(i, mods.r, mods.g, mods.b);
+        } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
+            rgb_matrix_set_color(i, underglow.r, underglow.g, underglow.b);
+        }
+    }
+    return led_max < DRIVER_LED_TOTAL;
+}
+#    endif  // FLAVOR_TROUBLED_MINDS
+
 #endif      // RGB_MATRIX_CUSTOM_EFFECT_IMPLS
 
 /* vim: set ft=c: */
