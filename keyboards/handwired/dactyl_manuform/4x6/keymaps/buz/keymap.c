@@ -1,21 +1,21 @@
 #include QMK_KEYBOARD_H
 #include "buz.h"
 
-
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = LAYOUT_wrapper(
     KC_TABMS,_________________QWERTY_L1_________________,  _________________QWERTY_R1_________________, KC_BSPC,
-    KC_CESC, _________________QWERTY_L2_________________,  _________________QWERTY_R2_________________, KC_QUOT,
+    KC_CESC, _________________QWERTY_L2_________________,  _________________QWERTY_R2_________________, RCTL_T(KC_QUOT),
     KC_LSPO, _________________QWERTY_L3_________________,  _________________QWERTY_R3_________________, KC_RSPC,
                            KC_LCBR, KC_RCBR,                            KC_LBRC, KC_RBRC,
-                                    LOWER,   KC_GENT,           KC_SPC,  RAISE,
+                                    LOWER,   LGUI_T(KC_ENT),    KC_SPC,  RAISE,
                                  KC_TD_LALT, KC_LSPO,           KC_RSPC, KC_TD_RALT,
-                                    KC_CESC, KC_DEL,            KC_PGUP, KC_PGDN
+                                    KC_CESC, TMUX_WP,           TMUX_WN, KC_PGDN
 ),
 
 [_COLEMAK] = LAYOUT_wrapper(
     KC_TABMS,_________________COLEMAK_L1________________,  _________________COLEMAK_R1________________, KC_BSPC,
-    KC_CESC, _________________COLEMAK_L2________________,  _________________COLEMAK_R2________________, KC_QUOT,
+    KC_CESC, _________________COLEMAK_L2________________,  _________________COLEMAK_R2________________, RCTL_T(KC_QUOT),
     KC_LSPO, _________________COLEMAK_L3________________,  _________________COLEMAK_R3________________, KC_RSPC,
                            KC_LCBR, KC_RCBR,                            KC_LBRC, KC_RBRC,
                                     LOWER,   KC_GENT,           KC_SPC,  RAISE,
@@ -37,7 +37,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_GRV,  _________________RAISE_L1__________________,  _________________RAISE_R1__________________, KC_DEL,
     _______, _________________RAISE_L2__________________,  _________________RAISE_R2__________________, KC_BSLS,
     _______, _________________RAISE_L3__________________,  _________________RAISE_R3__________________, _______,
-                           _______, _______,                            _______, _______,
+                           _______, _______,                            KC_PGUP, KC_PGDN,
                                     _______, _______,           _______, _______,
                                     _______, _______,           _______, _______,
                                     _______, _______,           _______, _______
@@ -57,10 +57,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _________________MOUSE_L1__________________,  _________________MOUSE_R1__________________, _______,
     _______, _________________MOUSE_L2__________________,  _________________MOUSE_R2__________________, _______,
     _______, _________________MOUSE_L3__________________,  _________________MOUSE_R3__________________, _______,
-                           _______, _______,                            _______, _______,
+                           KC_WH_U, KC_WH_D,                            _______, _______,
                                     _______, _______,           KC_BTN1, KC_BTN3,
                                     _______, _______,           KC_BTN2, _______,
-                                    _______, _______,           _______, _______
+                                    _______, _______,           KC_BTN4, KC_BTN5
 ),
 
 [_NUM] = LAYOUT_wrapper(
@@ -83,3 +83,4 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                     _______, _______,           _______, _______
 ),
 };
+// clang-format on

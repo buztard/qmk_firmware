@@ -36,16 +36,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLIGHT_VAL_STEP 8
 
 #define DEBOUNCE_DELAY 6
-
-// TAPPING_FORCE_HOLD breaks layer tapping
-#define TAPPING_FORCE_HOLD
-/* #define PERMISSIVE_HOLD */
-/* #define IGNORE_MOD_TAP_INTERRUPT */
-//#define TAPPING_TOGGLE 2
-
-#define LEADER_PER_KEY_TIMING
-#define LEADER_ON_KEY_PROCESSING
-#ifdef LEADER_TIMEOUT
-#undef LEADER_TIMEOUT
-#define LEADER_TIMEOUT 3000
-#endif

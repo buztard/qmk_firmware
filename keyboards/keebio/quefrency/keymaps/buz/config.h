@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define USE_SERIAL
 // #define USE_I2C
+#define EE_HANDS
 
-#define TAPPING_FORCE_HOLD
 #undef RGBLED_NUM
-#define RGBLED_NUM 13    // Number of LEDs
+#define RGBLED_NUM 13  // Number of LEDs
