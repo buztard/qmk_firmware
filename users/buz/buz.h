@@ -59,6 +59,8 @@ enum userspace_custom_keycodes {
     USER_SAFE_RANGE,
 };
 
+// Ugly workaround for shifted mod taps. It's used for space cadet keys shift
+// keys, but works better for shifting other mod-tapped keys.
 #define LSPO LSFT_T(KC_NO)
 #define RSPC RSFT_T(KC_NO)
 
