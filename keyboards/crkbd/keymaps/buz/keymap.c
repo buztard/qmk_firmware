@@ -27,11 +27,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
     KC_TABMS,_________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
     KC_CESC, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, RCTL_T(KC_QUOT),
-    // KC_LSFT, _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, KC_RSFT,
-    // KC_LSPO, _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, KC_RSPC,
-    // KC_LPRN, _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, KC_RPRN,
-    // LSFT_T(KC_NO), _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, RSFT_T(KC_NO),
-    LSPO, _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, RSPC,
+    LSPO,    _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, RSPC,
                               KC_TD_LALT, LOWER, KC_GENT, SFT_T(KC_SPC), RAISE, KC_TD_RALT
   ),
   [_COLEMAK] = LAYOUT_wrapper(
