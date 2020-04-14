@@ -48,6 +48,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LSPO:
             if (!record->event.pressed && record->tap.count == 1 && !record->tap.interrupted) {
+                record->tap.count = 0;
                 unregister_mods(MOD_LSFT);
                 tap_code16(KC_LPRN);
                 return false;
@@ -56,6 +57,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         case RSPC:
             if (!record->event.pressed && record->tap.count == 1 && !record->tap.interrupted) {
+                record->tap.count = 0;
                 unregister_mods(MOD_RSFT);
                 tap_code16(KC_RPRN);
                 return false;
