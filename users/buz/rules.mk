@@ -88,3 +88,12 @@ endif
 ifeq ($(strip $(FLAVOR)), acab)
 	OPT_DEFS += -DFLAVOR_ACAB -DFLAVOR=\"acab\"
 endif
+ifeq ($(strip $(FLAVOR)), serika)
+	OPT_DEFS += -DFLAVOR_SERIKA -DFLAVOR=\"serika\"
+endif
+ifeq ($(strip $(FLAVOR)), canvas)
+	OPT_DEFS += -DFLAVOR_CANVAS -DFLAVOR=\"canvas\"
+endif
+ifeq ($(strip $(FLAVOR)), milkshake)
+	OPT_DEFS += -DFLAVOR_MILKSHAKE -DFLAVOR=\"milkshake\"
+endif

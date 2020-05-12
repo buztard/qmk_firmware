@@ -28,7 +28,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TABMS,_________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
     KC_CESC, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, RCTL_T(KC_QUOT),
     LSPO,    _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, RSPC,
-                              KC_TD_LALT, LOWER, KC_GENT, SFT_T(KC_SPC), RAISE, KC_TD_RALT
+                              KC_TD_LALT, LOWER, KC_GENT, KC_SPC, RAISE, KC_TD_RALT
   ),
 
   [_COLEMAK] = LAYOUT_wrapper(
@@ -109,8 +109,15 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (!is_master) return OLED_ROTATION_180;
-    return rotation;
+    if (is_master) {
+        return OLED_ROTATION_0;
+        // return OLED_ROTATION_270;
+    } else {
+        return OLED_ROTATION_180;
+    }
+
+    // if (!is_master) return OLED_ROTATION_180;
+    // return rotation;
 }
 
 static void render_logo(void) {

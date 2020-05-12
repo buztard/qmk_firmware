@@ -14,15 +14,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
     KC_TABMS,_________________QWERTY_L1_________________,                                     _________________QWERTY_R1_________________, KC_BSPC,
     KC_CESC, _________________QWERTY_L2_________________,                                     _________________QWERTY_R2_________________, LCTL_T(KC_QUOT),
-    KC_LSPO, _________________QWERTY_L3_________________, KC_MINS, TMUX_PP, TMUX_PN, KC_EQL,  _________________QWERTY_R3_________________, KC_RSPC,
-                            KC_MUTE, KC_TD_LALT, LOWER,   KC_GENT, TMUX_WP, TMUX_WN, KC_SPC,  RAISE,   KC_TD_RALT, KC_MUTE
+       LSPO, _________________QWERTY_L3_________________, TMUX_PP, TMUX_WP, TMUX_WN, TMUX_PN, _________________QWERTY_R3_________________, RSPC,
+                            KC_MUTE, KC_TD_LALT, LOWER,   KC_GENT, LSPO,    RSPC,    KC_SPC,  RAISE,   KC_TD_RALT, KC_MUTE
   ),
 
   [_COLEMAK] = LAYOUT_wrapper(
     KC_TABMS,_________________COLEMAK_L1________________,                                     _________________COLEMAK_R1________________, KC_BSPC,
     KC_CESC, _________________COLEMAK_L2________________,                                     _________________COLEMAK_R2________________, KC_QUOT,
-    KC_LSPO, _________________COLEMAK_L3________________, KC_MINS, KC_PGUP, KC_PGDN, KC_EQL,  _________________COLEMAK_R3________________, KC_RSPC,
-                            KC_MUTE, KC_TD_LALT, LOWER,   KC_GENT, KC_LSPO, KC_RSPC, KC_SPC,  RAISE,   KC_TD_RALT, KC_MUTE
+       LSPO, _________________COLEMAK_L3________________, KC_MINS, KC_PGUP, KC_PGDN, KC_EQL,  _________________COLEMAK_R3________________, RSPC,
+                            KC_MUTE, KC_TD_LALT, LOWER,   KC_GENT, LSPO,    RSPC,    KC_SPC,  RAISE,   KC_TD_RALT, KC_MUTE
   ),
 
   [_LOWER] = LAYOUT_wrapper(

@@ -39,9 +39,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef OLED_FONT_H
 #    undef OLED_FONT_H
 #endif
-#define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
+
 #define OLED_DISABLE_TIMEOUT
 // #define OLED_SCROLL_TIMEOUT 60000
+#if defined(FLAVOR_GODSPEED)
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/rpbaptist/glcdfont_godspeed.c"
+#elif defined(FLAVOR_DASHER)
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
+#elif defined(FLAVOR_LEVIATHAN)
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
+#elif defined(FLAVOR_TROUBLED_MINDS)
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
+#elif defined(FLAVOR_SERIKA)
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
+#elif defined(FLAVOR_MILKSHAKE)
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
+#else
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
+#endif
 
 // RGB matrix configuration
 #ifdef RGB_MATRIX_ENABLE
@@ -75,7 +90,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #        define DISABLE_RGB_MATRIX_RAINBOW_PINWHEELS
 #        define DISABLE_RGB_MATRIX_RAINDROPS
 #        define DISABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
-#        define DISABLE_RGB_MATRIX_TYPING_HEATMAP
+// #        define DISABLE_RGB_MATRIX_TYPING_HEATMAP
 #        define DISABLE_RGB_MATRIX_DIGITAL_RAIN
 // #define DISABLE_RGB_MATRIX_SOLID_REACTIVE
 // #define DISABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
