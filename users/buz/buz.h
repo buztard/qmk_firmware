@@ -76,6 +76,7 @@ enum userspace_custom_keycodes {
 #define KC_O_LALT OSM(MOD_LALT)
 #define KC_O_RALT OSM(MOD_RALT)
 #define KC_SINS LSFT(KC_INSERT)
+#define KC_EURO ALGR(KC_5)
 
 #define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
 
@@ -144,7 +145,7 @@ enum userspace_custom_keycodes {
 #define _________________MOUSE_R2__________________        KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______
 #define _________________MOUSE_R3__________________        _______, KC_BTN1, KC_BTN3, KC_BTN2, _______
 
-#define _________________NUMPAD_R1_________________        _______,    KC_7,    KC_8,    KC_9, _______
+#define _________________NUMPAD_R1_________________        KC_EURO,    KC_7,    KC_8,    KC_9, _______
 #define _________________NUMPAD_R2_________________        _______,    KC_4,    KC_5,    KC_6, _______
 #define _________________NUMPAD_R3_________________           KC_0,    KC_1,    KC_2,    KC_3, KC_DOT
 // clang-format on
