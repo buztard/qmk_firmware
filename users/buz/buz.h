@@ -84,11 +84,11 @@ enum userspace_custom_keycodes {
 
 #define _________________QWERTY_L1_________________        KC_Q,           KC_W,           KC_E, KC_R,           KC_T
 #define _________________QWERTY_L2_________________        LSFT_T(KC_A),   KC_S,           KC_D, KC_F,           KC_G
-#define _________________QWERTY_L3_________________        LT(_VIM, KC_Z), LT(_NUM, KC_X), KC_C, LT(_VIM, KC_V), KC_B
+#define _________________QWERTY_L3_________________        LCTL_T(KC_Z),   LT(_NUM, KC_X), KC_C, LT(_VIM, KC_V), KC_B
 
 #define _________________QWERTY_R1_________________        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P
 #define _________________QWERTY_R2_________________        KC_H,    KC_J,    KC_K,    KC_L,    RSFT_T(KC_SCLN)
-#define _________________QWERTY_R3_________________        KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLASH
+#define _________________QWERTY_R3_________________        KC_N,    KC_M,    KC_COMM, KC_DOT,  RCTL_T(KC_SLASH)
 
 #define _________________COLEMAK_L1________________        KC_Q,    KC_W,    KC_F,    KC_P,    KC_G
 #define _________________COLEMAK_L2________________        LSFT_T(KC_A),    KC_R,    KC_S,    KC_T,    KC_D
