@@ -66,6 +66,12 @@ bool get_ignore_mod_tap_interrupt(uint16_t keycode) {
         case SFT_T(KC_SPC):
             return true;
 
+        case LCTL_T(KC_Z):
+            return true;
+
+        case RCTL_T(KC_SLASH):
+            return true;
+
         // are layer taps affected as well?
         case LT(_VIM, KC_Z):
             return false;

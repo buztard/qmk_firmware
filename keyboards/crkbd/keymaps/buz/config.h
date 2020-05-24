@@ -36,12 +36,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MOUSEKEY_MAX_SPEED 7
 #define MOUSEKEY_WHEEL_DELAY 0
 
+#define OLED_DISABLE_TIMEOUT
+
+// #define OLED_SCROLL_TIMEOUT 60000
 #ifdef OLED_FONT_H
 #    undef OLED_FONT_H
 #endif
-
-#define OLED_DISABLE_TIMEOUT
-// #define OLED_SCROLL_TIMEOUT 60000
 #if defined(FLAVOR_GODSPEED)
 #    define OLED_FONT_H "keyboards/crkbd/keymaps/rpbaptist/glcdfont_godspeed.c"
 #elif defined(FLAVOR_DASHER)
