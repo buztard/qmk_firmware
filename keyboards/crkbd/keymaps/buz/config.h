@@ -43,17 +43,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    undef OLED_FONT_H
 #endif
 #if defined(FLAVOR_GODSPEED)
-#    define OLED_FONT_H "keyboards/crkbd/keymaps/rpbaptist/glcdfont_godspeed.c"
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont_godspeed.c"
 #elif defined(FLAVOR_DASHER)
-#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont_dasher.c"
 #elif defined(FLAVOR_LEVIATHAN)
-#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont_leviathan.c"
 #elif defined(FLAVOR_TROUBLED_MINDS)
-#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont_troubledminds.c"
 #elif defined(FLAVOR_SERIKA)
-#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont_serika.c"
 #elif defined(FLAVOR_MILKSHAKE)
-#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont_milkshake.c"
+#elif defined(FLAVOR_SUSUWATARI)
+#    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont_susuwatari.c"
 #else
 #    define OLED_FONT_H "keyboards/crkbd/keymaps/buz/glcdfont.c"
 #endif
@@ -66,10 +68,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define RGB_MATRIX_FRAMEBUFFER_EFFECTS
 
 #    ifndef FLAVOR_ACAB
-#        undef RGB_MATRIX_FRAMEBUFFER_EFFECTS
+// #        undef RGB_MATRIX_FRAMEBUFFER_EFFECTS
 
 #        define DISABLE_RGB_MATRIX_ALPHAS_MODS
-// #define DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN
+#        define DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN
+#        define DISABLE_RGB_MATRIX_GRADIENT_LEFT_RIGHT
 #        define DISABLE_RGB_MATRIX_BREATHING
 #        define DISABLE_RGB_MATRIX_BAND_SAT
 #        define DISABLE_RGB_MATRIX_BAND_VAL

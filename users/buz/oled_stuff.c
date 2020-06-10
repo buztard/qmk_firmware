@@ -5,50 +5,44 @@
 extern bool leading;
 #    endif
 
+const char* get_layer_name(void) {
+    switch (get_highest_layer(layer_state)) {
+        case _LOWER:
+            return PSTR("Lower");
+        case _RAISE:
+            return PSTR("Raise");
+        case _ADJUST:
+            return PSTR("Adjust");
+        case _VIM:
+            return PSTR("Vim");
+        case _MOUSE:
+            return PSTR("Mouse");
+        case _NUM:
+            return PSTR("Numpad");
+        case _FN:
+            return PSTR("FN");
+        default:
+            switch (get_highest_layer(default_layer_state)) {
+                case _QWERTY:
+                    return PSTR("QUERTY");
+                case _COLEMAK:
+                    return PSTR("COLEMAK");
+                default:
+                    return PSTR("Unknown");
+            }
+    }
+}
+
 void oled_render_layer(void) {
     oled_write_P(PSTR("L: "), false);
+    oled_write_P(get_layer_name(), false);
+    oled_write_P(PSTR("\n"), false);
 
 #    ifdef LEADER_ENABLE
     if (leading) {
         oled_write_P(PSTR("(lead) "), false);
     }
 #    endif
-
-    switch (get_highest_layer(layer_state)) {
-        case _LOWER:
-            oled_write_P(PSTR("Lower  \n"), false);
-            break;
-        case _RAISE:
-            oled_write_P(PSTR("Raise  \n"), false);
-            break;
-        case _ADJUST:
-            oled_write_P(PSTR("Adjust \n"), false);
-            break;
-        case _VIM:
-            oled_write_P(PSTR("Vim    \n"), false);
-            break;
-        case _MOUSE:
-            oled_write_P(PSTR("Mouse  \n"), false);
-            break;
-        case _NUM:
-            oled_write_P(PSTR("Numpad \n"), false);
-            break;
-        case _FN:
-            oled_write_P(PSTR("FN     \n"), false);
-            break;
-        default:
-            switch (get_highest_layer(default_layer_state)) {
-                case _QWERTY:
-                    oled_write_P(PSTR("QUERTY\n"), false);
-                    break;
-                case _COLEMAK:
-                    oled_write_P(PSTR("COLEMAK\n"), false);
-                    break;
-                default:
-                    oled_write_P(PSTR("Unknown\n"), false);
-                    break;
-            }
-    }
 }
 
 void oled_render_mods(void) {
@@ -79,7 +73,7 @@ void oled_render_mods(void) {
         mod = true;
     }
     if (!mod) {
-        oled_write_P(PSTR("None"), false);
+        oled_write_P(PSTR("NONE"), false);
     }
     oled_write_P(PSTR("\n"), false);
 }
@@ -149,170 +143,170 @@ const char* rgb_matrix_effect_name(uint8_t mode) {
         case RGB_MATRIX_NONE:
             return PSTR("None");
         case RGB_MATRIX_SOLID_COLOR:
-            return PSTR("Solid color\n");
+            return PSTR("Solid color");
 #        ifndef DISABLE_RGB_MATRIX_ALPHAS_MODS
         case RGB_MATRIX_ALPHAS_MODS:
-            return PSTR("Alpha mods\n");
+            return PSTR("Alpha mods");
 #        endif  // DISABLE_RGB_MATRIX_ALPHAS_MODS
 #        ifndef DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN
         case RGB_MATRIX_GRADIENT_UP_DOWN:
-            return PSTR("Gradient up/down\n");
+            return PSTR("Gradient up/down");
 #        endif  // DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN
 #        ifndef DISABLE_RGB_MATRIX_BREATHING
         case RGB_MATRIX_BREATHING:
-            return PSTR("Breathing\n");
+            return PSTR("Breathing");
 #        endif  // DISABLE_RGB_MATRIX_BREATHING
 #        ifndef DISABLE_RGB_MATRIX_BAND_SAT
         case RGB_MATRIX_BAND_SAT:
-            return PSTR("Band Sat\n");
+            return PSTR("Band Sat");
 #        endif  // DISABLE_RGB_MATRIX_BAND_SAT
 #        ifndef DISABLE_RGB_MATRIX_BAND_VAL
         case RGB_MATRIX_BAND_VAL:
-            return PSTR("Band Val\n");
+            return PSTR("Band Val");
 #        endif  // DISABLE_RGB_MATRIX_BAND_VAL
 #        ifndef DISABLE_RGB_MATRIX_BAND_PINWHEEL_SAT
         case RGB_MATRIX_BAND_PINWHEEL_SAT:
-            return PSTR("Band PW Sat\n");
+            return PSTR("Band PW Sat");
 #        endif  // DISABLE_RGB_MATRIX_BAND_PINWHEEL_SAT
 #        ifndef DISABLE_RGB_MATRIX_BAND_PINWHEEL_VAL
         case RGB_MATRIX_BAND_PINWHEEL_VAL:
-            return PSTR("Band PW Val\n");
+            return PSTR("Band PW Val");
 #        endif  // DISABLE_RGB_MATRIX_BAND_PINWHEEL_VAL
 #        ifndef DISABLE_RGB_MATRIX_BAND_SPIRAL_SAT
         case RGB_MATRIX_BAND_SPIRAL_SAT:
-            return PSTR("Band Spiral Sat\n");
+            return PSTR("Band Spiral Sat");
 #        endif  // DISABLE_RGB_MATRIX_BAND_SPIRAL_SAT
 #        ifndef DISABLE_RGB_MATRIX_BAND_SPIRAL_VAL
         case RGB_MATRIX_BAND_SPIRAL_VAL:
-            return PSTR("Band Spiral Val\n");
+            return PSTR("Band Spiral Val");
 #        endif  // DISABLE_RGB_MATRIX_BAND_SPIRAL_VAL
 #        ifndef DISABLE_RGB_MATRIX_CYCLE_ALL
         case RGB_MATRIX_CYCLE_ALL:
-            return PSTR("Cycle all\n");
+            return PSTR("Cycle all");
 #        endif  // DISABLE_RGB_MATRIX_CYCLE_ALL
 #        ifndef DISABLE_RGB_MATRIX_CYCLE_LEFT_RIGHT
         case RGB_MATRIX_CYCLE_LEFT_RIGHT:
-            return PSTR("Cycle left/right\n");
+            return PSTR("Cycle left/right");
 #        endif  // DISABLE_RGB_MATRIX_CYCLE_LEFT_RIGHT
 #        ifndef DISABLE_RGB_MATRIX_CYCLE_UP_DOWN
         case RGB_MATRIX_CYCLE_UP_DOWN:
-            return PSTR("Cycle up/down\n");
+            return PSTR("Cycle up/down");
 #        endif  // DISABLE_RGB_MATRIX_CYCLE_UP_DOWN
 #        ifndef DISABLE_RGB_MATRIX_CYCLE_OUT_IN
         case RGB_MATRIX_CYCLE_OUT_IN:
-            return PSTR("Cycle Out/In\n");
+            return PSTR("Cycle Out/In");
 #        endif  // DISABLE_RGB_MATRIX_CYCLE_OUT_IN
 #        ifndef DISABLE_RGB_MATRIX_CYCLE_OUT_IN_DUAL
         case RGB_MATRIX_CYCLE_OUT_IN_DUAL:
-            return PSTR("Cycle Out/In Dual\n");
+            return PSTR("Cycle Out/In Dual");
 #        endif  // DISABLE_RGB_MATRIX_CYCLE_OUT_IN_DUAL
 #        ifndef DISABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
         case RGB_MATRIX_RAINBOW_MOVING_CHEVRON:
-            return PSTR("Moving chevron\n");
+            return PSTR("Moving chevron");
 #        endif  // DISABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
 #        ifndef DISABLE_RGB_MATRIX_DUAL_BEACON
         case RGB_MATRIX_DUAL_BEACON:
-            return PSTR("Dual beacon\n");
+            return PSTR("Dual beacon");
 #        endif  // DISABLE_RGB_MATRIX_DUAL_BEACON
 #        ifndef DISABLE_RGB_MATRIX_CYCLE_PINWHEEL
         case RGB_MATRIX_CYCLE_PINWHEEL:
-            return PSTR("Cycle Pinwheel\n");
+            return PSTR("Cycle Pinwheel");
 #        endif  // DISABLE_RGB_MATRIX_CYCLE_PINWHEEL
 #        ifndef DISABLE_RGB_MATRIX_CYCLE_SPIRAL
         case RGB_MATRIX_CYCLE_SPIRAL:
-            return PSTR("Cycle spiral\n");
+            return PSTR("Cycle spiral");
 #        endif  // DISABLE_RGB_MATRIX_CYCLE_SPIRAL
 #        ifndef DISABLE_RGB_MATRIX_RAINBOW_BEACON
         case RGB_MATRIX_RAINBOW_BEACON:
-            return PSTR("Rainbow beacon\n");
+            return PSTR("Rainbow beacon");
 #        endif  // DISABLE_RGB_MATRIX_RAINBOW_BEACON
 #        ifndef DISABLE_RGB_MATRIX_RAINBOW_PINWHEELS
         case RGB_MATRIX_PINWHEELS:
-            return PSTR("Pinwheels\n");
+            return PSTR("Pinwheels");
 #        endif  // DISABLE_RGB_MATRIX_RAINBOW_PINWHEELS
 #        ifndef DISABLE_RGB_MATRIX_RAINDROPS
         case RGB_MATRIX_RAINDROPS:
-            return PSTR("Raindrops\n");
+            return PSTR("Raindrops");
 #        endif  // DISABLE_RGB_MATRIX_RAINDROPS
 #        ifndef DISABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
         case RGB_MATRIX_JELLYBEAN_RAINDROPS:
-            return PSTR("Jellybean rain\n");
+            return PSTR("Jellybean rain");
 #        endif  // DISABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
 #        ifdef RGB_MATRIX_FRAMEBUFFER_EFFECTS
 #            ifndef DISABLE_RGB_MATRIX_TYPING_HEATMAP
         case RGB_MATRIX_TYPING_HEATMAP:
-            return PSTR("Typing heatmap\n");
+            return PSTR("Typing heatmap");
 #            endif  // DISABLE_RGB_MATRIX_TYPING_HEATMAP
 #            ifndef DISABLE_RGB_MATRIX_DIGITAL_RAIN
         case RGB_MATRIX_DIGITAL_RAIN:
-            return PSTR("Digital rain\n");
+            return PSTR("Digital rain");
 #            endif  // DISABLE_RGB_MATRIX_DIGITAL_RAIN
 #        endif      // RGB_MATRIX_FRAMEBUFFER_EFFECTS
 #        ifdef RGB_MATRIX_KEYREACTIVE_ENABLED
 #            ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE
         case RGB_MATRIX_SOLID_REACTIVE:
-            return PSTR("Solid reactive\n");
+            return PSTR("Solid reactive");
 #            endif  // DISABLE_RGB_MATRIX_SOLID_REACTIVE
 #            ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
         case RGB_MATRIX_SOLID_REACTIVE_SIMPLE:
-            return PSTR("Reactive simple\n");
+            return PSTR("Reactive simple");
 #            endif
 #            ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
         case RGB_MATRIX_SOLID_REACTIVE_WIDE:
-            return PSTR("Reactive wide\n");
+            return PSTR("Reactive wide");
 #            endif  // DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
 #            ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
         case RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE:
-            return PSTR("Reactive wide\n");
+            return PSTR("Reactive wide");
 #            endif  // DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
 #            ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
         case RGB_MATRIX_SOLID_REACTIVE_CROSS:
-            return PSTR("Reactive cross\n");
+            return PSTR("Reactive cross");
 #            endif  // DISABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
 #            ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
         case RGB_MATRIX_SOLID_REACTIVE_MULTICROSS:
-            return PSTR("Reactive cross\n");
+            return PSTR("Reactive cross");
 #            endif  // DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
 #            ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
         case RGB_MATRIX_SOLID_REACTIVE_NEXUS:
-            return PSTR("Reactive nexus\n");
+            return PSTR("Reactive nexus");
 #            endif  // DISABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
 #            ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
         case RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS:
-            return PSTR("Reactive nexus\n");
+            return PSTR("Reactive nexus");
 #            endif  // DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
 #            ifndef DISABLE_RGB_MATRIX_SPLASH
         case RGB_MATRIX_SPLASH:
-            return PSTR("Splash\n");
+            return PSTR("Splash");
 #            endif  // DISABLE_RGB_MATRIX_SPLASH
 #            ifndef DISABLE_RGB_MATRIX_MULTISPLASH
         case RGB_MATRIX_MULTISPLASH:
-            return PSTR("Splash\n");
+            return PSTR("Splash");
 #            endif  // DISABLE_RGB_MATRIX_MULTISPLASH
 #            ifndef DISABLE_RGB_MATRIX_SOLID_SPLASH
         case RGB_MATRIX_SOLID_SPLASH:
-            return PSTR("Solid splash\n");
+            return PSTR("Solid splash");
 #            endif  // DISABLE_RGB_MATRIX_SOLID_SPLASH
 #            ifndef DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
         case RGB_MATRIX_SOLID_MULTISPLASH:
-            return PSTR("Solid splash\n");
+            return PSTR("Solid splash");
 #            endif  // DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
 #        endif      // RGB_MATRIX_KEYREACTIVE_ENABLED
 #        if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_DASHER)
         case RGB_MATRIX_CUSTOM_DASHER:
-            return PSTR("Dasher\n");
+            return PSTR("Dasher");
 #        endif  // FLAVOR_DASHER
 #        if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_GODSPEED)
         case RGB_MATRIX_CUSTOM_GODSPEED:
-            return PSTR("Godspeed\n");
+            return PSTR("Godspeed");
 #        endif  // FLAVOR_GODSPEED
 #        if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_LEVIATHAN)
         case RGB_MATRIX_CUSTOM_LEVIATHAN:
-            return PSTR("Leviathan\n");
+            return PSTR("Leviathan");
 #        endif  // FLAVOR_LEVIATHAN
 #        if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_TROUBLED_MINDS)
         case RGB_MATRIX_CUSTOM_TROUBLED_MINDS:
-            return PSTR("Troubled minds\n");
+            return PSTR("Troubled minds");
 #        endif  // FLAVOR_TROUBLED_MINDS
         default:
             return PSTR("unknown");
