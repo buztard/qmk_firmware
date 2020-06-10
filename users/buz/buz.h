@@ -99,6 +99,14 @@ enum userspace_custom_keycodes {
 #define _________________COLEMAK_R2________________        KC_H,    KC_N,    KC_E,    KC_I,    RSFT_T(KC_O)
 #define _________________COLEMAK_R3________________        KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLASH
 
+#define _________________COLEMAK_DHM_L1____________        KC_Q,    KC_W,    KC_F,    KC_P,    KC_B
+#define _________________COLEMAK_DHM_L2____________        LSFT_T(KC_A),     KC_R,    KC_S,    KC_T,    KC_G
+#define _________________COLEMAK_DHM_L3____________        LCTL_T(KC_Z),    LT(_NUM, KC_X),    KC_C,    KC_D,    KC_V
+
+#define _________________COLEMAK_DHM_R1____________        KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN
+#define _________________COLEMAK_DHM_R2____________        KC_M,    KC_N,    KC_E,    KC_I,    RSFT_T(KC_O)
+#define _________________COLEMAK_DHM_R3____________        KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLASH
+
 #define ________________NUMBER_LEFT________________        KC_1,    KC_2,    KC_3,    KC_4,    KC_5
 #define ________________NUMBER_RIGHT_______________        KC_6,    KC_7,    KC_8,    KC_9,    KC_0
 
