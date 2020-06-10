@@ -1,6 +1,7 @@
 #pragma once
 
 // tapping configuration
+// more granular config in tapping.c
 #ifndef TAPPING_TERM
 #    define TAPPING_TERM 200
 #endif
@@ -9,6 +10,7 @@
 #define TAPPING_FORCE_HOLD_PER_KEY
 #define IGNORE_MOD_TAP_INTERRUPT_PER_KEY
 
+// combo configuration
 #define COMBO_COUNT 1
 #define COMBO_TERM 50
 
