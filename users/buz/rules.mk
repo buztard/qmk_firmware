@@ -97,3 +97,6 @@ endif
 ifeq ($(strip $(FLAVOR)), milkshake)
 	OPT_DEFS += -DFLAVOR_MILKSHAKE -DFLAVOR=\"milkshake\"
 endif
+ifeq ($(strip $(FLAVOR)), susuwatari)
+	OPT_DEFS += -DFLAVOR_SUSUWATARI -DFLAVOR=\"susuwatari\"
+endif
