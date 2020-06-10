@@ -73,7 +73,7 @@ void oled_render_mods(void) {
         mod = true;
     }
     if (!mod) {
-        oled_write_P(PSTR("NONE"), false);
+        oled_write_P(PSTR("None"), false);
     }
     oled_write_P(PSTR("\n"), false);
 }
@@ -152,6 +152,10 @@ const char* rgb_matrix_effect_name(uint8_t mode) {
         case RGB_MATRIX_GRADIENT_UP_DOWN:
             return PSTR("Gradient up/down");
 #        endif  // DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN
+#        ifndef DISABLE_RGB_MATRIX_GRADIENT_LEFT_RIGHT
+        case RGB_MATRIX_GRADIENT_LEFT_RIGHT:
+            return PSTR("Gradient l/r");
+#        endif  // DISABLE_RGB_MATRIX_GRADIENT_LEFT_RIGHT
 #        ifndef DISABLE_RGB_MATRIX_BREATHING
         case RGB_MATRIX_BREATHING:
             return PSTR("Breathing");
@@ -294,7 +298,7 @@ const char* rgb_matrix_effect_name(uint8_t mode) {
 #        endif      // RGB_MATRIX_KEYREACTIVE_ENABLED
 #        if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_DASHER)
         case RGB_MATRIX_CUSTOM_DASHER:
-            return PSTR("Dasher");
+            return PSTR("Dasher & Dancer");
 #        endif  // FLAVOR_DASHER
 #        if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_GODSPEED)
         case RGB_MATRIX_CUSTOM_GODSPEED:
@@ -318,7 +322,7 @@ void oled_render_rgb_matrix_effect_name(void) {
         oled_write_P(PSTR("RGB Disabled\n"), false);
         return;
     }
-    oled_write_P(PSTR("R: "), false);
+    oled_write_P(PSTR("A: "), false);
     oled_write_P(rgb_matrix_effect_name(rgb_matrix_get_mode()), false);
     oled_write_P(PSTR("\n"), false);
 }
