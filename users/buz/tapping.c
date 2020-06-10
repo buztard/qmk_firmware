@@ -1,7 +1,7 @@
 #include "buz.h"
 
 #ifdef TAPPING_FORCE_HOLD_PER_KEY
-uint16_t get_tapping_term(uint16_t keycode) {
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LSFT_T(KC_A):
             return 200;
@@ -49,7 +49,7 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 #endif
 
 #ifdef IGNORE_MOD_TAP_INTERRUPT_PER_KEY
-bool get_ignore_mod_tap_interrupt(uint16_t keycode) {
+bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LSFT_T(KC_A):
             return true;
