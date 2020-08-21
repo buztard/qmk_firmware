@@ -14,8 +14,17 @@ RGB_MATRIX_EFFECT(LEVIATHAN)
 RGB_MATRIX_EFFECT(TROUBLED_MINDS)
 #endif
 
+#ifdef FLAVOR_MILKSHAKE
+RGB_MATRIX_EFFECT(MILKSHAKE)
+#endif
+
+#ifdef FLAVOR_SERIKA
+RGB_MATRIX_EFFECT(SERIKA)
+#endif
+
 #ifdef RGB_MATRIX_CUSTOM_EFFECT_IMPLS
-extern uint8_t is_master;
+#    include "flavors.h"
+#    include "split_util.h"
 
 RGB get_color(uint8_t h, uint8_t s, uint8_t v) {
     HSV hsv = {h, s, v ? v : rgb_matrix_config.hsv.v};
@@ -23,15 +32,11 @@ RGB get_color(uint8_t h, uint8_t s, uint8_t v) {
 }
 
 #    ifdef FLAVOR_DASHER
-#        define DASHER_ALPHA 160, 207, 0
-#        define DASHER_MODS 112, 255, 0
-#        define DASHER_UNDERGLOW 160, 207, 255
-
 static bool DASHER(effect_params_t* params) {
     RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
-    RGB alpha     = get_color(DASHER_ALPHA);
-    RGB mods      = get_color(DASHER_MODS);
+    RGB alpha     = get_color(COLOR_ALPHA);
+    RGB mods      = get_color(COLOR_MODS);
     RGB underglow = get_color(160, 207, rgb_matrix_config.hsv.v + 100 > 255 ? 255 : rgb_matrix_config.hsv.v + 100);
 
     for (uint8_t i = led_min; i < led_max; i++) {
@@ -48,29 +53,22 @@ static bool DASHER(effect_params_t* params) {
 #    endif  // FLAVOR_DASHER
 
 #    ifdef FLAVOR_GODSPEED
-#        define GODSPEED_ALPHA 32, 191, 0
-#        define GODSPEED_MODS 40, 48, 0
-#        define GODSPEED_UNDERGLOW 128, 207, 0
-#        define GODSPEED_RED 248, 255, 0
-#        define GODSPEED_YELLOW 32, 207, 0
-#        define GODSPEED_BLUE 128, 207, 0
-
 static bool GODSPEED(effect_params_t* params) {
     RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
-    RGB alpha     = get_color(GODSPEED_ALPHA);
-    RGB mods      = get_color(GODSPEED_BLUE);
-    RGB yellow    = get_color(GODSPEED_YELLOW);
-    RGB red       = get_color(GODSPEED_RED);
-    RGB underglow = get_color(GODSPEED_UNDERGLOW);
+    RGB alpha     = get_color(COLOR_ALPHA);
+    RGB mods      = get_color(COLOR_BLUE);
+    RGB yellow    = get_color(COLOR_YELLOW);
+    RGB red       = get_color(COLOR_RED);
+    RGB underglow = get_color(COLOR_UNDERGLOW);
 
     for (uint8_t i = led_min; i < led_max; i++) {
         if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_KEYLIGHT)) {
             rgb_matrix_set_color(i, alpha.r, alpha.g, alpha.b);
         } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_MODIFIER)) {
-            if (i == 24 || i == 06) {
+            if (i == 24 || i == 6) {
                 rgb_matrix_set_color(i, yellow.r, yellow.g, yellow.b);
-            } else if (i == 25 && is_master) {
+            } else if (i == 25 && isLeftHand) {
                 rgb_matrix_set_color(i, red.r, red.g, red.b);
             } else {
                 rgb_matrix_set_color(i, mods.r, mods.g, mods.b);
@@ -84,31 +82,32 @@ static bool GODSPEED(effect_params_t* params) {
 #    endif  // FLAVOR_GODSPEED
 
 #    ifdef FLAVOR_LEVIATHAN
-#        define LEVIATHAN_GREEN 85, 255, 0
-
 static bool LEVIATHAN(effect_params_t* params) {
     RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
-    RGB color = get_color(LEVIATHAN_GREEN);
+    RGB alpha     = get_color(COLOR_ALPHA);
+    RGB mods      = get_color(COLOR_MODS);
+    RGB underglow = get_color(COLOR_UNDERGLOW);
 
     for (uint8_t i = led_min; i < led_max; i++) {
-        rgb_matrix_set_color(i, color.r, color.g, color.b);
+        if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_KEYLIGHT)) {
+            rgb_matrix_set_color(i, alpha.r, alpha.g, alpha.b);
+        } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_MODIFIER)) {
+            rgb_matrix_set_color(i, mods.r, mods.g, mods.b);
+        } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
+            rgb_matrix_set_color(i, underglow.r, underglow.g, underglow.b);
+        }
     }
-    return led_max < DRIVER_LED_TOTAL;
 }
 #    endif  // FLAVOR_LEVIATHAN
 
 #    ifdef FLAVOR_TROUBLED_MINDS
-#        define ALPHA 200, 255, 0
-#        define MODS 85, 255, 0
-#        define UNDERGLOW 85, 255, 0
-
 static bool TROUBLED_MINDS(effect_params_t* params) {
     RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
-    RGB alpha     = get_color(ALPHA);
-    RGB mods      = get_color(MODS);
-    RGB underglow = get_color(UNDERGLOW);
+    RGB alpha     = get_color(COLOR_ALPHA);
+    RGB mods      = get_color(COLOR_MODS);
+    RGB underglow = get_color(COLOR_UNDERGLOW);
 
     for (uint8_t i = led_min; i < led_max; i++) {
         if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_KEYLIGHT)) {
@@ -123,6 +122,75 @@ static bool TROUBLED_MINDS(effect_params_t* params) {
 }
 #    endif  // FLAVOR_TROUBLED_MINDS
 
-#endif      // RGB_MATRIX_CUSTOM_EFFECT_IMPLS
+#    ifdef FLAVOR_MILKSHAKE
+static bool MILKSHAKE(effect_params_t* params) {
+    RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
+    RGB alpha     = get_color(COLOR_ALPHA);
+    RGB yellow    = get_color(COLOR_YELLOW);
+    RGB pink      = get_color(COLOR_PINK);
+    RGB green     = get_color(COLOR_GREEN);
+    RGB blue      = get_color(COLOR_BLUE);
+    RGB purple    = get_color(COLOR_PURPLE);
+    RGB underglow = get_color(COLOR_UNDERGLOW);
+
+    for (uint8_t i = led_min; i < led_max; i++) {
+        if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_KEYLIGHT)) {
+            rgb_matrix_set_color(i, alpha.r, alpha.g, alpha.b);
+        } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_MODIFIER)) {
+            if (isLeftHand) {
+                if (i == 24) {
+                    rgb_matrix_set_color(i, yellow.r, yellow.g, yellow.b);
+                } else if (i == 25) {
+                    rgb_matrix_set_color(i, green.r, green.g, green.b);
+                } else if (i == 26) {
+                    rgb_matrix_set_color(i, blue.r, blue.g, blue.b);
+                } else if (i == 13) {
+                    rgb_matrix_set_color(i, pink.r, pink.g, pink.b);
+                } else {
+                    rgb_matrix_set_color(i, alpha.r, alpha.g, alpha.b);
+                }
+            } else {
+                if (i == 24) {
+                    rgb_matrix_set_color(i, pink.r, pink.g, pink.b);
+                } else if (i == 25) {
+                    rgb_matrix_set_color(i, purple.r, purple.g, purple.b);
+                } else if (i == 26) {
+                    rgb_matrix_set_color(i, green.r, green.g, green.b);
+                } else if (i == 13) {
+                    rgb_matrix_set_color(i, yellow.r, yellow.g, yellow.b);
+                } else {
+                    rgb_matrix_set_color(i, alpha.r, alpha.g, alpha.b);
+                }
+            }
+        } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
+            rgb_matrix_set_color(i, underglow.r, underglow.g, underglow.b);
+        }
+    }
+    return led_max < DRIVER_LED_TOTAL;
+}
+#    endif  // FLAVOR_MILKSHAKE
+
+#    ifdef FLAVOR_SERIKA
+static bool SERIKA(effect_params_t* params) {
+    RGB_MATRIX_USE_LIMITS(led_min, led_max);
+
+    RGB alpha     = get_color(COLOR_ALPHA);
+    RGB mods      = get_color(COLOR_MODS);
+    RGB underglow = get_color(COLOR_UNDERGLOW);
+
+    for (uint8_t i = led_min; i < led_max; i++) {
+        if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_KEYLIGHT)) {
+            rgb_matrix_set_color(i, alpha.r, alpha.g, alpha.b);
+        } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_MODIFIER)) {
+            rgb_matrix_set_color(i, mods.r, mods.g, mods.b);
+        } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
+            rgb_matrix_set_color(i, underglow.r, underglow.g, underglow.b);
+        }
+    }
+    return led_max < DRIVER_LED_TOTAL;
+}
+#    endif  // FLAVOR_SERIKA
+
+#endif  // RGB_MATRIX_CUSTOM_EFFECT_IMPLS
 /* vim: set ft=c: */

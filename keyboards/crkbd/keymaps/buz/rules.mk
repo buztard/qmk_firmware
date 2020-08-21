@@ -50,3 +50,8 @@ ifeq ($(strip $(FLAVOR)), acab)
 	RGB_MATRIX_CUSTOM_USER = no
 	OLED_DRIVER_ENABLE = no
 endif
+
+ifeq ($(strip $(TRACKPOINT)), yes)
+	PS2_MOUSE_ENABLE = yes
+	PS2_USE_INT = yes
+endif

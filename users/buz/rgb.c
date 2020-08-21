@@ -2,10 +2,6 @@
 
 extern userspace_config_t userspace_config;
 
-#ifdef LEADER_ENABLE
-extern bool leading;
-#endif
-
 #define COLOR_ADJUST 0xff, 0x0, 0x0
 #define COLOR_CAPSLOCK 0xff, 0x0, 0x0
 #define COLOR_VIM 0x0, 0xff, 0x0
@@ -17,7 +13,9 @@ __attribute__((weak)) bool rgb_layer_indicator_keymap(void) { return true; }
 #if defined(RGB_MATRIX_ENABLE)
 extern rgb_config_t rgb_matrix_config;
 
-static void rgb_matrix_layer_helper_rgb(uint8_t red, uint8_t green, uint8_t blue, uint8_t flags) {
+__attribute__((weak)) bool rgb_matrix_indicators_keymap(void) { return true; }
+
+void rgb_matrix_layer_helper_rgb(uint8_t red, uint8_t green, uint8_t blue, uint8_t flags) {
     for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
         if (HAS_FLAGS(g_led_config.flags[i], flags)) {
             rgb_matrix_set_color(i, red, green, blue);
@@ -25,42 +23,49 @@ static void rgb_matrix_layer_helper_rgb(uint8_t red, uint8_t green, uint8_t blue
     }
 }
 
-void rgb_layer_indicator_user(void) {
+void rgb_matrix_layer_helper_hsv(uint8_t h, uint8_t s, uint8_t v, uint8_t flags) {
+    HSV hsv = {h, s, v ? v : rgb_matrix_config.hsv.v};
+    RGB rgb = hsv_to_rgb(hsv);
+    rgb_matrix_layer_helper_rgb(rgb.r, rgb.g, rgb.b, flags);
+}
+
+void rgb_matrix_indicators_user(void) {
     if (!rgb_matrix_config.enable || !userspace_config.rgb_layer_change) {
         return;
     }
+    if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
+        rgb_matrix_set_color(g_led_config.matrix_co[2][0], 0xFF, 0x0, 0x0);
+    }
 
-    if (!rgb_layer_indicator_keymap()) {
+    if (!rgb_matrix_indicators_keymap()) {
         return;
     }
 
-    if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
-        rgb_matrix_layer_helper_rgb(COLOR_CAPSLOCK, LED_FLAG_MODIFIER);
-    }
-
-    switch (biton32(layer_state)) {
-        case _ADJUST:
-            rgb_matrix_layer_helper_rgb(COLOR_ADJUST, LED_FLAG_UNDERGLOW);
+    switch (get_highest_layer(layer_state)) {
+#    ifdef COLOR_LAYER_LOWER
+        case _LOWER:
+            rgb_matrix_layer_helper_hsv(COLOR_LAYER_LOWER, LED_FLAG_UNDERGLOW);
             break;
-
-        case _VIM:
-            rgb_matrix_layer_helper_rgb(COLOR_VIM, LED_FLAG_UNDERGLOW);
-            break;
-
-        case _MOUSE:
-            rgb_matrix_layer_helper_rgb(COLOR_MOUSE, LED_FLAG_UNDERGLOW);
-            break;
-
-        case _NUM:
-            rgb_matrix_layer_helper_rgb(COLOR_NUM, LED_FLAG_UNDERGLOW);
-            break;
-    }
-
-#    ifdef LEADER_ENABLE
-    if (leading) {
-        rgb_matrix_layer_helper_rgb(0x0, 0xff, 0x0, LED_FLAG_MODIFIER);
-    }
 #    endif
+
+#    ifdef COLOR_LAYER_RAISE
+        case _RAISE:
+            rgb_matrix_layer_helper_hsv(COLOR_LAYER_RAISE, LED_FLAG_UNDERGLOW);
+            break;
+#    endif
+
+#    ifdef COLOR_LAYER_ADJUST
+        case _ADJUST:
+            rgb_matrix_layer_helper_hsv(COLOR_LAYER_ADJUST, LED_FLAG_UNDERGLOW);
+            break;
+#    endif
+
+        default:
+#    ifdef LAYER_UNDERGLOW_DEFAULT
+            rgb_matrix_layer_helper_rgb(LAYER_UNDERGLOW_DEFAULT, LED_FLAG_UNDERGLOW);
+#    endif
+            break;
+    }
 }
 #endif  // RGB_MATRIX_ENABLE
 
