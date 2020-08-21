@@ -23,9 +23,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
     KC_GRV,  ________________NUMBER_LEFT________________,                            ________________NUMBER_RIGHT_______________, KC_BSPC,
     KC_TABMS,_________________QWERTY_L1_________________,                            _________________QWERTY_R1_________________, KC_BSPC,
-    KC_CESC, _________________QWERTY_L2_________________,                            _________________QWERTY_R2_________________, KC_QUOT,
-    KC_LSPO, _________________QWERTY_L3_________________, KC_LBRC,          KC_RBRC, _________________QWERTY_R3_________________, KC_RSPC,
-                                 KC_LALT, KC_LGUI, LOWER, KC_GENT,          KC_SPC,  RAISE, KC_O_RALT, KC_RGUI
+    KC_CESC, _________________QWERTY_L2_________________,                            _________________QWERTY_R2_________________, RCTL_T(KC_QUOT),
+       LSPO, _________________QWERTY_L3_________________, KC_LBRC,          KC_RBRC, _________________QWERTY_R3_________________, RSPC,
+                                 KC_LGUI, KC_LALT, LOWER, KC_GENT,          KC_SPC,  RAISE, KC_O_RALT, KC_RGUI
   ),
 
   [_COLEMAK] = LAYOUT_wrapper(
@@ -87,65 +87,96 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
+int RGB_current_mode;
+
 void matrix_init_keymap(void) {
-#ifdef SSD1306OLED
-    iota_gfx_init(!has_usb());  // turns on the display
-#endif
+    #ifdef RGBLIGHT_ENABLE
+      RGB_current_mode = rgblight_config.mode;
+    #endif
 }
 
-// SSD1306 OLED update loop, make sure to add #define SSD1306OLED in config.h
-#ifdef SSD1306OLED
+#ifdef OLED_DRIVER_ENABLE
+static uint32_t oled_timer = 0;
 
-// When add source files to SRC in rules.mk, you can use functions.
-const char *read_layer_state(void);
-const char *read_logo(void);
-void        set_keylog(uint16_t keycode, keyrecord_t *record);
-const char *read_keylog(void);
-const char *read_keylogs(void);
-
-// const char *read_mode_icon(bool swap);
-// const char *read_host_led_state(void);
-// void set_timelog(void);
-// const char *read_timelog(void);
-
-void matrix_scan_user(void) { iota_gfx_task(); }
-
-void matrix_render_user(struct CharacterMatrix *matrix) {
-    if (is_master) {
-        // If you want to change the display of OLED, you need to change here
-        matrix_write_ln(matrix, read_layer_state());
-        matrix_write_ln(matrix, read_keylog());
-        matrix_write_ln(matrix, read_keylogs());
-        // matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lalt_lgui));
-        // matrix_write_ln(matrix, read_host_led_state());
-        // matrix_write_ln(matrix, read_timelog());
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+  if (is_keyboard_master()) {
+        return OLED_ROTATION_0;
+        // return OLED_ROTATION_270;
     } else {
-        matrix_write(matrix, read_logo());
+        return OLED_ROTATION_180;
     }
+
+    // if (!is_master) return OLED_ROTATION_180;
+    // return rotation;
 }
 
-void matrix_update(struct CharacterMatrix *dest, const struct CharacterMatrix *source) {
-    if (memcmp(dest->display, source->display, sizeof(dest->display))) {
-        memcpy(dest->display, source->display, sizeof(dest->display));
-        dest->dirty = true;
-    }
+static void render_logo(void) {
+    // clang-format off
+    static const char PROGMEM logo[] = {
+        0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
+        0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
+        0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4, 0};
+    // clang-format on
+    oled_write_P(logo, false);
 }
 
-void iota_gfx_task_user(void) {
-    struct CharacterMatrix matrix;
-    matrix_clear(&matrix);
-    matrix_render_user(&matrix);
-    matrix_update(&display, &matrix);
+static void render_status(void) {
+    // Render to mode icon
+    // static const char PROGMEM mode_logo[4][4] = {{0x99, 0x9a, 0}, {0xb9, 0xba, 0}};
+
+    // oled_write_P(mode_logo[0], false);
+    // oled_set_cursor(3, 0);
+    oled_render_layer();
+    // oled_write_P(mode_logo[1], false);
+    // oled_set_cursor(3, 1);
+    oled_render_mods();
+
+#    if defined(RGBLIGHT_ENABLE) && defined(OLED_EXTRAS)
+    oled_render_rgblight_effect_name();
+#    endif  // RGBLIGHT_ENABLE
+#    if defined(RGB_MATRIX_ENABLE) && defined(OLED_EXTRAS)
+    oled_render_rgb_matrix_effect_name();
+#    endif  // RGB_MATRIX_ENABLE
 }
-#endif  // SSD1306OLED
+
+void oled_task_user(void) {
+    if (!userspace_config.oled_enabled) {
+        oled_off();
+        return;
+    }
+    if (timer_elapsed32(oled_timer) > 60000) {
+        oled_off();
+        return;
+    } else if (timer_elapsed32(oled_timer) > 10000) {
+        oled_scroll_left();
+        return;
+    } else {
+        oled_scroll_off();
+    }
+#    ifndef SPLIT_KEYBOARD
+    oled_on();
+#    endif
+
+  if (is_keyboard_master()) {
+        render_status();
+        // render_logo();
+    } else {
+        render_logo();
+        // render_status();
+    }
+}
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
-#ifdef SSD1306OLED
-        set_keylog(keycode, record);
+#ifdef OLED_DRIVER_ENABLE
+        oled_timer = timer_read32();
 #endif
-        // set_timelog();
+#ifndef SPLIT_KEYBOARD
+        if ((keycode == RESET || keycode == MAKE) && !is_master) {
+            return false;
+        }
+#endif
     }
-
+#endif  // OLED_DRIVER_ENABLE
     return true;
 }
