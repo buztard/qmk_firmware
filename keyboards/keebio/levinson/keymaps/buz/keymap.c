@@ -5,9 +5,9 @@
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
     KC_TAB,  _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
-    KC_CESC, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_QUOT,
-    KC_LSPO, _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, KC_RSPC,
-    VIM,     MOUSE, KC_LGUI, KC_LALT,   LOWER,   KC_GENT, KC_SPC,  RAISE, KC_O_RALT, KC_APP,  KC_RBRC, KC_RCTL
+    KC_CESC, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, RCTL_T(KC_QUOT),
+    LSPO,    _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, RSPC,
+    VIM,     MOUSE, KC_LGUI, KC_TD_LALT, LOWER,  KC_GENT, KC_SPC,  RAISE, KC_TD_RALT, KC_APP, KC_RBRC, KC_RCTL
   ),
 
   [_LOWER] = LAYOUT_wrapper(
