@@ -1,5 +1,6 @@
 #pragma once
 #include "quantum.h"
+#include "flavors.h"
 
 #ifdef OLED_DRIVER_ENABLE
 #    include "oled_stuff.h"
@@ -64,8 +65,9 @@ enum userspace_custom_keycodes {
 #define LSPO LSFT_T(KC_NO)
 #define RSPC RSFT_T(KC_NO)
 
-#define KC_CESC CTL_T(KC_ESC)
-#define KC_CSPC CTL_T(KC_SPC)
+#define KC_CESC LCTL_T(KC_ESC)
+#define KC_CSPC LCTL_T(KC_SPC)
+#define KC_CQUOT RCTL_T(KC_QUOT)
 #define KC_GENT LGUI_T(KC_ENT)
 #define CTL_ESC CTL_T(KC_ESC)
 #define GUI_ENT LGUI_T(KC_ENT)
@@ -84,7 +86,7 @@ enum userspace_custom_keycodes {
 #define ___________________BLANK___________________        _______, _______, _______, _______, _______
 
 #define _________________QWERTY_L1_________________        KC_Q,           KC_W,           KC_E, KC_R,           KC_T
-#define _________________QWERTY_L2_________________        LSFT_T(KC_A),   KC_S,           KC_D, KC_F,           KC_G
+#define _________________QWERTY_L2_________________        LSFT_T(KC_A),   KC_S,           KC_D, LT(_MOUSE, KC_F),           KC_G
 #define _________________QWERTY_L3_________________        LCTL_T(KC_Z),   LT(_NUM, KC_X), KC_C, LT(_VIM, KC_V), KC_B
 
 #define _________________QWERTY_R1_________________        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P
@@ -127,7 +129,7 @@ enum userspace_custom_keycodes {
 
 #define _________________RAISE_R1__________________        ________________NUMBER_RIGHT_______________
 #define _________________RAISE_R2__________________        _______, KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC
-#define _________________RAISE_R3__________________        _______, _______, _______, KC_LCBR, KC_RCBR
+#define _________________RAISE_R3__________________        TMUX_WP, TMUX_WN, KC_DQT,  KC_LCBR, KC_RCBR
 
 #define _________________ADJUST_L1_________________        RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI
 #define _________________ADJUST_L2_________________        RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD

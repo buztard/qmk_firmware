@@ -312,6 +312,14 @@ const char* rgb_matrix_effect_name(uint8_t mode) {
         case RGB_MATRIX_CUSTOM_TROUBLED_MINDS:
             return PSTR("Troubled minds");
 #        endif  // FLAVOR_TROUBLED_MINDS
+#        if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_MILKSHAKE)
+        case RGB_MATRIX_CUSTOM_MILKSHAKE:
+            return PSTR("Milkshake");
+#        endif  // FLAVOR_MILKSHAKE
+#        if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_SERIKA)
+        case RGB_MATRIX_CUSTOM_SERIKA:
+            return PSTR("Serika");
+#        endif  // FLAVOR_SERIKA
         default:
             return PSTR("unknown");
     }
