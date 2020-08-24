@@ -4,18 +4,13 @@
 extern userspace_config_t userspace_config;
 extern rgblight_config_t  rgblight_config;
 
-enum custom_keycodes {
-    TMUX_PN = USER_SAFE_RANGE,
-    TMUX_PP,
-};
-
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
     KC_TABMS,_________________QWERTY_L1_________________,                                     _________________QWERTY_R1_________________, KC_BSPC,
     KC_CESC, _________________QWERTY_L2_________________,                                     _________________QWERTY_R2_________________, LCTL_T(KC_QUOT),
        LSPO, _________________QWERTY_L3_________________, TMUX_PP, TMUX_WP, TMUX_WN, TMUX_PN, _________________QWERTY_R3_________________, RSPC,
-                            KC_MUTE, KC_TD_LALT, LOWER,   KC_GENT, LSPO,    RSPC,    KC_SPC,  RAISE,   KC_TD_RALT, KC_MUTE
+                              ENC_0, KC_TD_LALT, LOWER,   KC_GENT, LSPO,    RSPC,    KC_SPC,  RAISE,   KC_TD_RALT, ENC_1
   ),
 
   [_COLEMAK] = LAYOUT_wrapper(
@@ -100,14 +95,22 @@ static void render_qmk_logo(void) {
 static void render_status(void) {
     // QMK Logo and version information
     render_qmk_logo();
-    oled_write_P(PSTR("Kyria rev1.0\n\n"), false);
+    // oled_write_P(PSTR("Kyria rev1.0\n\n"), false);
 
     oled_render_layer();
     oled_render_mods();
 
 #    if defined(RGBLIGHT_ENABLE)
+    oled_write_P(PSTR("R: "), false);
     oled_render_rgblight_effect_name();
 #    endif  // RGBLIGHT_ENABLE
+#    if defined(ENCODER_ENABLE)
+    oled_write_P(PSTR("L: "), false);
+    oled_write_P(encoder_mode_name(0), false);
+    oled_write_P(PSTR(" R: "), false);
+    oled_write_P(encoder_mode_name(1), false);
+    oled_advance_page(true);
+#    endif
 }
 
 void oled_task_user(void) {
@@ -124,61 +127,61 @@ void oled_task_user(void) {
 }
 #endif
 
-#ifdef ENCODER_ENABLE
-void encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == 0) {
-        switch (get_highest_layer(layer_state)) {
-            case _RAISE:
-                if (!clockwise) {
-                    SEND_STRING(SS_LCTL("a") "o");
-                } else {
-                    SEND_STRING(SS_LCTL("a") "O");
-                }
-                break;
+// #ifdef ENCODER_ENABLE
+// void encoder_update_keymap(uint8_t index, bool clockwise) {
+//     if (index == 0) {
+//         switch (get_highest_layer(layer_state)) {
+//             case _RAISE:
+//                 if (!clockwise) {
+//                     SEND_STRING(SS_LCTL("a") "o");
+//                 } else {
+//                     SEND_STRING(SS_LCTL("a") "O");
+//                 }
+//                 break;
 
-            case _MOUSE:
-                if (!clockwise) {
-                    tap_code(KC_MS_DOWN);
-                } else {
-                    tap_code(KC_MS_UP);
-                }
-                break;
+//             case _MOUSE:
+//                 if (!clockwise) {
+//                     tap_code(KC_MS_DOWN);
+//                 } else {
+//                     tap_code(KC_MS_UP);
+//                 }
+//                 break;
 
-            default:
-                if (!clockwise) {
-                    tap_code(KC_VOLU);
-                } else {
-                    tap_code(KC_VOLD);
-                }
-                break;
-        }
-    } else if (index == 1) {
-        switch (get_highest_layer(layer_state)) {
-            case _LOWER:
-                if (!clockwise) {
-                    SEND_STRING(SS_LCTL("an"));
-                } else {
-                    SEND_STRING(SS_LCTL("ap"));
-                }
-                break;
-            case _MOUSE:
-                if (!clockwise) {
-                    tap_code(KC_MS_RIGHT);
-                } else {
-                    tap_code(KC_MS_LEFT);
-                }
-                break;
-            default:
-                if (!clockwise) {
-                    tap_code(KC_PGDN);
-                } else {
-                    tap_code(KC_PGUP);
-                }
-                break;
-        }
-    }
-}
-#endif
+//             default:
+//                 if (!clockwise) {
+//                     tap_code(KC_VOLU);
+//                 } else {
+//                     tap_code(KC_VOLD);
+//                 }
+//                 break;
+//         }
+//     } else if (index == 1) {
+//         switch (get_highest_layer(layer_state)) {
+//             case _LOWER:
+//                 if (!clockwise) {
+//                     SEND_STRING(SS_LCTL("an"));
+//                 } else {
+//                     SEND_STRING(SS_LCTL("ap"));
+//                 }
+//                 break;
+//             case _MOUSE:
+//                 if (!clockwise) {
+//                     tap_code(KC_MS_RIGHT);
+//                 } else {
+//                     tap_code(KC_MS_LEFT);
+//                 }
+//                 break;
+//             default:
+//                 if (!clockwise) {
+//                     tap_code(KC_PGDN);
+//                 } else {
+//                     tap_code(KC_PGUP);
+//                 }
+//                 break;
+//         }
+//     }
+// }
+// #endif
 
 #ifdef RGBLIGHT_ENABLE
 static void rgblight_set_color(uint8_t h, uint8_t s, uint8_t v) { rgblight_sethsv_noeeprom(h, s, rgblight_config.val); }
@@ -220,22 +223,3 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
     return state;
 }
 #endif
-
-bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case TMUX_PP:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("a") "O");
-            }
-            break;
-        case TMUX_PN:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("a") "o");
-            }
-            break;
-
-        default:
-            return true;
-    }
-    return false;
-}

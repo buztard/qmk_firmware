@@ -19,6 +19,10 @@
 #    define KC_TD_RALT OSM(MOD_RALT)
 #endif
 
+#ifdef ENCODER_ENABLE
+#    include "encoder_stuff.h"
+#endif
+
 layer_state_t layer_state_set_keymap(layer_state_t state);
 
 typedef union {
@@ -54,9 +58,13 @@ enum userspace_custom_keycodes {
     NUM,
     TMUX_WN,  // next tmux window
     TMUX_WP,  // prev tmux window
+    TMUX_PN,  // next tmux pane
+    TMUX_PP,  // prev tmux pane
     MAKE,     // compile/flash qmk
     RGB_LYR,  // toggle rgb layer indication
     OLED,     // toggle oled display
+    ENC_0,
+    ENC_1,
     USER_SAFE_RANGE,
 };
 
