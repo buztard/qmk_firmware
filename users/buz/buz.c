@@ -1,4 +1,5 @@
 #include "buz.h"
+#include "encoder_stuff.h"
 
 userspace_config_t userspace_config;
 
@@ -128,31 +129,61 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
+        case TMUX_WP:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("ap"));
+            }
+            return false;
+
+        case TMUX_WN:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("an"));
+            }
+            return false;
+
+        case TMUX_PP:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("a") "O");
+            }
+            return false;
+
+        case TMUX_PN:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("a") "o");
+            }
+            return false;
+
+#ifdef OLED_DRIVER_ENABLE
         case OLED:
             if (record->event.pressed) {
                 userspace_config.oled_enabled ^= 1;
                 eeconfig_update_user(userspace_config.raw);
             }
             return false;
+#endif
 
-        case TMUX_WP:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("ap"));
-            }
-            break;
-
-        case TMUX_WN:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("an"));
-            }
-            break;
-
+#if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
         case RGB_LYR:
             if (record->event.pressed) {
                 userspace_config.rgb_layer_change ^= 1;
                 eeconfig_update_user(userspace_config.raw);
             }
             return false;
+#endif
+
+#ifdef ENCODER_ENABLE
+        case ENC_0:
+            if (record->event.pressed) {
+                encoder_mode_next(0);
+            }
+            return false;
+
+        case ENC_1:
+            if (record->event.pressed) {
+                encoder_mode_next(1);
+            }
+            return false;
+#endif
 
         case MAKE:
             if (record->event.pressed) {
@@ -204,4 +235,9 @@ void eeconfig_init_user(void) {
     eeconfig_update_user(userspace_config.raw);
 }
 
-void matrix_init_user(void) { userspace_config.raw = eeconfig_read_user(); }
+void matrix_init_user(void) {
+    userspace_config.raw = eeconfig_read_user();
+#ifdef ENCODER_ENABLE
+    encoder_init_user();
+#endif
+}
