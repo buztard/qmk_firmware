@@ -54,6 +54,10 @@ ifeq ($(strip $(COMBO_ENABLE)), yes)
   SRC += combos.c
 endif
 
+ifeq ($(strip $(ENCODER_ENABLE)), yes)
+  SRC += encoder_stuff.c
+endif
+
 # settings for different flavors
 ifeq ($(strip $(FLAVOR)), godspeed)
 	OPT_DEFS += -DFLAVOR_GODSPEED -DFLAVOR=\"godspeed\"
