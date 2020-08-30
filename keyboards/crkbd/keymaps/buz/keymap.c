@@ -5,6 +5,9 @@
 #endif
 #include "buz.h"
 #include "version.h"
+#ifdef RAW_ENABLE
+#    include "raw_hid.h"
+#endif
 
 #ifdef RGB_MATRIX_ENABLE
 extern rgb_config_t rgb_matrix_config;
@@ -64,6 +67,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, __________________VIM_L2___________________, __________________VIM_R2___________________, _______,
     _______, __________________VIM_L3___________________, __________________VIM_R3___________________, _______,
                                _______, _______, TMUX_WP, TMUX_WN, _______, _______
+  ),
+
+  [_MEDIA] = LAYOUT_wrapper(
+    _______, _________________MEDIA_L1__________________, _________________MEDIA_R1__________________, _______,
+    _______, _________________MEDIA_L2__________________, _________________MEDIA_R2__________________, _______,
+    _______, _________________MEDIA_L3__________________, _________________MEDIA_R3__________________, _______,
+                              _______, _______, _______, _______, _______, _______
   ),
 
   [_MOUSE] = LAYOUT_wrapper(
@@ -226,3 +236,24 @@ bool rgb_matrix_indicators_keymap(void) {
     return false;
 }
 #endif  // RGB_MATRIX_ENABLE
+
+#ifdef RAW_ENABLE
+void raw_hid_receive(uint8_t *data, uint8_t length) {
+    uint8_t command = data[0];
+
+    switch (command) {
+        case 1:
+            default_layer_set(1U << _QWERTY);
+            break;
+
+        case 2:
+            default_layer_set(1U << _COLEMAK);
+            break;
+
+        default:
+            break;
+    }
+
+    raw_hid_send(data, length);
+}
+#endif

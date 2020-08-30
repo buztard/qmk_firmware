@@ -16,6 +16,7 @@ VELOCIKEY_ENABLE = no       # Enable Velocikey feature.
 OLED_DRIVER_ENABLE = yes    # OLED_ENABLE (+5000)
 ENCODER_ENABLE = yes        # Enables the use of one or more encoders
 TAP_DANCE_ENABLE = yes
-LEADER_ENABLE = yes
+LEADER_ENABLE = no
 
 BOOTLOADER = atmel-dfu
+SPLIT_TRANSPORT = mirror

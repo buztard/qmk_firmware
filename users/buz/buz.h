@@ -44,6 +44,7 @@ enum userspace_layers {
     _VIM,
     _MOUSE,
     _NUM,
+    _MEDIA,
     _FN,
 };
 
@@ -94,7 +95,7 @@ enum userspace_custom_keycodes {
 #define ___________________BLANK___________________        _______, _______, _______, _______, _______
 
 #define _________________QWERTY_L1_________________        KC_Q,           KC_W,           KC_E, KC_R,           KC_T
-#define _________________QWERTY_L2_________________        LSFT_T(KC_A),   KC_S,           KC_D, LT(_MOUSE, KC_F),           KC_G
+#define _________________QWERTY_L2_________________        LSFT_T(KC_A), LT(_VIM, KC_S), LT(_MEDIA, KC_D), LT(_MOUSE, KC_F),           KC_G
 #define _________________QWERTY_L3_________________        LCTL_T(KC_Z),   LT(_NUM, KC_X), KC_C, LT(_VIM, KC_V), KC_B
 
 #define _________________QWERTY_R1_________________        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P
@@ -141,10 +142,10 @@ enum userspace_custom_keycodes {
 
 #define _________________ADJUST_L1_________________        RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI
 #define _________________ADJUST_L2_________________        RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD
-#define _________________ADJUST_L3_________________        _______, RESET,   EEP_RST, _______, _______
+#define _________________ADJUST_L3_________________        _______, RESET,   EEP_RST, KC_SLEP, KC_WAKE
 
-#define _________________ADJUST_R1_________________        AU_TOG,  QWERTY,  _______, OLED,    _______
-#define _________________ADJUST_R2_________________        MU_TOG,  COLEMAK, _______, RGB_LYR, KC_SINS
+#define _________________ADJUST_R1_________________        AU_TOG,  QWERTY,  KC_BRIU, OLED,    _______
+#define _________________ADJUST_R2_________________        MU_TOG,  COLEMAK, KC_BRID, RGB_LYR, KC_SINS
 #define _________________ADJUST_R3_________________        CK_TOGG, MAKE,    DEBUG,   _______, _______
 
 #define __________________VIM_L1___________________        _______, _______, _______, _______, _______
@@ -166,4 +167,13 @@ enum userspace_custom_keycodes {
 #define _________________NUMPAD_R1_________________        KC_EURO,    KC_7,    KC_8,    KC_9, _______
 #define _________________NUMPAD_R2_________________        _______,    KC_4,    KC_5,    KC_6, _______
 #define _________________NUMPAD_R3_________________           KC_0,    KC_1,    KC_2,    KC_3, KC_DOT
+
+#define _________________MEDIA_L1__________________        _______, _______, _______, _______, _______
+#define _________________MEDIA_L2__________________        _______, _______, _______, _______, _______
+#define _________________MEDIA_L3__________________        _______, _______, _______, _______, _______
+
+#define _________________MEDIA_R1__________________        KC_MSEL, XXXXXXX, KC_MSTP, XXXXXXX, KC_MPLY
+#define _________________MEDIA_R2__________________        KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______
+#define _________________MEDIA_R3__________________        KC_EJCT, KC_MUTE, KC_MRWD, KC_MFFD, _______
+
 // clang-format on
