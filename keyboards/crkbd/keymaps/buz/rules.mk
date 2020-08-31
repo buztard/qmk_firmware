@@ -51,7 +51,10 @@ ifeq ($(strip $(FLAVOR)), acab)
 	OLED_DRIVER_ENABLE = no
 endif
 
+# use trackpoint instead of OLED
 ifeq ($(strip $(TRACKPOINT)), yes)
 	PS2_MOUSE_ENABLE = yes
 	PS2_USE_INT = yes
+	MOUSEKEY_ENABLE = yes
+	OLED_DRIVER_ENABLE = no
 endif
