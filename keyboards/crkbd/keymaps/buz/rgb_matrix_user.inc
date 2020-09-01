@@ -98,6 +98,7 @@ static bool LEVIATHAN(effect_params_t* params) {
             rgb_matrix_set_color(i, underglow.r, underglow.g, underglow.b);
         }
     }
+    return led_max < DRIVER_LED_TOTAL;
 }
 #    endif  // FLAVOR_LEVIATHAN
 
