@@ -116,7 +116,7 @@
 // Layer names
 #    define OLED_TEXT_LAYER_LOWER "Lower"
 #    define OLED_TEXT_LAYER_RAISE "Raise"
-#    define OLED_TEXT_LAYER_ADJUST "Adj"
+#    define OLED_TEXT_LAYER_ADJUST "Adjust"
 #    define OLED_TEXT_LAYER_VIM "Vim"
 #    define OLED_TEXT_LAYER_NUM "Num"
 #    define OLED_TEXT_LAYER_MOUSE "Mouse"
