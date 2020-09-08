@@ -31,7 +31,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TABMS,_________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
     KC_CESC, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_CQUOT,
     LSPO,    _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, RSPC,
-                              KC_TD_LALT, LOWER, KC_GENT, KC_SPC, RAISE, KC_TD_RALT
+                              KC_TD_LALT, LOWER, KC_GENT, LT(_EXTRA, KC_SPC), RAISE, KC_TD_RALT
   ),
 
   [_COLEMAK] = LAYOUT_wrapper(
@@ -89,14 +89,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, ___________________BLANK___________________, _________________NUMPAD_R3_________________, _______,
                                _______, _______, _______, _______, KC_0,    KC_DOT
   ),
+
+  [_PROG] = LAYOUT_wrapper(
+    _______, __________________PROG_L1__________________, __________________PROG_R1__________________, _______,
+    _______, __________________PROG_L2__________________, __________________PROG_R2__________________, _______,
+    _______, __________________PROG_L3__________________, __________________PROG_R3__________________, _______,
+                               _______, _______, _______, _______, _______, _______
+  ),
+
+  [_EXTRA] = LAYOUT_wrapper(
+    _______, _________________EXTRA_L1__________________, _________________EXTRA_R1__________________, _______,
+    _______, _________________EXTRA_L2__________________, _________________EXTRA_R2__________________, _______,
+    _______, _________________EXTRA_L3__________________, _________________EXTRA_R3__________________, _______,
+                               _______, _______, _______, _______, _______, _______
+  ),
 };
 // clang-format on
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
 #ifdef CONSOLE_ENABLE
-        RGB rgb = hsv_to_rgb(rgb_matrix_config.hsv);
-        uprintf("R:%u G:%u, B:%u - H:%u S:%u V:%u\n", rgb.r, rgb.g, rgb.b, rgb_matrix_config.hsv.h, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v);
+        // RGB rgb = hsv_to_rgb(rgb_matrix_config.hsv);
+        // uprintf("R:%u G:%u, B:%u - H:%u S:%u V:%u\n", rgb.r, rgb.g, rgb.b, rgb_matrix_config.hsv.h, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v);
 #endif
 #ifdef OLED_DRIVER_ENABLE
         oled_timer = timer_read32();
@@ -123,15 +137,12 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (is_master) {
+    if (isLeftHand) {
         return OLED_ROTATION_0;
         // return OLED_ROTATION_270;
     } else {
         return OLED_ROTATION_180;
     }
-
-    // if (!is_master) return OLED_ROTATION_180;
-    // return rotation;
 }
 
 static void render_logo(void) {
@@ -145,14 +156,7 @@ static void render_logo(void) {
 }
 
 static void render_status(void) {
-    // Render to mode icon
-    // static const char PROGMEM mode_logo[4][4] = {{0x99, 0x9a, 0}, {0xb9, 0xba, 0}};
-
-    // oled_write_P(mode_logo[0], false);
-    // oled_set_cursor(3, 0);
     oled_render_layer();
-    // oled_write_P(mode_logo[1], false);
-    // oled_set_cursor(3, 1);
     oled_render_mods();
 
 #    if defined(RGBLIGHT_ENABLE) && defined(OLED_EXTRAS)
@@ -230,6 +234,9 @@ bool rgb_matrix_indicators_keymap(void) {
             break;
 
         default:
+#    ifdef FLAVOR_SUSUWATARI
+            rgb_matrix_layer_helper_rgb(0x0, 0x0, 0x0, LED_FLAG_UNDERGLOW);
+#    endif
             return true;
     }
 
@@ -238,16 +245,56 @@ bool rgb_matrix_indicators_keymap(void) {
 #endif  // RGB_MATRIX_ENABLE
 
 #ifdef RAW_ENABLE
-void raw_hid_receive(uint8_t *data, uint8_t length) {
-    uint8_t command = data[0];
+enum hid_commands {
+    cmd_get_version       = 0x01,
+    cmd_get_default_layer = 0x02,
+    cmd_set_default_layer = 0x03,
+    cmd_get_layer         = 0x04,
+    cmd_rgb_matrix_next   = 0x05,
+    cmd_invalid           = 0xFF,
+};
 
-    switch (command) {
-        case 1:
-            default_layer_set(1U << _QWERTY);
+void raw_hid_receive(uint8_t *data, uint8_t length) {
+    uint8_t *command      = &(data[0]);
+    uint8_t *command_data = &(data[1]);
+
+    switch (*command) {
+        case cmd_get_version:
+            command_data[0] = 0x01;
             break;
 
-        case 2:
-            default_layer_set(1U << _COLEMAK);
+        case cmd_get_default_layer:
+            switch (get_highest_layer(default_layer_state)) {
+                case _QWERTY:
+                    command_data[0] = _QWERTY;
+                    break;
+                case _COLEMAK:
+                    command_data[1] = _COLEMAK;
+                    break;
+                default:
+                    break;
+            }
+            break;
+
+        case cmd_set_default_layer:
+            switch (command_data[0]) {
+                case _QWERTY:
+                    default_layer_set(1U << _QWERTY);
+                    break;
+
+                case _COLEMAK:
+                    default_layer_set(1U << _COLEMAK);
+                    break;
+
+                default:
+                    *command = cmd_invalid;
+                    break;
+            }
+
+        case cmd_rgb_matrix_next:
+#    ifdef RGB_MATRIX_ENABLE
+            rgb_matrix_step();
+#    endif
             break;
 
         default:

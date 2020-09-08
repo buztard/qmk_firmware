@@ -1,5 +1,6 @@
 #include "buz.h"
 #include "encoder_stuff.h"
+#include "keycode.h"
 
 userspace_config_t userspace_config;
 
@@ -48,6 +49,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
         case LSPO:
+#ifdef CONSOLE_ENABLE
+            uprintf("P:%d I:%d T:%d\n", record->event.pressed, record->tap.interrupted, record->tap.count);
+#endif
             if (!record->event.pressed && record->tap.count == 1 && !record->tap.interrupted) {
                 record->tap.count = 0;
                 unregister_mods(MOD_LSFT);
@@ -86,6 +90,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 update_tri_layer(_LOWER, _RAISE, _ADJUST);
             }
             return false;
+
+        case XRAISE:
+#ifdef CONSOLE_ENABLE
+            uprintf("P:%d I:%d T:%d\n", record->event.pressed, record->tap.interrupted, record->tap.count);
+#endif
+            return true;
 
         case RAISE:
             if (record->event.pressed) {

@@ -7,12 +7,12 @@ COMMAND_ENABLE = no    # Commands for debug and configuration
 BACKLIGHT_ENABLE = no  # Enable keyboard backlight functionality
 TAP_DANCE_ENABLE = yes # Enable Tap Dance feature.
 LEADER_ENABLE = no     # Enable leader key.
+LTO_ENABLE = yes
+
+# we're using a custom hack instead
+SPACE_CADET_ENABLE = no
 
 SRC += buz.c tapping.c
-
-ifeq ($(PLATFORM), AVR)
-  EXTRAFLAGS += -flto
-endif
 
 ifeq ($(strip $(TAP_DANCE_ENABLE)), yes)
   SRC += tap_dances.c

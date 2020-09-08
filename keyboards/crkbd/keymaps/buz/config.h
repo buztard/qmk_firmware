@@ -148,3 +148,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define PS2_MOUSE_SCROLL_DIVISOR_V 3
 #    define PS2_MOUSE_SCROLL_DIVISOR_H PS2_MOUSE_SCROLL_DIVISOR_V
 #endif
+
+#ifdef AUDIO_ENABLE
+#    define B5_AUDIO
+#    define NO_MUSIC_MODE
+#    define AUDIO_CLICKY
+#endif
