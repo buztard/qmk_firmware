@@ -4,9 +4,6 @@
   #include "lufa.h"
   #include "split_util.h"
 #endif
-#ifdef SSD1306OLED
-  #include "ssd1306.h"
-#endif
 
 extern keymap_config_t keymap_config;
 
@@ -35,7 +32,6 @@ enum custom_keycodes {
   ADJUST,
   BACKLIT,
   RGBRST,
-  RGBRAIN,
 };
 
 enum macro_keycodes {
@@ -60,19 +56,13 @@ enum macro_keycodes {
 #define KC_LSPD  RGB_SPD
 #define KC_LMOD  RGB_MOD
 
-#define KC_CTLTB CTL_T(KC_TAB)
-#define KC_GUIEI GUI_T(KC_LANG2)
-#define KC_ALTKN ALT_T(KC_LANG1)
-
+#define KC_GENT LGUI_T(KC_ENT)
 #define KC_CESC CTL_T(KC_ESC)
 #define KC_TABMS LT(_MOUSE, KC_TAB)
 #define KC_Z_VIM LT(_VIM, KC_Z)
 #define KC_O_LALT OSM(MOD_LALT)
 #define KC_O_RALT OSM(MOD_RALT)
-#define KC_GENT LGUI_T(KC_ENT)
 #define KC_SINS LSFT(KC_INSERT)
-
-#define KC_RAIN RGBRAIN
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_kc( \
@@ -103,9 +93,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------.                ,-----------------------------------------.
         GRV,     1,     2,     3,     4,     5,                      6,     7,     8,     9,     0,   DEL,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-      _____, _____, _____, _____, _____, _____,                  _____,  MINS,   EQL,  LBRC,  RBRC,  BSLS,\
+      _____, _____,  MSTP,  MNXT,  VOLU, _____,                  _____,  MINS,   EQL,  LBRC,  RBRC,  BSLS,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       CAPS, _____, _____, _____, _____, _____,                  _____,  LBRC,  RBRC,  LCBR,  RCBR, _____,\
+       CAPS, _____,  MPLY,  MPRV,  VOLD, _____,                  _____,  LBRC,  RBRC,  LCBR,  RCBR, _____,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
                                   _____, _____, _____,    _____, _____, _____ \
                               //`--------------------'  `--------------------'
@@ -113,7 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_ADJUST] = LAYOUT_kc( \
   //,-----------------------------------------.                ,-----------------------------------------.
-        RST,  LRST,  RAIN, XXXXX, XXXXX, XXXXX,                  XXXXX,     7,     8,     9, XXXXX, XXXXX,\
+        RST,  LRST, XXXXX, XXXXX, XXXXX, XXXXX,                  XXXXX,     7,     8,     9, XXXXX, XXXXX,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
        LTOG,  LHUI,  LSAI,  LVAI,  LSPI, XXXXX,                  XXXXX,     4,     5,     6,  SINS, XXXXX,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
@@ -168,102 +158,9 @@ void matrix_init_user(void) {
     #ifdef RGBLIGHT_ENABLE
       RGB_current_mode = rgblight_config.mode;
     #endif
-    //SSD1306 OLED init, make sure to add #define SSD1306OLED in config.h
-    #ifdef SSD1306OLED
-        iota_gfx_init(!has_usb());   // turns on the display
-    #endif
 }
-
-//SSD1306 OLED update loop, make sure to add #define SSD1306OLED in config.h
-#ifdef SSD1306OLED
-
-// When add source files to SRC in rules.mk, you can use functions.
-const char *read_layer_state(void);
-const char *read_logo(void);
-void set_keylog(uint16_t keycode, keyrecord_t *record);
-const char *read_keylog(void);
-const char *read_keylogs(void);
-
-// const char *read_mode_icon(bool swap);
-// const char *read_host_led_state(void);
-// void set_timelog(void);
-// const char *read_timelog(void);
-
-void matrix_scan_user(void) {
-   iota_gfx_task();
-}
-
-char matrix_line_str[24];
-
-const char *read_layer_state(void) {
-  uint8_t layer = biton32(layer_state);
-
-  strcpy(matrix_line_str, "Layer: ");
-
-  switch (layer) {
-    case _QWERTY:
-      strcat(matrix_line_str, "Default");
-      break;
-    case _LOWER:
-      strcat(matrix_line_str, "Lower");
-      break;
-    case _RAISE:
-      strcat(matrix_line_str, "Raise");
-      break;
-    case _ADJUST:
-      strcat(matrix_line_str, "Adjust");
-      break;
-    case _MOUSE:
-      strcat(matrix_line_str, "Mouse");
-      break;
-    case _VIM:
-      strcat(matrix_line_str, "Vim");
-      break;
-    default:
-      sprintf(matrix_line_str + strlen(matrix_line_str), "Unknown (%d)", layer);
-  }
-
-  return matrix_line_str;
-}
-
-void matrix_render_user(struct CharacterMatrix *matrix) {
-  if (is_master) {
-    // If you want to change the display of OLED, you need to change here
-    /* matrix_write_ln(matrix, read_layer_state()); */
-    matrix_write_ln(matrix, read_layer_state());
-    /* matrix_write_ln(matrix, read_keylog()); */
-    /* matrix_write_ln(matrix, read_keylogs()); */
-    //matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lalt_lgui));
-    //matrix_write_ln(matrix, read_host_led_state());
-    //matrix_write_ln(matrix, read_timelog());
-  } else {
-    matrix_write(matrix, read_logo());
-  }
-}
-
-void matrix_update(struct CharacterMatrix *dest, const struct CharacterMatrix *source) {
-  if (memcmp(dest->display, source->display, sizeof(dest->display))) {
-    memcpy(dest->display, source->display, sizeof(dest->display));
-    dest->dirty = true;
-  }
-}
-
-void iota_gfx_task_user(void) {
-  struct CharacterMatrix matrix;
-  matrix_clear(&matrix);
-  matrix_render_user(&matrix);
-  matrix_update(&display, &matrix);
-}
-#endif//SSD1306OLED
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-#ifdef SSD1306OLED
-    /* set_keylog(keycode, record); */
-#endif
-    // set_timelog();
-  }
-
   switch (keycode) {
     case QWERTY:
       if (record->event.pressed) {
@@ -299,32 +196,102 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-    case RGB_MOD:
-#ifdef RGBLIGHT_ENABLE
-      if (record->event.pressed) {
-        rgblight_mode(RGB_current_mode);
-        rgblight_step();
-        RGB_current_mode = rgblight_config.mode;
-      }
-#endif
-      return false;
-      break;
-    case RGBRST:
-#ifdef RGBLIGHT_ENABLE
-      if (record->event.pressed) {
-        eeconfig_update_rgblight_default();
-        rgblight_enable();
-        RGB_current_mode = rgblight_config.mode;
-      }
-#endif
-      break;
-    case RGBRAIN:
-#ifdef RGB_MATRIX_ENABLE
-      if (record->event.pressed) {
-        rgb_matrix_mode(RGB_MATRIX_SOLID_REACTIVE_SIMPLE);
-      }
-#endif
-      break;
+    /* case RGB_MOD: */
+/* #ifdef RGBLIGHT_ENABLE */
+    /*   if (record->event.pressed) { */
+    /*     rgblight_mode(RGB_current_mode); */
+    /*     rgblight_step(); */
+    /*     RGB_current_mode = rgblight_config.mode; */
+    /*   } */
+/* #endif */
+    /*   return false; */
+    /*   break; */
+    /* case RGBRST: */
+/* #ifdef RGBLIGHT_ENABLE */
+    /*   if (record->event.pressed) { */
+    /*     eeconfig_update_rgblight_default(); */
+    /*     rgblight_enable(); */
+    /*     RGB_current_mode = rgblight_config.mode; */
+    /*   } */
+/* #endif */
+    /*   break; */
+    /* case RGBRAIN: */
+    /*   break; */
   }
   return true;
 }
+
+// OLED Driver Logic
+#ifdef OLED_DRIVER_ENABLE
+
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+  if (!has_usb())
+    return OLED_ROTATION_180;  // flip 180 for offhand
+  return rotation;
+}
+
+static void render_logo(void) {
+  static const char PROGMEM logo[] = {
+      0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
+      0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
+      0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4,
+      0};
+
+  /* static const char PROGMEM logo[] = { */
+  /*   0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,0x90,0x91,0x92,0x93,0x94, */
+  /*   0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,0xb0,0xb1,0xb2,0xb3,0xb4, */
+  /*   0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,0xd0,0xd1,0xd2,0xd3,0xd4,0}; */
+
+  oled_write_P(logo, false);
+}
+
+static void render_status(void) {
+  uint8_t layer = biton32(layer_state);
+  // Render to mode icon
+  /* static const char PROGMEM mode_logo[4][4] = { */
+  /*   {0x95,0x96,0x0a,0}, */
+  /*   {0xb5,0xb6,0x0a,0}, */
+  /*   {0x97,0x98,0x0a,0}, */
+  /*   {0xb7,0xb8,0x0a,0} }; */
+
+  /* if (keymap_config.swap_lalt_lgui != false) { */
+  /*   oled_write_P(mode_logo[0], false); */
+  /*   oled_write_P(mode_logo[1], false); */
+  /* } else { */
+  /*   oled_write_P(mode_logo[2], false); */
+  /*   oled_write_P(mode_logo[3], false); */
+  /* } */
+
+  oled_write_P(PSTR("Layer: "), false);
+  switch (layer) {
+    case _QWERTY:
+      oled_write_P(PSTR("Default\n"), false);
+      break;
+    case _LOWER:
+      oled_write_P(PSTR("Lower  \n"), false);
+      break;
+    case _RAISE:
+      oled_write_P(PSTR("Raise  \n"), false);
+      break;
+    case _ADJUST:
+      oled_write_P(PSTR("Adjust \n"), false);
+      break;
+    case _VIM:
+      oled_write_P(PSTR("Vim    \n"), false);
+      break;
+    case _MOUSE:
+      oled_write_P(PSTR("Mouse  \n"), false);
+      break;
+    default:
+      oled_write_P(PSTR("Unknown\n"), false);
+  }
+}
+
+void oled_task_user(void) {
+  if (is_master)
+    render_status();
+  else
+    render_logo();
+}
+
+#endif
