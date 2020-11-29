@@ -1,4 +1,5 @@
 #include "buz.h"
+#include "oled_stuff.h"
 
 #ifdef OLED_DRIVER_ENABLE
 #    ifdef LEADER_ENABLE
@@ -27,6 +28,8 @@ const char* get_layer_name(void) {
             switch (get_highest_layer(default_layer_state)) {
                 case _QWERTY:
                     return PSTR(OLED_TEXT_LAYOUT_QUERTY);
+                case _GAME:
+                    return PSTR(OLED_TEXT_LAYOUT_GAME);
                 case _COLEMAK:
                     return PSTR(OLED_TEXT_LAYOUT_COLEMAK);
                 default:
@@ -266,7 +269,7 @@ const char* rgb_matrix_effect_name(uint8_t mode) {
         case RGB_MATRIX_DIGITAL_RAIN:
             return PSTR(OLED_TEXT_RGB_MATRIX_DIGITAL_RAIN);
 #            endif  // DISABLE_RGB_MATRIX_DIGITAL_RAIN
-#        endif  // RGB_MATRIX_FRAMEBUFFER_EFFECTS
+#        endif      // RGB_MATRIX_FRAMEBUFFER_EFFECTS
 #        ifdef RGB_MATRIX_KEYREACTIVE_ENABLED
 #            ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE
         case RGB_MATRIX_SOLID_REACTIVE:
@@ -316,7 +319,7 @@ const char* rgb_matrix_effect_name(uint8_t mode) {
         case RGB_MATRIX_SOLID_MULTISPLASH:
             return PSTR(OLED_TEXT_RGB_MATRIX_SOLID_MULTISPLASH);
 #            endif  // DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
-#        endif  // RGB_MATRIX_KEYREACTIVE_ENABLED
+#        endif      // RGB_MATRIX_KEYREACTIVE_ENABLED
 #        if defined(RGB_MATRIX_CUSTOM_USER) && defined(FLAVOR_DASHER)
         case RGB_MATRIX_CUSTOM_DASHER:
             return PSTR(OLED_TEXT_FLAVOR_DASHER);

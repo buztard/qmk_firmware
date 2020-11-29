@@ -17,6 +17,7 @@
 #    define OLED_TEXT_LAYOUT_NAME "Layer: "
 #    define OLED_TEXT_LAYOUT_QUERTY "QUERTY"
 #    define OLED_TEXT_LAYOUT_COLEMAK "Colemak"
+#    define OLED_TEXT_LAYOUT_GAME "Game"
 
 // Layer names
 #    define OLED_TEXT_LAYER_LOWER "Lower"
@@ -112,6 +113,7 @@
 #    define OLED_TEXT_LAYOUT_NAME "L: "
 #    define OLED_TEXT_LAYOUT_QUERTY "QUERTY"
 #    define OLED_TEXT_LAYOUT_COLEMAK "Colemak"
+#    define OLED_TEXT_LAYOUT_GAME "Game"
 
 // Layer names
 #    define OLED_TEXT_LAYER_LOWER "Lower"

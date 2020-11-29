@@ -81,6 +81,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
+        case GAME:
+            if (record->event.pressed) {
+                set_single_persistent_default_layer(_GAME);
+            }
+            return false;
+
         case LOWER:
             if (record->event.pressed) {
                 layer_on(_LOWER);

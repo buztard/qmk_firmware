@@ -24,13 +24,25 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 #    ifdef CONSOLE_ENABLE
             uprintf("LT(_LOWER, KC_TAB)\n");
 #    endif
-            return 150;
+            return 100;
+
+        case LT(_LOWER, KC_ESC):
+#    ifdef CONSOLE_ENABLE
+            uprintf("LT(_LOWER, KC_TAB)\n");
+#    endif
+            return 100;
+
+        case LT(_RAISE, KC_LPRN):
+#    ifdef CONSOLE_ENABLE
+            uprintf("LT(_RAISE, KC_LPRN)\n");
+#    endif
+            return 100;
 
         case LT(_RAISE, KC_BSPC):
 #    ifdef CONSOLE_ENABLE
             uprintf("LT(_RAISE, KC_BSPC)\n");
 #    endif
-            return 150;
+            return 100;
 
         default:
 #    ifdef CONSOLE_ENABLE
@@ -69,6 +81,24 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 }
 #endif
 
+#ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case LT(_LOWER, KC_TAB):
+      return true;
+
+    case LT(_LOWER, KC_ESC):
+      return true;
+
+    case LT(_RAISE, KC_BSPC):
+      return true;
+
+    default:
+      return false;
+  }
+}
+#endif
+
 #ifdef IGNORE_MOD_TAP_INTERRUPT_PER_KEY
 bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
 #    ifdef CONSOLE_ENABLE
@@ -79,6 +109,24 @@ bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
         case LCTL_T(KC_ESC):
 #    ifdef CONSOLE_ENABLE
             uprintf("LCTL_T(KC_ESC)\n");
+#    endif
+            return false;
+
+        case LT(_LOWER, KC_TAB):
+#    ifdef CONSOLE_ENABLE
+            uprintf("LT(_LOWER, KC_TAB)\n");
+#    endif
+            return false;
+
+        case LT(_LOWER, KC_ESC):
+#    ifdef CONSOLE_ENABLE
+            uprintf("LT(_LOWER, KC_TAB)\n");
+#    endif
+            return false;
+
+        case LT(_RAISE, KC_BSPC):
+#    ifdef CONSOLE_ENABLE
+            uprintf("LT(_RAISE, KC_BSPC)\n");
 #    endif
             return false;
 
@@ -138,6 +186,18 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
             uprintf("SFT_T(KC_SPC)\n");
 #    endif
             return false;
+
+        case LSFT_T(KC_LPRN):
+#    ifdef CONSOLE_ENABLE
+            uprintf("LSFT_T(KC_LPRN)\n");
+#    endif
+            return true;
+
+        case RSFT_T(KC_RPRN):
+#    ifdef CONSOLE_ENABLE
+            uprintf("RSFT_T(KC_RPRN)\n");
+#    endif
+            return true;
 
         default:
             return false;

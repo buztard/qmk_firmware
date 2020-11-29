@@ -57,7 +57,7 @@ static bool GODSPEED(effect_params_t* params) {
     RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
     RGB alpha     = get_color(COLOR_ALPHA);
-    RGB mods      = get_color(COLOR_BLUE);
+    RGB mods      = get_color(COLOR_MODS);
     RGB yellow    = get_color(COLOR_YELLOW);
     RGB red       = get_color(COLOR_RED);
     RGB underglow = get_color(COLOR_UNDERGLOW);
