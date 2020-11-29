@@ -34,9 +34,9 @@ static void encoder_nav(bool clockwise) {
 
 static void encoder_tmux_win(bool clockwise) {
     if (clockwise) {
-        SEND_STRING(SS_LCTL("ap"));
-    } else {
         SEND_STRING(SS_LCTL("an"));
+    } else {
+        SEND_STRING(SS_LCTL("ap"));
     }
 }
 

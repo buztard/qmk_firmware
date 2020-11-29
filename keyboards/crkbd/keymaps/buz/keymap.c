@@ -30,8 +30,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
     KC_TABMS,_________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
     KC_CESC, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_CQUOT,
-    LSFT_T(KC_LPRN),    _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, RSFT_T(KC_RPRN),
-                              KC_TD_LALT, LT(_LOWER, KC_LPRN), KC_GENT, LT(_EXTRA, KC_SPC), LT(_RAISE, KC_RPRN), KC_TD_RALT
+    LSFT_T(KC_LPRN), _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, RSFT_T(KC_RPRN),
+                              KC_TD_LALT, LT(_LOWER, KC_ESC), KC_GENT, LT(_EXTRA, KC_SPC), LT(_RAISE, KC_BSPC), KC_TD_RALT
   ),
 
   [_COLEMAK] = LAYOUT_wrapper(
@@ -39,6 +39,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_CESC, _________________COLEMAK_DHM_L2____________, _________________COLEMAK_DHM_R2____________, KC_QUOT,
     KC_LSPO, _________________COLEMAK_DHM_L3____________, _________________COLEMAK_DHM_R3____________, KC_RSPC,
                               KC_TD_LALT, LOWER, KC_GENT, KC_SPC, RAISE, KC_TD_RALT
+  ),
+
+  [_GAME] = LAYOUT_wrapper(
+    KC_TABMS,__________________GAME_L1__________________, __________________GAME_R1__________________, KC_BSPC,
+    KC_CESC, __________________GAME_L2__________________, __________________GAME_R2__________________, KC_QUOT,
+    KC_LSFT, __________________GAME_L3__________________, __________________GAME_R3__________________, KC_RSFT,
+                                  LOWER, KC_LGUI, KC_ENT, KC_SPC, QWERTY, LOWER
   ),
 
   [_LOWER] = LAYOUT_wrapper(

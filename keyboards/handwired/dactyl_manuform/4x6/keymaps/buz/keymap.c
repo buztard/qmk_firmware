@@ -9,7 +9,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        LSPO, _________________QWERTY_L3_________________,  _________________QWERTY_R3_________________, RSPC,
                            KC_LCBR, KC_RCBR,                            KC_LBRC, KC_RBRC,
                                     LOWER,   LGUI_T(KC_ENT),    KC_SPC,  RAISE,
-                                 KC_TD_LALT, KC_LSPO,           KC_RSPC, KC_TD_RALT,
+                                 KC_TD_LALT, LSPO,              RSPC, KC_TD_RALT,
                                     KC_CESC, TMUX_WP,           TMUX_WN, KC_PGDN
 ),
 

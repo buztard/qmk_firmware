@@ -11,6 +11,7 @@
 #    define COLOR_UNDERGLOW 128, 207, 0
 #    define COLOR_RED 248, 255, 0
 #    define COLOR_YELLOW 32, 207, 0
+#    define COLOR_LAYER_ADJUST 1, 255, 255
 #elif defined(FLAVOR_DASHER)
 #    define OLED_FONT_H "users/buz/fonts/glcdfont_dasher.c"
 #    define COLOR_ALPHA 160, 207, 0
@@ -42,7 +43,8 @@
 #    define COLOR_BLUE 144, 255, 0
 #    define COLOR_PURPLE 184, 255, 0
 #    define COLOR_ALPHA 1, 0, 0
-#    define COLOR_UNDERGLOW 1, 0, 255
+// #    define COLOR_UNDERGLOW 1, 0, 200
+#    define COLOR_UNDERGLOW 144, 255, 200
 #    define COLOR_LAYER_LOWER 240, 176, 255
 #    define COLOR_LAYER_RAISE 40, 239, 255
 #    define COLOR_LAYER_ADJUST 184, 255, 255
