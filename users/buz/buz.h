@@ -100,11 +100,11 @@ enum userspace_custom_keycodes {
 #define ___________________BLANK___________________        _______, _______, _______, _______, _______
 
 #define _________________QWERTY_L1_________________        KC_Q,           KC_W,           KC_E, KC_R,           KC_T
-#define _________________QWERTY_L2_________________        LSFT_T(KC_A), KC_S, LT(_MEDIA, KC_D), LCTL_T(KC_F), KC_G
-#define _________________QWERTY_L3_________________        LCTL_T(KC_Z),   LT(_NUM, KC_X), KC_C, LT(_VIM, KC_V), KC_B
+#define _________________QWERTY_L2_________________        LSFT_T(KC_A), LCTL_T(KC_S), KC_D, LCTL_T(KC_F), KC_G
+#define _________________QWERTY_L3_________________        LCTL_T(KC_Z),   LT(_NUM, KC_X), LT(_MEDIA, KC_C), LT(_VIM, KC_V), KC_B
 
 #define _________________QWERTY_R1_________________        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P
-#define _________________QWERTY_R2_________________        KC_H,    RCTL_T(KC_J),    KC_K,    KC_L,    RSFT_T(KC_SCLN)
+#define _________________QWERTY_R2_________________        KC_H,    RCTL_T(KC_J),    KC_K,    RCTL_T(KC_L),    RSFT_T(KC_SCLN)
 #define _________________QWERTY_R3_________________        KC_N,    KC_M,    KC_COMM, KC_DOT,  RCTL_T(KC_SLASH)
 
 // game layer is a query layer without mod taps
