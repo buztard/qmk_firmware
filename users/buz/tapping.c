@@ -12,13 +12,13 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 #    ifdef CONSOLE_ENABLE
             uprintf("LSFT_T(KC_A)\n");
 #    endif
-            return 180;
+            return 150;
 
         case RSFT_T(KC_SCLN):
 #    ifdef CONSOLE_ENABLE
             uprintf("RSFT_T(KC_SCLN)\n");
 #    endif
-            return 180;
+            return 150;
 
         case LT(_LOWER, KC_TAB):
 #    ifdef CONSOLE_ENABLE
@@ -83,19 +83,19 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 
 #ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case LT(_LOWER, KC_TAB):
-      return true;
+    switch (keycode) {
+        case LT(_LOWER, KC_TAB):
+            return true;
 
-    case LT(_LOWER, KC_ESC):
-      return true;
+        case LT(_LOWER, KC_ESC):
+            return true;
 
-    case LT(_RAISE, KC_BSPC):
-      return true;
+        case LT(_RAISE, KC_BSPC):
+            return true;
 
-    default:
-      return false;
-  }
+        default:
+            return false;
+    }
 }
 #endif
 

@@ -245,6 +245,7 @@ uint32_t layer_state_set_user(uint32_t state) {
 }
 
 void eeconfig_init_user(void) {
+    // TODO: init LED state per flavor
     userspace_config.raw              = 0;
     userspace_config.rgb_layer_change = true;
     userspace_config.oled_enabled     = true;
