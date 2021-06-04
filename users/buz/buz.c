@@ -145,6 +145,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
+        case TMUX_PREFIX:
+            if (record->event.pressed) {
+                register_mods(MOD_LCTL);
+                tap_code(KC_A);
+            } else {
+                unregister_mods(MOD_LCTL);
+            }
+            return false;
+
         case TMUX_WP:
             if (record->event.pressed) {
                 SEND_STRING(SS_LCTL("ap"));

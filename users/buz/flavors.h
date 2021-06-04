@@ -22,7 +22,7 @@
 #    define COLOR_ALPHA 85, 255, 0
 #    define COLOR_MODS 85, 255, 0
 #    define COLOR_UNDERGLOW 85, 255, 0
-#    define COLOR_LAYER_ADJUST 1, 255, 255
+// #    define COLOR_LAYER_ADJUST 1, 255, 255
 #elif defined(FLAVOR_TROUBLED_MINDS)
 #    define OLED_FONT_H "users/buz/fonts/glcdfont_troubledminds.c"
 #    define COLOR_ALPHA 200, 255, 0
