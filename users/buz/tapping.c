@@ -9,12 +9,14 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
         case LSFT_T(KC_A):
+        case LSFT_T(KC_F):
 #    ifdef CONSOLE_ENABLE
             uprintf("LSFT_T(KC_A)\n");
 #    endif
             return 150;
 
         case RSFT_T(KC_SCLN):
+        case RSFT_T(KC_J):
 #    ifdef CONSOLE_ENABLE
             uprintf("RSFT_T(KC_SCLN)\n");
 #    endif
@@ -61,12 +63,14 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
         case LSFT_T(KC_A):
+        case LSFT_T(KC_F):
 #    ifdef CONSOLE_ENABLE
             uprintf("LSFT_T(KC_A)\n");
 #    endif
             return false;
 
         case RSFT_T(KC_SCLN):
+        case RSFT_T(KC_J):
 #    ifdef CONSOLE_ENABLE
             uprintf("RSFT_T(KC_SCLN)\n");
 #    endif
@@ -199,6 +203,14 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
 #    endif
             return true;
 
+        case LSFT_T(KC_F):
+        case LCTL_T(KC_D):
+        case LALT_T(KC_S):
+        case RSFT_T(KC_J):
+        case LALT_T(KC_L):
+        case RCTL_T(KC_K):
+            return true;
+
         default:
             return false;
     }
@@ -242,6 +254,41 @@ bool process_tap(uint16_t keycode, keyrecord_t *record) {
 
         default:
             return true;
+    }
+}
+#endif
+
+#ifdef RETRO_TAPPING_PER_KEY
+bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LSFT_T(KC_F):
+        case LCTL_T(KC_D):
+        case LALT_T(KC_S):
+        case RSFT_T(KC_J):
+        case LALT_T(KC_L):
+        case RCTL_T(KC_K):
+            return true;
+
+        case LSFT_T(KC_A):
+            return true;
+
+        case LCTL_T(KC_S):
+            return true;
+
+        case LALT_T(KC_D):
+            return true;
+
+        case LALT_T(KC_K):
+            return true;
+
+        case RSFT_T(KC_SCLN):
+            return true;
+
+        case RCTL_T(KC_L):
+            return true;
+
+        default:
+            return false;
     }
 }
 #endif

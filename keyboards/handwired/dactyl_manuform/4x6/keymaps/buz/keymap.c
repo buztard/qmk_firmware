@@ -10,7 +10,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                            KC_LCBR, KC_RCBR,                            KC_LBRC, KC_RBRC,
                                     LOWER,   LGUI_T(KC_ENT),    KC_SPC,  RAISE,
                                  KC_TD_LALT, LSPO,              RSPC, KC_TD_RALT,
-                                    KC_CESC, TMUX_WP,           TMUX_WN, KC_PGDN
+                                    TMUX_PP, TMUX_WP,           TMUX_WN, TMUX_PN
 ),
 
 [_COLEMAK] = LAYOUT_wrapper(
