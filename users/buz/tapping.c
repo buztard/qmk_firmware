@@ -46,6 +46,9 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 #    endif
             return 100;
 
+        case LT(_EXTRA, KC_SPC):
+            return 300;
+
         default:
 #    ifdef CONSOLE_ENABLE
             uprintf("%d\n", keycode);
