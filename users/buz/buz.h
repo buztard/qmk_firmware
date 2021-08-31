@@ -100,15 +100,13 @@ enum userspace_custom_keycodes {
 // clang-format off
 #define ___________________BLANK___________________        _______, _______, _______, _______, _______
 
-#define _________________QWERTY_L1_________________        KC_Q,           KC_W,           KC_E, KC_R,           KC_T
-// #define _________________QWERTY_L2_________________        LSFT_T(KC_A), LCTL_T(KC_S), LALT_T(KC_D), KC_F, KC_G
-#define _________________QWERTY_L2_________________        KC_A, LALT_T(KC_S), LCTL_T(KC_D), LSFT_T(KC_F), KC_G
+#define _________________QWERTY_L1_________________        KC_Q,           KC_W,           KC_E,             KC_R,           KC_T
+#define _________________QWERTY_L2_________________        KC_A,           LALT_T(KC_S),   LCTL_T(KC_D),     LSFT_T(KC_F),   KC_G
 #define _________________QWERTY_L3_________________        LCTL_T(KC_Z),   LT(_NUM, KC_X), LT(_MEDIA, KC_C), LT(_VIM, KC_V), KC_B
 
-#define _________________QWERTY_R1_________________        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P
-// #define _________________QWERTY_R2_________________        KC_H,    KC_J,    LALT_T(KC_K),    RCTL_T(KC_L),    RSFT_T(KC_SCLN)
-#define _________________QWERTY_R2_________________        KC_H,    RSFT_T(KC_J),    RCTL_T(KC_K),    LALT_T(KC_L),    KC_SCLN
-#define _________________QWERTY_R3_________________        KC_N,    KC_M,    KC_COMM, KC_DOT,  RCTL_T(KC_SLASH)
+#define _________________QWERTY_R1_________________        KC_Y,    KC_U,         KC_I,         KC_O,         KC_P
+#define _________________QWERTY_R2_________________        KC_H,    RSFT_T(KC_J), RCTL_T(KC_K), LALT_T(KC_L), KC_SCLN
+#define _________________QWERTY_R3_________________        KC_N,    KC_M,         KC_COMM,      KC_DOT,       RCTL_T(KC_SLASH)
 
 // game layer is a query layer without mod taps
 #define __________________GAME_L1__________________        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T
@@ -202,12 +200,12 @@ enum userspace_custom_keycodes {
 #define __________________PROG_R2__________________        _______, KC_RPRN, _______, _______, _______
 #define __________________PROG_R3__________________        _______, KC_RBRC, _______, _______, _______
 
-#define _________________EXTRA_L1__________________        KC_TAB,  _______, _______, KC_LCBR, _______
-#define _________________EXTRA_L2__________________        KC_ESC,  _______, _______, KC_LPRN, _______
-#define _________________EXTRA_L3__________________        _______, _______, _______, KC_LBRC, _______
+#define _________________EXTRA_L1__________________        KC_TAB,  _______, _______, _______, _______
+#define _________________EXTRA_L2__________________        KC_ESC,  _______, _______, _______, _______
+#define _________________EXTRA_L3__________________        _______, _______, _______, _______, _______
 
 #define _________________EXTRA_R1__________________        _______, KC_LCBR, KC_RCBR, _______, _______
-#define _________________EXTRA_R2__________________        _______, KC_LPRN, KC_RPRN, _______, _______
-#define _________________EXTRA_R3__________________        _______, KC_LBRC, KC_RBRC, _______, _______
+#define _________________EXTRA_R2__________________        KC_BSPC, KC_LPRN, KC_RPRN, KC_DQT,  KC_QUOT
+#define _________________EXTRA_R3__________________        _______, KC_LBRC, KC_RBRC, KC_PIPE, KC_BSLS
 
 // clang-format on
