@@ -15,12 +15,14 @@ AUDIO_ENABLE = no           # Audio output on port C6
 UNICODE_ENABLE = no         # Unicode
 BLUETOOTH_ENABLE = no       # Enable Bluetooth with the Adafruit EZ-Key HID
 RGBLIGHT_ENABLE = no        # Enable WS2812 RGB underlight.
-RGB_MATRIX_ENABLE = WS2812  # Enable RGB matrix.
+RGB_MATRIX_ENABLE = yes     # Enable RGB matrix.
 SWAP_HANDS_ENABLE = no      # Enable one-hand typing
 VELOCIKEY_ENABLE = no       # Enable Velocikey feature.
-OLED_DRIVER_ENABLE = yes    # OLED_ENABLE (+5000)
 
-TAP_DANCE_ENABLE = yes
+OLED_ENABLE = yes
+OLED_DRIVER = SSD1306
+
+TAP_DANCE_ENABLE = no
 LEADER_ENABLE = no
 RGB_MATRIX_CUSTOM_USER = yes
 
@@ -46,7 +48,7 @@ ifeq ($(strip $(FLAVOR)), acab)
 	TAP_DANCE_ENABLE = no
 	LEADER_ENABLE = no
 	RGB_MATRIX_CUSTOM_USER = no
-	OLED_DRIVER_ENABLE = no
+	OLED_ENABLE = no
 endif
 
 # use trackpoint instead of OLED
@@ -54,5 +56,5 @@ ifeq ($(strip $(TRACKPOINT)), yes)
 	PS2_MOUSE_ENABLE = yes
 	PS2_USE_INT = yes
 	MOUSEKEY_ENABLE = yes
-	OLED_DRIVER_ENABLE = no
+	OLED_ENABLE = no
 endif

@@ -36,9 +36,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MOUSEKEY_MAX_SPEED 7
 #define MOUSEKEY_WHEEL_DELAY 0
 
-#define OLED_DISABLE_TIMEOUT
+#define OLED_TIMEOUT 60000
+#define OLED_FADE_OUT 7
+#define OLED_SCROLL_TIMEOUT 10000
 
-// #define OLED_SCROLL_TIMEOUT 60000
 #ifdef OLED_FONT_H
 #    undef OLED_FONT_H
 #endif
@@ -107,6 +108,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #        define DISABLE_RGB_MATRIX_MULTISPLASH
 #        define DISABLE_RGB_MATRIX_SOLID_SPLASH
 #        define DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
+#        define DISABLE_RGB_MATRIX_HUE_BREATHING
+#        define DISABLE_RGB_MATRIX_HUE_PENDULUM
+#        define DISABLE_RGB_MATRIX_HUE_WAVE
+#        define DISABLE_RGB_MATRIX_PIXEL_RAIN
+#        define DISABLE_RGB_MATRIX_PIXEL_FLOW
+#        define DISABLE_RGB_MATRIX_PIXEL_FRACTAL
 #    endif
 
 #    define LEADER_PER_KEY_TIMING

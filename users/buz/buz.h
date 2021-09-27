@@ -2,7 +2,7 @@
 #include "quantum.h"
 #include "flavors.h"
 
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 #    include "oled_stuff.h"
 #endif
 

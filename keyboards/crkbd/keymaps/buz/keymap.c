@@ -13,11 +13,9 @@
 extern rgb_config_t rgb_matrix_config;
 #endif
 
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 static uint32_t oled_timer = 0;
 #endif
-
-extern uint8_t is_master;
 
 extern userspace_config_t userspace_config;
 
@@ -119,11 +117,11 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
         // RGB rgb = hsv_to_rgb(rgb_matrix_config.hsv);
         // uprintf("R:%u G:%u, B:%u - H:%u S:%u V:%u\n", rgb.r, rgb.g, rgb.b, rgb_matrix_config.hsv.h, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v);
 #endif
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
         oled_timer = timer_read32();
 #endif
 #ifndef SPLIT_KEYBOARD
-        if ((keycode == RESET || keycode == MAKE) && !is_master) {
+        if ((keycode == RESET || keycode == MAKE) && !is_keyboard_master()) {
             return false;
         }
 #endif
@@ -142,7 +140,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (isLeftHand) {
         return OLED_ROTATION_0;
@@ -179,6 +177,7 @@ void oled_task_user(void) {
         oled_off();
         return;
     }
+#    if 0
     if (timer_elapsed32(oled_timer) > 60000) {
         oled_off();
         return;
@@ -189,19 +188,16 @@ void oled_task_user(void) {
     } else {
         oled_scroll_off();
     }
-#    ifndef SPLIT_KEYBOARD
     oled_on();
 #    endif
 
-    if (is_master) {
+    if (is_keyboard_master()) {
         render_status();
-        // render_logo();
     } else {
         render_logo();
-        // render_status();
     }
 }
-#endif  // OLED_DRIVER_ENABLE
+#endif  // OLED_ENABLE
 
 #ifdef RGB_MATRIX_ENABLE
 void suspend_power_down_user(void) { rgb_matrix_set_suspend_state(true); }

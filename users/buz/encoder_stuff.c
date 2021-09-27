@@ -72,7 +72,7 @@ static void encoder_mouse(uint8_t index, bool clockwise) {
     }
 }
 
-void encoder_update_user(uint8_t index, bool clockwise) {
+bool encoder_update_user(uint8_t index, bool clockwise) {
     // encoder_mode_t mode;
 
     // if (index == 0) {
@@ -108,6 +108,7 @@ void encoder_update_user(uint8_t index, bool clockwise) {
         default:
             break;
     }
+    return true;
 }
 
 void encoder_mode_next(uint8_t index) {
