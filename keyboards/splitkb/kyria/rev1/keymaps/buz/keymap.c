@@ -2,7 +2,9 @@
 #include "buz.h"
 
 extern userspace_config_t userspace_config;
+#ifdef RGBLIGHT_ENABLE
 extern rgblight_config_t  rgblight_config;
+#endif
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {

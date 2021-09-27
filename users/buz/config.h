@@ -31,7 +31,7 @@
 // #endif
 
 // RGB matrix config
-#ifdef RGB_MATRIX_ENABLE
+#if defined(RGB_MATRIX_ENABLE)
 // disable these modes as there are multi-keypress versions as well
 #    ifndef DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
 #        define DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
@@ -51,5 +51,14 @@
 
 #    ifdef DISABLE_RGB_MATRIX_SOLID_SPLASH
 #        define DISABLE_RGB_MATRIX_SOLID_SPLASH
+#    endif
+#endif
+
+#if defined(SPLIT_KEYBOARD)
+#    define SPLIT_LAYER_STATE_ENABLE
+// #    define SPLIT_LED_STATE_ENABLE
+// #    define SPLIT_MODS_ENABLE
+#    ifdef OLED_ENABLE
+#        define SPLIT_OLED_ENABLE
 #    endif
 #endif

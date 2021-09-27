@@ -1,16 +1,22 @@
 # Default build options that work for most of my boards
-BOOTMAGIC_ENABLE = no  # Virtual DIP switch configuration
-MOUSEKEY_ENABLE = yes  # Mouse keys
-EXTRAKEY_ENABLE = yes  # Audio control and System control
-CONSOLE_ENABLE = no    # Console for debug
-COMMAND_ENABLE = no    # Commands for debug and configuration
-BACKLIGHT_ENABLE = no  # Enable keyboard backlight functionality
-TAP_DANCE_ENABLE = yes # Enable Tap Dance feature.
-LEADER_ENABLE = no     # Enable leader key.
-LTO_ENABLE = yes
+BOOTMAGIC_ENABLE ?= no # Virtual DIP switch configuration
+MOUSEKEY_ENABLE ?= yes # Mouse keys
+EXTRAKEY_ENABLE ?= yes # Audio control and System control
+CONSOLE_ENABLE ?= no   # Console for debug
+COMMAND_ENABLE ?= no   # Commands for debug and configuration
+BACKLIGHT_ENABLE ?= no # Enable keyboard backlight functionality
+TAP_DANCE_ENABLE ?= no # Enable Tap Dance feature.
+LEADER_ENABLE = ?no    # Enable leader key.
+GRAVE_ESC_ENABLE ?= no
 
 # we're using a custom hack instead
-SPACE_CADET_ENABLE = no
+SPACE_CADET_ENABLE ?= no
+
+ifneq ($(PLATFORM),CHIBIOS)
+    ifneq ($(strip $(LTO_SUPPORTED)), no)
+        LTO_ENABLE = yes
+    endif
+endif
 
 SRC += buz.c tapping.c
 
@@ -31,7 +37,7 @@ ifneq ($(strip $(RGB_MATRIX_ENABLE)), no)
 endif
 
 OLED_EXTRAS ?= yes
-ifeq ($(strip $(OLED_DRIVER_ENABLE)), yes)
+ifeq ($(strip $(OLED_ENABLE)), yes)
   SRC += oled_stuff.c
   ifeq ($(strip $(OLED_EXTRAS)), yes)
 	OPT_DEFS += -DOLED_EXTRAS

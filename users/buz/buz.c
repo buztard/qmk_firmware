@@ -178,7 +178,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
         case OLED:
             if (record->event.pressed) {
                 userspace_config.oled_enabled ^= 1;

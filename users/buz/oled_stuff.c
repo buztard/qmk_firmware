@@ -1,7 +1,7 @@
 #include "buz.h"
 #include "oled_stuff.h"
 
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 #    ifdef LEADER_ENABLE
 extern bool leading;
 #    endif
@@ -360,4 +360,4 @@ void oled_render_rgb_matrix_effect_name(void) {
 }
 #    endif  // RGB_MATRIX_ENABLE
 
-#endif  // OLED_DRIVER_ENABLE
+#endif  // OLED_ENABLE
