@@ -13,9 +13,9 @@ RGBLIGHT_ENABLE = yes       # Enable WS2812 RGB underlight.
 RGB_MATRIX_ENABLE = no      # Enable RGB matrix.
 SWAP_HANDS_ENABLE = no      # Enable one-hand typing
 VELOCIKEY_ENABLE = no       # Enable Velocikey feature.
-OLED_DRIVER_ENABLE = yes    # OLED_ENABLE (+5000)
+OLED_ENABLE = yes           # OLED_ENABLE (+5000)
 ENCODER_ENABLE = yes        # Enables the use of one or more encoders
-TAP_DANCE_ENABLE = yes
+TAP_DANCE_ENABLE = no
 LEADER_ENABLE = no
 
 BOOTLOADER = atmel-dfu
