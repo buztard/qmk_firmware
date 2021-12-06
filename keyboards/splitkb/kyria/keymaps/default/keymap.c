@@ -25,21 +25,20 @@ enum layers {
     _ADJUST,
 };
 
-
 // Aliases for readability
-#define QWERTY   DF(_QWERTY)
-#define COLEMAK  DF(_COLEMAK_DH)
-#define DVORAK   DF(_DVORAK)
+#define QWERTY DF(_QWERTY)
+#define COLEMAK DF(_COLEMAK_DH)
+#define DVORAK DF(_DVORAK)
 
-#define SYM      MO(_SYM)
-#define NAV      MO(_NAV)
-#define FKEYS    MO(_FUNCTION)
-#define ADJUST   MO(_ADJUST)
+#define SYM MO(_SYM)
+#define NAV MO(_NAV)
+#define FKEYS MO(_FUNCTION)
+#define ADJUST MO(_ADJUST)
 
-#define CTL_ESC  MT(MOD_LCTL, KC_ESC)
+#define CTL_ESC MT(MOD_LCTL, KC_ESC)
 #define CTL_QUOT MT(MOD_RCTL, KC_QUOTE)
 #define CTL_MINS MT(MOD_RCTL, KC_MINUS)
-#define ALT_ENT  MT(MOD_LALT, KC_ENT)
+#define ALT_ENT MT(MOD_LALT, KC_ENT)
 
 // Note: LAlt/Enter (ALT_ENT) is not the same thing as the keyboard shortcut Alt+Enter.
 // The notation `mod/tap` denotes a key that activates the modifier `mod` when held down, and
@@ -222,7 +221,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * DO NOT edit the rev1.c file; instead override the weakly defined default functions by your own.
  */
 
-/* DELETE THIS LINE TO UNCOMMENT (1/2)
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_180; }
 
@@ -241,7 +239,7 @@ bool oled_task_user(void) {
 
         // Host Keyboard Layer Status
         oled_write_P(PSTR("Layer: "), false);
-        switch (get_highest_layer(layer_state|default_layer_state)) {
+        switch (get_highest_layer(layer_state | default_layer_state)) {
             case _QWERTY:
                 oled_write_P(PSTR("QWERTY\n"), false);
                 break;
@@ -269,8 +267,8 @@ bool oled_task_user(void) {
 
         // Write host Keyboard LED Status to OLEDs
         led_t led_usb_state = host_keyboard_led_state();
-        oled_write_P(led_usb_state.num_lock    ? PSTR("NUMLCK ") : PSTR("       "), false);
-        oled_write_P(led_usb_state.caps_lock   ? PSTR("CAPLCK ") : PSTR("       "), false);
+        oled_write_P(led_usb_state.num_lock ? PSTR("NUMLCK ") : PSTR("       "), false);
+        oled_write_P(led_usb_state.caps_lock ? PSTR("CAPLCK ") : PSTR("       "), false);
         oled_write_P(led_usb_state.scroll_lock ? PSTR("SCRLCK ") : PSTR("       "), false);
     } else {
         // clang-format off
@@ -293,7 +291,6 @@ bool oled_task_user(void) {
 
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
-
     if (index == 0) {
         // Volume control
         if (clockwise) {
@@ -312,4 +309,3 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     return false;
 }
 #endif
-DELETE THIS LINE TO UNCOMMENT (2/2) */
