@@ -19,3 +19,4 @@ SWAP_HANDS_ENABLE = no      # Enable one-hand typing
 VELOCIKEY_ENABLE = no       # Enable Velocikey feature.
 OLED_DRIVER_ENABLE = no     # OLED_ENABLE (+5000)
 TAP_DANCE_ENABLE = yes      # Enable tap dance feature
+SPLIT_KEYBOARD = yes

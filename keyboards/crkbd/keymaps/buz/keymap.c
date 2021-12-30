@@ -106,7 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _________________EXTRA_L1__________________, _________________EXTRA_R1__________________, _______,
     _______, _________________EXTRA_L2__________________, _________________EXTRA_R2__________________, _______,
     _______, _________________EXTRA_L3__________________, _________________EXTRA_R3__________________, _______,
-                               _______, _______, _______, _______, _______, _______
+                             _______, _______, CAPS_WORD, _______, _______, _______
   ),
 };
 // clang-format on
@@ -172,19 +172,19 @@ static void render_status(void) {
 #    endif  // RGB_MATRIX_ENABLE
 }
 
-void oled_task_user(void) {
+bool oled_task_user(void) {
     if (!userspace_config.oled_enabled) {
         oled_off();
-        return;
+        return false;
     }
 #    if 0
     if (timer_elapsed32(oled_timer) > 60000) {
         oled_off();
-        return;
+        return false;
     } else if (timer_elapsed32(oled_timer) > 10000) {
         render_logo();
         oled_scroll_left();
-        return;
+        return false;
     } else {
         oled_scroll_off();
     }
@@ -196,6 +196,7 @@ void oled_task_user(void) {
     } else {
         render_logo();
     }
+    return false;
 }
 #endif  // OLED_ENABLE
 
