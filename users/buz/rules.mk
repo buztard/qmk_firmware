@@ -8,6 +8,7 @@ BACKLIGHT_ENABLE ?= no # Enable keyboard backlight functionality
 TAP_DANCE_ENABLE ?= no # Enable Tap Dance feature.
 LEADER_ENABLE = ?no    # Enable leader key.
 GRAVE_ESC_ENABLE ?= no
+MAGIC_ENABLE ?= no
 
 # we're using a custom hack instead
 SPACE_CADET_ENABLE ?= no
@@ -18,7 +19,7 @@ ifneq ($(PLATFORM),CHIBIOS)
     endif
 endif
 
-SRC += buz.c tapping.c
+SRC += buz.c tapping.c caps_word.c
 
 ifeq ($(strip $(TAP_DANCE_ENABLE)), yes)
   SRC += tap_dances.c

@@ -18,9 +18,7 @@
 
 static bool is_caps_word_on = false;
 
-bool is_caps_word_enabled(void) {
-    return is_caps_word_on;
-}
+bool is_caps_word_enabled(void) { return is_caps_word_on; }
 
 void enable_caps_word(void) {
     if (is_caps_word_on) return;
@@ -37,8 +35,7 @@ void disable_caps_word(void) {
 void toggle_caps_word(void) {
     if (is_caps_word_on) {
         disable_caps_word();
-    }
-    else {
+    } else {
         enable_caps_word();
     }
 }
@@ -64,7 +61,6 @@ bool should_terminate_caps_word(uint16_t keycode, const keyrecord_t *record) {
     return false;
 }
 
-
 bool process_record_caps_word(uint16_t keycode, const keyrecord_t *record) {
     // Nothing in this function acts on key release
     if (!record->event.pressed) {
@@ -84,17 +80,15 @@ bool process_record_caps_word(uint16_t keycode, const keyrecord_t *record) {
     }
 
     // Get the base keycode of a mod or layer tap key
-    switch (keycode) {
-        case QK_MOD_TAP ... QK_MOD_TAP_MAX:
-        case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
-        case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
-            // Earlier return if this has not been considered tapped yet
-            if (record->tap.count == 0)
-                return true;
-            keycode = keycode & 0xFF;
-            break;
-        default:
-            break;
+    if (!((get_mods() | get_oneshot_mods()) & ~MOD_MASK_SHIFT)) {
+        switch (keycode) {
+            case QK_MOD_TAP ... QK_MOD_TAP_MAX:
+            case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
+            case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
+                // Earlier return if this has not been considered tapped yet
+                if (record->tap.count == 0) return true;
+                keycode = keycode & 0xFF;
+        }
     }
 
     if (should_terminate_caps_word(keycode, record)) {

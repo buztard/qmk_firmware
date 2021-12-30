@@ -1,18 +1,29 @@
 #pragma once
 
+#define LAYER_STATE_16BIT
+
 // tapping configuration
 // more granular config in tapping.c
 #ifndef TAPPING_TERM
 #    define TAPPING_TERM 200
 #endif
 #define TAPPING_TERM_PER_KEY
+
+// permissive hold
 #define PERMISSIVE_HOLD_PER_KEY
+
+// force hold
 #define TAPPING_FORCE_HOLD_PER_KEY
+
+// retro tapping
+// #define RETRO_TAPPING_PER_KEY
+
+// ignore mod tap interrupt
 // #define IGNORE_MOD_TAP_INTERRUPT
 #define IGNORE_MOD_TAP_INTERRUPT_PER_KEY
+
 // #define IGNORE_LAYER_TAP_INTERRUPT
 #define CUSTOM_TAPPING_KEYS
-// #define RETRO_TAPPING_PER_KEY
 
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
