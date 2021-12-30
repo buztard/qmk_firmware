@@ -88,7 +88,7 @@ enum userspace_layers {
 #define ___QUERTY_ROW5___ MOUSE,    KC_LCTL, KC_GUI, KC_ALT, LOWER, KC_GENT,     KC_SPC, RAISE, KC_TD_RALT, KC_MENU, KC_RALT, KC_RCTL
 
 /**
- * Colemak layer
+ * COLEMAK layer
  * ┌────────┬────────┬────────┬────────┬────────┬────────┐        ┌────────┬────────┬────────┬────────┬────────┬────────┐
  * │ Grave  │   1    │   2    │  3     │  4     │  5     │        │  6     │  7     │  8     │  9     │  0     │ BkSp   │
  * ├────────┼────────┼────────┼────────┼────────┼────────┤        ├────────┼────────┼────────┼────────┼────────┼────────┤

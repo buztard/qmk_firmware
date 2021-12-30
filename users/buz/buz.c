@@ -1,14 +1,19 @@
 #include "buz.h"
 #include "encoder_stuff.h"
+#include "caps_word.h"
 #include "keycode.h"
 
 userspace_config_t userspace_config;
 
-__attribute__((weak)) layer_state_t layer_state_set_keymap(uint32_t state) { return state; }
+__attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) { return state; }
 
 __attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t *record) { return true; }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_caps_word(keycode, record)) {
+        return false;
+    }
+
     if (!process_record_keymap(keycode, record)) {
         return false;
     }
@@ -81,12 +86,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
-        case GAME:
-            if (record->event.pressed) {
-                set_single_persistent_default_layer(_GAME);
-            }
-            return false;
-
         case LOWER:
             if (record->event.pressed) {
                 layer_on(_LOWER);
@@ -97,12 +96,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
-        case XRAISE:
-#ifdef CONSOLE_ENABLE
-            uprintf("P:%d I:%d T:%d\n", record->event.pressed, record->tap.interrupted, record->tap.count);
-#endif
-            return true;
-
         case RAISE:
             if (record->event.pressed) {
                 layer_on(_RAISE);
@@ -110,38 +103,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             } else {
                 layer_off(_RAISE);
                 update_tri_layer(_LOWER, _RAISE, _ADJUST);
-            }
-            return false;
-
-        case ADJUST:
-            if (record->event.pressed) {
-                layer_on(_ADJUST);
-            } else {
-                layer_off(_ADJUST);
-            }
-            return false;
-
-        case MOUSE:
-            if (record->event.pressed) {
-                layer_on(_MOUSE);
-            } else {
-                layer_off(_MOUSE);
-            }
-            return false;
-
-        case VIM:
-            if (record->event.pressed) {
-                layer_on(_VIM);
-            } else {
-                layer_off(_VIM);
-            }
-            return false;
-
-        case NUM:
-            if (record->event.pressed) {
-                layer_on(_NUM);
-            } else {
-                layer_off(_NUM);
             }
             return false;
 
@@ -245,7 +206,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-uint32_t layer_state_set_user(uint32_t state) {
+layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, _RAISE, _LOWER, _ADJUST);
     // #if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
     //     rgb_layer_indicator_user();

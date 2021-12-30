@@ -18,9 +18,9 @@ static void encoder_volume(bool clockwise) {
 
 static void encoder_paging(bool clockwise) {
     if (clockwise) {
-        tap_code(KC_PGUP);
-    } else {
         tap_code(KC_PGDN);
+    } else {
+        tap_code(KC_PGUP);
     }
 }
 
@@ -108,7 +108,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         default:
             break;
     }
-    return true;
+    return false;
 }
 
 void encoder_mode_next(uint8_t index) {

@@ -3,56 +3,19 @@
 
 #ifdef TAPPING_TERM_PER_KEY
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-#    ifdef CONSOLE_ENABLE
-    uprintf("get_tapping_term ");
-#    endif
-
     switch (keycode) {
-        case LSFT_T(KC_A):
         case LSFT_T(KC_F):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LSFT_T(KC_A)\n");
-#    endif
-            return 150;
-
-        case RSFT_T(KC_SCLN):
         case RSFT_T(KC_J):
-#    ifdef CONSOLE_ENABLE
-            uprintf("RSFT_T(KC_SCLN)\n");
-#    endif
             return 150;
-
-        case LT(_LOWER, KC_TAB):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LT(_LOWER, KC_TAB)\n");
-#    endif
-            return 100;
 
         case LT(_LOWER, KC_ESC):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LT(_LOWER, KC_TAB)\n");
-#    endif
-            return 100;
-
-        case LT(_RAISE, KC_LPRN):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LT(_RAISE, KC_LPRN)\n");
-#    endif
-            return 100;
-
         case LT(_RAISE, KC_BSPC):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LT(_RAISE, KC_BSPC)\n");
-#    endif
             return 100;
 
         case LT(_EXTRA, KC_SPC):
             return 300;
 
         default:
-#    ifdef CONSOLE_ENABLE
-            uprintf("%d\n", keycode);
-#    endif
             return TAPPING_TERM;
     }
 }
@@ -60,29 +23,12 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
 #ifdef PERMISSIVE_HOLD_PER_KEY
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
-#    ifdef CONSOLE_ENABLE
-    uprintf("get_permissive_hold ");
-#    endif
-
     switch (keycode) {
-        case LSFT_T(KC_A):
         case LSFT_T(KC_F):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LSFT_T(KC_A)\n");
-#    endif
-            return false;
-
-        case RSFT_T(KC_SCLN):
         case RSFT_T(KC_J):
-#    ifdef CONSOLE_ENABLE
-            uprintf("RSFT_T(KC_SCLN)\n");
-#    endif
             return false;
 
         default:
-#    ifdef CONSOLE_ENABLE
-            uprintf("%d\n", keycode);
-#    endif
             return true;
     }
 }
@@ -91,9 +37,6 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 #ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case LT(_LOWER, KC_TAB):
-            return true;
-
         case LT(_LOWER, KC_ESC):
             return true;
 
@@ -108,63 +51,15 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 
 #ifdef IGNORE_MOD_TAP_INTERRUPT_PER_KEY
 bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
-#    ifdef CONSOLE_ENABLE
-    uprintf("get_ignore_mod_tap_interrupt ");
-#    endif
-
     switch (keycode) {
         case LCTL_T(KC_ESC):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LCTL_T(KC_ESC)\n");
-#    endif
-            return false;
-
-        case LT(_LOWER, KC_TAB):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LT(_LOWER, KC_TAB)\n");
-#    endif
-            return false;
-
         case LT(_LOWER, KC_ESC):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LT(_LOWER, KC_TAB)\n");
-#    endif
-            return false;
-
         case LT(_RAISE, KC_BSPC):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LT(_RAISE, KC_BSPC)\n");
-#    endif
-            return false;
-
-        case LT(_LOWER, KC_LPRN):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LT(_LOWER, KC_LPRN)\n");
-#    endif
-            return false;
-
-        case LT(_RAISE, KC_RPRN):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LT(_RAISE, KC_RPRN)\n");
-#    endif
-            return false;
-
         case LSFT_T(KC_LPRN):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LSFT_T(KC_LPRN)\n");
-#    endif
-            return false;
-
         case RSFT_T(KC_RPRN):
-#    ifdef CONSOLE_ENABLE
-            uprintf("RSFT_T(KC_RPRN)\n");
-#    endif
             return false;
 
         default:
-#    ifdef CONSOLE_ENABLE
-            uprintf("%d\n", keycode);
-#    endif
             return true;
     }
 }
@@ -172,46 +67,26 @@ bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
 
 #ifdef TAPPING_FORCE_HOLD_PER_KEY
 bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
-#    ifdef CONSOLE_ENABLE
-    uprintf("get_tapping_force_hold ");
-#    endif
     switch (keycode) {
-        case LCTL_T(KC_ESC):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LCTL_T(KC_ESC)\n");
-#    endif
+        case LALT_T(KC_S):
+        case LCTL_T(KC_D):
+        case LSFT_T(KC_F):
+        case RSFT_T(KC_J):
+        case RCTL_T(KC_K):
+        case LALT_T(KC_L):
             return true;
 
+        case LCTL_T(KC_ESC):
         case RCTL_T(KC_QUOT):
-#    ifdef CONSOLE_ENABLE
-            uprintf("RCTL_T(KC_QUOT)\n");
-#    endif
             return true;
 
         case SFT_T(KC_SPC):
-#    ifdef CONSOLE_ENABLE
-            uprintf("SFT_T(KC_SPC)\n");
-#    endif
             return false;
 
         case LSFT_T(KC_LPRN):
-#    ifdef CONSOLE_ENABLE
-            uprintf("LSFT_T(KC_LPRN)\n");
-#    endif
             return true;
 
         case RSFT_T(KC_RPRN):
-#    ifdef CONSOLE_ENABLE
-            uprintf("RSFT_T(KC_RPRN)\n");
-#    endif
-            return true;
-
-        case LSFT_T(KC_F):
-        case LCTL_T(KC_D):
-        case LALT_T(KC_S):
-        case RSFT_T(KC_J):
-        case LALT_T(KC_L):
-        case RCTL_T(KC_K):
             return true;
 
         default:
@@ -264,30 +139,14 @@ bool process_tap(uint16_t keycode, keyrecord_t *record) {
 #ifdef RETRO_TAPPING_PER_KEY
 bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case LSFT_T(KC_F):
-        case LCTL_T(KC_D):
         case LALT_T(KC_S):
+        case LCTL_T(KC_D):
+        case LSFT_T(KC_F):
+            return true;
+
         case RSFT_T(KC_J):
-        case LALT_T(KC_L):
         case RCTL_T(KC_K):
-            return true;
-
-        case LSFT_T(KC_A):
-            return true;
-
-        case LCTL_T(KC_S):
-            return true;
-
-        case LALT_T(KC_D):
-            return true;
-
-        case LALT_T(KC_K):
-            return true;
-
-        case RSFT_T(KC_SCLN):
-            return true;
-
-        case RCTL_T(KC_L):
+        case LALT_T(KC_L):
             return true;
 
         default:
