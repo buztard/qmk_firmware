@@ -26,8 +26,10 @@
 #    define OLED_TEXT_LAYER_VIM "Vim"
 #    define OLED_TEXT_LAYER_NUM "Numpad"
 #    define OLED_TEXT_LAYER_MOUSE "Mouse"
-#    define OLED_TEXT_LAYER_FN "FN"
+#    define OLED_TEXT_LAYER_FN "Func"
 #    define OLED_TEXT_LAYER_MEDIA "Media"
+#    define OLED_TEXT_LAYER_SYM "Symbol"
+#    define OLED_TEXT_LAYER_TMUX "tmux"
 
 // Mod names
 #    define OLED_TEXT_MOD_NAME "Mods: "
@@ -124,6 +126,8 @@
 #    define OLED_TEXT_LAYER_MOUSE "Mouse"
 #    define OLED_TEXT_LAYER_FN "FN"
 #    define OLED_TEXT_LAYER_MEDIA "Media"
+#    define OLED_TEXT_LAYER_SYM "Symbol"
+#    define OLED_TEXT_LAYER_TMUX "tmux"
 
 // Mod names
 #    define OLED_TEXT_MOD_NAME "M: "

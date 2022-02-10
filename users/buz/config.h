@@ -22,14 +22,10 @@
 // #define IGNORE_MOD_TAP_INTERRUPT
 #define IGNORE_MOD_TAP_INTERRUPT_PER_KEY
 
-// #define IGNORE_LAYER_TAP_INTERRUPT
-#define CUSTOM_TAPPING_KEYS
-
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
 // combo configuration
-#define COMBO_COUNT 1
-#define COMBO_TERM 50
+#define COMBO_TERM 40
 
 // leader key
 #define LEADER_PER_KEY_TIMING

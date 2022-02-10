@@ -64,9 +64,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // RGB matrix configuration
 #ifdef RGB_MATRIX_ENABLE
 
-#    define RGB_MATRIX_KEYPRESSES
 #    define RGB_MATRIX_MAXIMUM_BRIGHTNESS 150
-#    define RGB_MATRIX_FRAMEBUFFER_EFFECTS
+// #    define RGB_MATRIX_KEYPRESSES
+// #    define RGB_MATRIX_FRAMEBUFFER_EFFECTS
 
 #    ifndef FLAVOR_ACAB
 // #        undef RGB_MATRIX_FRAMEBUFFER_EFFECTS
@@ -215,6 +215,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH  // Enables RGB_MATRIX_SOLID_MULTISPLASH
 #else
 #    define ENABLE_RGB_MATRIX_CYCLE_OUT_IN_DUAL  // Enables RGB_MATRIX_CYCLE_OUT_IN_DUAL
-#    define ENABLE_RGB_MATRIX_TYPING_HEATMAP     // Enables RGB_MATRIX_TYPING_HEATMAP
+// #    define ENABLE_RGB_MATRIX_TYPING_HEATMAP     // Enables RGB_MATRIX_TYPING_HEATMAP
 #    define ENABLE_RGB_MATRIX_SOLID_REACTIVE     // Enables RGB_MATRIX_SOLID_REACTIVE
 #endif

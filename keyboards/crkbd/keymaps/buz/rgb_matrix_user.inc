@@ -48,7 +48,7 @@ static bool DASHER(effect_params_t* params) {
             rgb_matrix_set_color(i, underglow.r, underglow.g, underglow.b);
         }
     }
-    return led_max < DRIVER_LED_TOTAL;
+    return rgb_matrix_check_finished_leds(led_max);
 }
 #    endif  // FLAVOR_DASHER
 
@@ -68,7 +68,7 @@ static bool GODSPEED(effect_params_t* params) {
         } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_MODIFIER)) {
             if (i == 24 || i == 6) {
                 rgb_matrix_set_color(i, yellow.r, yellow.g, yellow.b);
-            } else if (i == 25 && isLeftHand) {
+            } else if (i == 25 && is_keyboard_left()) {
                 rgb_matrix_set_color(i, red.r, red.g, red.b);
             } else {
                 rgb_matrix_set_color(i, mods.r, mods.g, mods.b);
@@ -77,7 +77,7 @@ static bool GODSPEED(effect_params_t* params) {
             rgb_matrix_set_color(i, underglow.r, underglow.g, underglow.b);
         }
     }
-    return led_max < DRIVER_LED_TOTAL;
+    return rgb_matrix_check_finished_leds(led_max);
 }
 #    endif  // FLAVOR_GODSPEED
 
@@ -139,7 +139,7 @@ static bool MILKSHAKE(effect_params_t* params) {
         if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_KEYLIGHT)) {
             rgb_matrix_set_color(i, alpha.r, alpha.g, alpha.b);
         } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_MODIFIER)) {
-            if (isLeftHand) {
+            if (is_keyboard_left()) {
                 if (i == 24) {
                     rgb_matrix_set_color(i, yellow.r, yellow.g, yellow.b);
                 } else if (i == 25) {
