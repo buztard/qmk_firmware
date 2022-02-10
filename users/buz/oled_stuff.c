@@ -1,4 +1,5 @@
 #include "buz.h"
+#include "caps_word.h"
 #include "oled_stuff.h"
 
 #ifdef LEADER_ENABLE
@@ -19,10 +20,16 @@ const char* get_layer_name(void) {
             return PSTR(OLED_TEXT_LAYER_MOUSE);
         case _NUM:
             return PSTR(OLED_TEXT_LAYER_NUM);
-        case _FN:
-            return PSTR(OLED_TEXT_LAYER_FN);
+        case _SYMBOL:
+            return PSTR(OLED_TEXT_LAYER_SYM);
+        case _TMUX:
+            return PSTR(OLED_TEXT_LAYER_TMUX);
+        // case _FN:
+        //     return PSTR(OLED_TEXT_LAYER_FN);
         case _MEDIA:
             return PSTR(OLED_TEXT_LAYER_MEDIA);
+        case _FUNC:
+            return PSTR(OLED_TEXT_LAYER_FN);
         default:
             switch (get_highest_layer(default_layer_state)) {
                 case _QWERTY:
@@ -74,7 +81,7 @@ void oled_render_mods(void) {
         oled_write_P(PSTR(OLED_TEXT_MOD_SHIFT " "), false);
         mod = true;
     }
-    if (led_usb_state & (1 << USB_LED_CAPS_LOCK)) {
+    if (led_usb_state & (1 << USB_LED_CAPS_LOCK) || caps_word()) {
         oled_write_P(PSTR(OLED_TEXT_MOD_CAPS " "), false);
         mod = true;
     }

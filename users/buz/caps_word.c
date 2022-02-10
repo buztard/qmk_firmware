@@ -1,9 +1,10 @@
 #include "buz.h"
 #include "caps_word.h"
 
+static bool caps_word_active = false;
+
 bool process_caps_word(uint16_t keycode, keyrecord_t *record) {
-    static bool caps_word_active = false;
-    static bool is_shifted       = false;
+    static bool is_shifted = false;
 
     // we don't care about release events
     if (!record->event.pressed) {
@@ -61,3 +62,5 @@ bool process_caps_word(uint16_t keycode, keyrecord_t *record) {
             return true;
     }
 }
+
+bool caps_word(void) { return caps_word_active; }

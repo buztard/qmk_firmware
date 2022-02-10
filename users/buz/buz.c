@@ -3,6 +3,14 @@
 #include "caps_word.h"
 #include "keycode.h"
 
+#ifdef LAYER_LOCK_ENABLE
+#    include "layer_lock.h"
+#endif
+
+#ifdef REPEAT_ENABLE
+#    include "repeat.h"
+#endif
+
 userspace_config_t userspace_config;
 
 __attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) { return state; }
@@ -10,9 +18,22 @@ __attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) 
 __attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t *record) { return true; }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef REPEAT_ENABLE
+    if (!process_repeat(keycode, record)) {
+        return false;
+    }
+    process_repeat_post();
+#endif
+
     if (!process_caps_word(keycode, record)) {
         return false;
     }
+
+#ifdef LAYER_LOCK_ENABLE
+    if (!process_layer_lock(keycode, record, LAYER_LOCK)) {
+        return false;
+    }
+#endif
 
     if (!process_record_keymap(keycode, record)) {
         return false;
@@ -139,6 +160,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
+        case TMUX_PL:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("al"));
+            }
+            return false;
+
+        case TMUX_PR:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("al"));
+            }
+            return false;
+
+        case TMUX_PU:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("ak"));
+            }
+            return false;
+
+        case TMUX_PD:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("aj"));
+            }
+            return false;
+
 #ifdef OLED_ENABLE
         case OLED:
             if (record->event.pressed) {
@@ -207,7 +252,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    state = update_tri_layer_state(state, _RAISE, _LOWER, _ADJUST);
+    // state = update_tri_layer_state(state, _RAISE, _LOWER, _ADJUST);
     // #if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
     //     rgb_layer_indicator_user();
     // #endif
