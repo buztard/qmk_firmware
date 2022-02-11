@@ -98,7 +98,7 @@ static bool LEVIATHAN(effect_params_t* params) {
             rgb_matrix_set_color(i, underglow.r, underglow.g, underglow.b);
         }
     }
-    return led_max < DRIVER_LED_TOTAL;
+    return rgb_matrix_check_finished_leds(led_max);
 }
 #    endif  // FLAVOR_LEVIATHAN
 
@@ -119,7 +119,7 @@ static bool TROUBLED_MINDS(effect_params_t* params) {
             rgb_matrix_set_color(i, underglow.r, underglow.g, underglow.b);
         }
     }
-    return led_max < DRIVER_LED_TOTAL;
+    return rgb_matrix_check_finished_leds(led_max);
 }
 #    endif  // FLAVOR_TROUBLED_MINDS
 
@@ -168,7 +168,7 @@ static bool MILKSHAKE(effect_params_t* params) {
             rgb_matrix_set_color(i, underglow.r, underglow.g, underglow.b);
         }
     }
-    return led_max < DRIVER_LED_TOTAL;
+    return rgb_matrix_check_finished_leds(led_max);
 }
 #    endif  // FLAVOR_MILKSHAKE
 
@@ -189,7 +189,7 @@ static bool SERIKA(effect_params_t* params) {
             rgb_matrix_set_color(i, underglow.r, underglow.g, underglow.b);
         }
     }
-    return led_max < DRIVER_LED_TOTAL;
+    return rgb_matrix_check_finished_leds(led_max);
 }
 #    endif  // FLAVOR_SERIKA
 
