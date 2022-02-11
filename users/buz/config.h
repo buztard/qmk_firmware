@@ -68,4 +68,7 @@
 #    ifdef OLED_ENABLE
 #        define SPLIT_OLED_ENABLE
 #    endif
+#    ifdef CUSTOM_SPLIT_TRANSPORT_SYNC
+#        define SPLIT_TRANSACTION_IDS_USER RPC_ID_USER_CONFIG_SYNC
+#    endif
 #endif

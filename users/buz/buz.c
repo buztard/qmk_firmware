@@ -3,6 +3,11 @@
 #include "caps_word.h"
 #include "keycode.h"
 
+#ifdef CUSTOM_SPLIT_TRANSPORT_SYNC
+#    include "transactions.h"
+#    include <string.h>
+#endif
+
 #ifdef LAYER_LOCK_ENABLE
 #    include "layer_lock.h"
 #endif
@@ -15,9 +20,9 @@ userspace_config_t userspace_config;
 
 __attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) { return state; }
 
-__attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t *record) { return true; }
+__attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t* record) { return true; }
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 #ifdef REPEAT_ENABLE
     if (!process_repeat(keycode, record)) {
         return false;
@@ -272,4 +277,52 @@ void matrix_init_user(void) {
 #ifdef ENCODER_ENABLE
     encoder_init_user();
 #endif
+}
+
+#if defined(SPLIT_KEYBOARD) && defined(SPLIT_TRANSACTION_IDS_USER)
+uint32_t transport_userspace_config = 0;
+
+void user_config_sync(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer, uint8_t target2initiator_buffer_size, void* target2initiator_buffer) {
+    if (initiator2target_buffer_size == sizeof(transport_userspace_config)) {
+        memcpy(&transport_userspace_config, initiator2target_buffer, initiator2target_buffer_size);
+    }
+}
+
+void user_transport_update(void) {
+    if (is_keyboard_master()) {
+        transport_userspace_config = userspace_config.raw;
+    } else {
+        userspace_config.raw = transport_userspace_config;
+    }
+}
+
+void user_transport_sync(void) {
+    if (is_keyboard_master()) {
+        static uint32_t last_config = 0;
+        bool            needs_sync  = false;
+
+        if (memcmp(&transport_userspace_config, &last_config, sizeof(transport_userspace_config))) {
+            needs_sync = true;
+            memcpy(&last_config, &transport_userspace_config, sizeof(transport_userspace_config));
+        }
+        if (needs_sync) {
+            if (transaction_rpc_send(RPC_ID_USER_CONFIG_SYNC, sizeof(transport_userspace_config), &transport_userspace_config)) {
+                needs_sync = false;
+            }
+        }
+    }
+}
+
+void housekeeping_task_user(void) {
+    user_transport_update();
+    user_transport_sync();
+}
+#endif
+
+__attribute__((weak)) void keyboard_post_init_keymap(void) {}
+void                       keyboard_post_init_user(void) {
+#if defined(SPLIT_KEYBOARD) && defined(SPLIT_TRANSACTION_IDS_USER)
+    transaction_register_rpc(RPC_ID_USER_CONFIG_SYNC, user_config_sync);
+#endif
+    keyboard_post_init_keymap();
 }

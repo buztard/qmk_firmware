@@ -117,3 +117,12 @@ endif
 ifeq ($(strip $(FLAVOR)), susuwatari)
 	OPT_DEFS += -DFLAVOR_SUSUWATARI -DFLAVOR=\"susuwatari\"
 endif
+
+# This is great, but it's expensive as well...
+CUSTOM_SPLIT_TRANSPORT_SYNC ?= no
+ifeq ($(strip $(CUSTOM_SPLIT_TRANSPORT_SYNC)), yes)
+    ifeq ($(strip $(SPLIT_KEYBOARD)), yes)
+        OPT_DEFS += -DCUSTOM_SPLIT_TRANSPORT_SYNC
+    endif
+endif
+
