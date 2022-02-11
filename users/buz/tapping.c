@@ -45,14 +45,16 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LT(_LOWER, KC_ESC):
         case LT(_SYMBOL, KC_ESC):
+        case LT(_SYMBOL, KC_ENT):
             return true;
 
         case LT(_RAISE, KC_BSPC):
         case LT(_NUM, KC_BSPC):
+        case LT(_VIM, KC_BSPC):
             return true;
 
-        case LT(_SYMBOL, KC_ENT):
-            return true;
+        case LT(_NUM, KC_SPACE):
+            return false;
 
         default:
             return false;
