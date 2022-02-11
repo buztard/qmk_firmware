@@ -80,9 +80,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 
     switch (keycode) {
         case LSPO:
-#ifdef CONSOLE_ENABLE
-            uprintf("P:%d I:%d T:%d\n", record->event.pressed, record->tap.interrupted, record->tap.count);
-#endif
             if (!record->event.pressed && record->tap.count == 1 && !record->tap.interrupted) {
                 record->tap.count = 0;
                 unregister_mods(MOD_LSFT);
