@@ -119,7 +119,7 @@ ifeq ($(strip $(FLAVOR)), susuwatari)
 endif
 
 # This is great, but it's expensive as well...
-CUSTOM_SPLIT_TRANSPORT_SYNC ?= no
+CUSTOM_SPLIT_TRANSPORT_SYNC ?= yes
 ifeq ($(strip $(CUSTOM_SPLIT_TRANSPORT_SYNC)), yes)
     ifeq ($(strip $(SPLIT_KEYBOARD)), yes)
         OPT_DEFS += -DCUSTOM_SPLIT_TRANSPORT_SYNC
