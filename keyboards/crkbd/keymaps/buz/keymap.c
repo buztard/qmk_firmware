@@ -40,7 +40,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     XXXXXXX, _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, XXXXXXX,
     XXXXXXX, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, XXXXXXX,
     XXXXXXX, _________________QWERTY_L3_________________, _________________XWERTY_R3_________________, XXXXXXX,
-       KC_LEAD, LT(_SYMBOL, KC_ESC), LT(_SYMBOL, KC_ENT), LT(_NUM, KC_SPC), LT(_VIM, KC_BSPC), KC_TD_RALT
+       KC_LEAD, LT(_SYMBOL, KC_ESC), LT(_SYMBOL, KC_ENT), LT(_VIM, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
   ),
 
   [_GAME] = LAYOUT_wrapper(
