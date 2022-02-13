@@ -9,8 +9,6 @@ TAP_DANCE_ENABLE ?= no # Enable Tap Dance feature.
 LEADER_ENABLE = ?no    # Enable leader key.
 GRAVE_ESC_ENABLE ?= no
 MAGIC_ENABLE ?= no
-LAYER_LOCK_ENABLE ?= no
-REPEAT_ENABLE ?= no
 
 # we're using a custom hack instead
 SPACE_CADET_ENABLE ?= no
@@ -21,17 +19,25 @@ ifneq ($(PLATFORM),CHIBIOS)
     endif
 endif
 
-SRC += buz.c tapping.c caps_word.c
+SRC += buz.c tapping.c
 
 ifeq ($(strip $(TAP_DANCE_ENABLE)), yes)
   SRC += tap_dances.c
 endif
 
+CAPS_WORD_ENABLE ?= yes
+ifeq ($(strip $(CAPS_WORD_ENABLE)), yes)
+  SRC += caps_word.c
+	OPT_DEFS += -DCAPS_WORD_ENABLE
+endif
+
+LAYER_LOCK_ENABLE ?= no
 ifeq ($(strip $(LAYER_LOCK_ENABLE)), yes)
   SRC += layer_lock.c
 	OPT_DEFS += -DLAYER_LOCK_ENABLE
 endif
 
+REPEAT_ENABLE ?= no
 ifeq ($(strip $(REPEAT_ENABLE)), yes)
   SRC += repeat.c
 	OPT_DEFS += -DREPEAT_ENABLE
