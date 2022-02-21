@@ -35,6 +35,25 @@ bool process_caps_word(uint16_t keycode, keyrecord_t *record) {
     }
 
     switch (keycode) {
+        case UNSLSH:
+            if (userspace_config.unslsh) {
+                if (!is_shifted) {
+                    register_code(KC_LSFT);
+                    is_shifted = true;
+                }
+                if (record->event.pressed) {
+                    tap_code16(KC_MINUS);
+                }
+            } else {
+                if (is_shifted) {
+                    unregister_code(KC_LSFT);
+                    is_shifted = false;
+                }
+                tap_code16(KC_SLASH);
+                caps_word_active = false;
+            }
+            return false;
+
         case KC_A ... KC_Z:
             if (!is_shifted) {
                 register_code(KC_LSFT);

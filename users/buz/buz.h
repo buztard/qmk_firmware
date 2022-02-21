@@ -33,6 +33,7 @@ typedef union {
     struct {
         bool rgb_layer_change : 1;
         bool oled_enabled : 1;
+        bool unslsh : 1;
     };
 } userspace_config_t;
 
@@ -79,6 +80,9 @@ enum userspace_custom_keycodes {
     MUSCLE_ROCKET,  // work stuff
     LAYER_LOCK,     // toggle layer lock
     REPEAT,         // repeat the last keycode
+    UNSLSH,         // underscore slash
+    UNSLSTOG,
+    SELF,
     USER_SAFE_RANGE,
 };
 
@@ -121,7 +125,7 @@ enum userspace_custom_keycodes {
 #define _________________QWERTY_R2_________________        LT(_FUNC, KC_H), RSFT_T(KC_J), RCTL_T(KC_K),     LALT_T(KC_L), LGUI_T(KC_SCLN)
 #define _________________QWERTY_R3_________________        KC_N,            KC_M,         LGUI_T(KC_COMM),  KC_DOT,       KC_SLASH
 
-#define _________________XWERTY_R3_________________        KC_N,    KC_M,         LGUI_T(KC_COMM),  KC_DOT,       KC_SLASH
+#define _________________XWERTY_R3_________________        KC_N,    KC_M,         LGUI_T(KC_COMM),  KC_DOT,       UNSLSH
 
 // game layer is a query layer without mod taps
 #define __________________GAME_L1__________________        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T
@@ -173,7 +177,7 @@ enum userspace_custom_keycodes {
 
 #define _________________ADJUST_L1_________________        RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI
 #define _________________ADJUST_L2_________________        RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD
-#define _________________ADJUST_L3_________________        _______, RESET,   EEP_RST, KC_SLEP, KC_WAKE
+#define _________________ADJUST_L3_________________        UNSLSTOG, RESET,   EEP_RST, KC_SLEP, KC_WAKE
 
 #define _________________ADJUST_R1_________________        AU_TOG,  QWERTY,  KC_BRIU, OLED,    _______
 #define _________________ADJUST_R2_________________        MU_TOG,  COLEMAK, KC_BRID, RGB_LYR, KC_SINS
