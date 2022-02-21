@@ -39,8 +39,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_COLEMAK] = LAYOUT_wrapper(
     XXXXXXX, _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, XXXXXXX,
     XXXXXXX, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, XXXXXXX,
-    XXXXXXX, _________________QWERTY_L3_________________, _________________XWERTY_R3_________________, XXXXXXX,
-       KC_LEAD, LT(_SYMBOL, KC_ESC), LT(_SYMBOL, KC_ENT), LT(_VIM, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
+       SELF, _________________QWERTY_L3_________________, _________________XWERTY_R3_________________, XXXXXXX,
+       OSM(MOD_LSFT), LT(_SYMBOL, KC_ESC), LT(_SYMBOL, KC_ENT), LT(_VIM, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
   ),
 
   [_GAME] = LAYOUT_wrapper(
@@ -122,6 +122,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 // clang-format on
+
+#ifdef KEY_OVERRIDE_ENABLE
+const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPACE, KC_DELETE);
+
+// This globally defines all key overrides to be used
+const key_override_t **key_overrides = (const key_override_t *[]){
+    &delete_key_override,
+    NULL  // Null terminate the array of overrides!
+};
+#endif
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {

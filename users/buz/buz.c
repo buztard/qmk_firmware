@@ -2,6 +2,7 @@
 #include "encoder_stuff.h"
 #include "caps_word.h"
 #include "keycode.h"
+#include "quantum.h"
 
 #ifdef CUSTOM_SPLIT_TRANSPORT_SYNC
 #    include "transactions.h"
@@ -23,6 +24,9 @@ __attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) 
 __attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t* record) { return true; }
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+    uint8_t temp_mod = get_mods();
+    uint8_t temp_osm = get_oneshot_mods();
+
 #ifdef REPEAT_ENABLE
     if (!process_repeat(keycode, record)) {
         return false;
@@ -79,6 +83,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 #endif
 
     switch (keycode) {
+            // case LT(_NUM, KC_BSPC):
+            //     if (!record->event.pressed) {
+            //         if ((temp_mod | temp_osm) & MOD_MASK_SHIFT) {
+            //             unregister_mods(MOD_LSFT);
+            //             tap_code16(KC_DEL);
+            //             register_mods(MOD_LSFT);
+            //               return false;
+            //           }
+            //     }
+            //     return true;
+
         case LSPO:
             if (!record->event.pressed && record->tap.count == 1 && !record->tap.interrupted) {
                 record->tap.count = 0;
@@ -126,6 +141,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             } else {
                 layer_off(_RAISE);
                 update_tri_layer(_LOWER, _RAISE, _ADJUST);
+            }
+            return false;
+
+        case UNSLSH:
+            if (!record->event.pressed) {
+                return false;
+            }
+            if (userspace_config.unslsh) {
+                clear_mods();
+                clear_oneshot_mods();
+                if ((temp_mod | temp_osm) & MOD_MASK_SHIFT) {
+                    tap_code16(KC_SLASH);
+                } else {
+                    tap_code16(KC_UNDERSCORE);
+                }
+                set_mods(temp_mod);
+            } else {
+                tap_code16(KC_SLASH);
+            }
+            return false;
+
+        case UNSLSTOG:
+            if (record->event.pressed) {
+                userspace_config.unslsh ^= 1;
+                eeconfig_update_user(userspace_config.raw);
             }
             return false;
 
@@ -186,6 +226,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             }
             return false;
 
+        case SELF:
+            if (record->event.pressed) {
+                SEND_STRING("self");
+            }
+            return false;
+
 #ifdef OLED_ENABLE
         case OLED:
             if (record->event.pressed) {
@@ -220,8 +266,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 
         case MAKE:
             if (record->event.pressed) {
-                uint8_t temp_mod = get_mods();
-                uint8_t temp_osm = get_oneshot_mods();
                 clear_mods();
                 clear_oneshot_mods();
 

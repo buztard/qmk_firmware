@@ -6,6 +6,11 @@ extern userspace_config_t userspace_config;
 extern rgblight_config_t rgblight_config;
 #endif
 
+#define ENT LT(_SYMBOL, KC_ENT)
+#define ESC LT(_SYMBOL, KC_ESC)
+#define SPC LT(_VIM, KC_SPC)
+#define BSPC LT(_NUM, KC_BSPC)
+
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
@@ -19,7 +24,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TABMS,_________________QWERTY_L1_________________,                                     _________________QWERTY_R1_________________, KC_BSPC,
     KC_CESC, _________________QWERTY_L2_________________,                                     _________________QWERTY_R2_________________, LCTL_T(KC_QUOT),
        LSPO, _________________QWERTY_L3_________________, TMUX_PP, TMUX_WP, TMUX_WN, TMUX_PN, _________________XWERTY_R3_________________, RSPC,
-       ENC_0, KC_TD_LALT, LT(_SYMBOL, KC_ESC), LT(_SYMBOL, KC_ENT), CAPS_WORD, LAYER_LOCK, LT(_VIM, KC_SPC),  LT(_NUM, KC_BSPC), KC_TD_RALT, ENC_1
+                                   ENC_0, KC_TD_LALT, ESC, ENT, LAYER_LOCK, CAPS_WORD, SPC, BSPC, KC_TD_RALT, ENC_1
   ),
 
   [_LOWER] = LAYOUT_wrapper(
