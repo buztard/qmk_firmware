@@ -95,6 +95,9 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
         case RCTL_T(KC_QUOT):
             return true;
 
+        case LT(_SYMBOL, KC_ENT):
+            return true;
+
         case SFT_T(KC_SPC):
             return false;
 
