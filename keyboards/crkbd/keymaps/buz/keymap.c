@@ -1,12 +1,19 @@
 #include QMK_KEYBOARD_H
 #ifdef PROTOCOL_LUFA
 #    include "lufa.h"
-#    include "split_util.h"
 #endif
+#include "split_util.h"
 #include "buz.h"
+
 #include "version.h"
+
 #ifdef RAW_ENABLE
 #    include "raw_hid.h"
+#endif
+
+#if defined(MCU_RP)
+#    undef RESET
+#    define RESET QK_BOOT
 #endif
 
 #ifdef RGB_MATRIX_ENABLE
@@ -30,17 +37,22 @@ enum custom_keycodes {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
-           KC_TABMS, _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
-            KC_CESC, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_CQUOT,
-               LSPO, _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, RSPC,
-                 OSM(MOD_LSFT), LT(_LOWER, KC_ESC), KC_GENT,         LT(_SYMBOL, KC_SPC), LT(_RAISE, KC_BSPC), KC_TD_RALT
+          KC_TABMS, _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
+    LCTL_T(KC_ESC), _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_CQUOT,
+     OSM(MOD_LSFT), _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, OSM(MOD_RSFT),
+        // OSM(MOD_LSFT), LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
+        OSM(MOD_LSFT), LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
   ),
 
   [_COLEMAK] = LAYOUT_wrapper(
-    XXXXXXX, _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, XXXXXXX,
-    XXXXXXX, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, XXXXXXX,
-       SELF, _________________QWERTY_L3_________________, _________________XWERTY_R3_________________, XXXXXXX,
-       OSM(MOD_LSFT), LT(_SYMBOL, KC_ESC), LT(_SYMBOL, KC_ENT), LT(_VIM, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
+    // XXXXXXX, _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, XXXXXXX,
+    // XXXXXXX, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, XXXXXXX,
+          KC_TABMS, _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
+    LCTL_T(KC_ESC), _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_CQUOT,
+     OSM(MOD_LSFT), _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, OSM(MOD_RSFT),
+       // SELF, _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, XXXXXXX,
+       // EMOJI, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), LT(_VIM, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
+        LT(_NUM, KC_ESC), OSM(MOD_LSFT), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
   ),
 
   [_GAME] = LAYOUT_wrapper(
@@ -129,7 +141,7 @@ const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPA
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
     &delete_key_override,
-    NULL  // Null terminate the array of overrides!
+    NULL // Null terminate the array of overrides!
 };
 #endif
 
@@ -164,7 +176,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
                 eeconfig_update_rgblight_default();
                 rgblight_enable();
             }
-#endif  // RGBLIGHT_ENABLE
+#endif // RGBLIGHT_ENABLE
             return false;
     }
     return true;
@@ -196,10 +208,10 @@ static void render_status(void) {
 
 #    if defined(RGBLIGHT_ENABLE) && defined(OLED_EXTRAS)
     oled_render_rgblight_effect_name();
-#    endif  // RGBLIGHT_ENABLE
+#    endif // RGBLIGHT_ENABLE
 #    if defined(RGB_MATRIX_ENABLE) && defined(OLED_EXTRAS)
     oled_render_rgb_matrix_effect_name();
-#    endif  // RGB_MATRIX_ENABLE
+#    endif // RGB_MATRIX_ENABLE
 }
 
 bool oled_task_user(void) {
@@ -228,11 +240,15 @@ bool oled_task_user(void) {
     }
     return false;
 }
-#endif  // OLED_ENABLE
+#endif // OLED_ENABLE
 
 #ifdef RGB_MATRIX_ENABLE
-void suspend_power_down_user(void) { rgb_matrix_set_suspend_state(true); }
-void suspend_wakeup_init_user(void) { rgb_matrix_set_suspend_state(false); }
+void suspend_power_down_user(void) {
+    rgb_matrix_set_suspend_state(true);
+}
+void suspend_wakeup_init_user(void) {
+    rgb_matrix_set_suspend_state(false);
+}
 
 #    ifdef LEADER_ENABLE
 extern bool leading;
@@ -276,7 +292,7 @@ bool rgb_matrix_indicators_keymap(void) {
 
     return false;
 }
-#endif  // RGB_MATRIX_ENABLE
+#endif // RGB_MATRIX_ENABLE
 
 #ifdef RAW_ENABLE
 enum hid_commands {
@@ -336,5 +352,39 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
     }
 
     raw_hid_send(data, length);
+}
+#endif
+
+#ifdef POINTING_DEVICE_ENABLE
+static bool scrolling_mode = false;
+
+layer_state_t layer_state_set_keymap(layer_state_t state) {
+    switch (get_highest_layer(state)) {
+        case _MOUSE:
+            pointing_device_set_cpi(8000);
+            break;
+
+        case _NUM:
+            scrolling_mode = true;
+            pointing_device_set_cpi(6000);
+            break;
+
+        default:
+            if (scrolling_mode) {
+                scrolling_mode = false;
+            }
+            pointing_device_set_cpi(30000);
+            break;
+    }
+    return state;
+}
+
+report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
+    if (scrolling_mode) {
+        mouse_report.h = mouse_report.x;
+        mouse_report.v = mouse_report.y;
+        mouse_report.x = mouse_report.y = 0;
+    }
+    return mouse_report;
 }
 #endif

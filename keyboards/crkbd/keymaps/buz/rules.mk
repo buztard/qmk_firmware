@@ -58,3 +58,15 @@ ifeq ($(strip $(TRACKPOINT)), yes)
 	MOUSEKEY_ENABLE = yes
 	OLED_ENABLE = no
 endif
+
+ifeq ($(strip $(FLAVOR)), pico)
+	POINTING_DEVICE_ENABLE = yes
+	POINTING_DEVICE_DRIVER = pimoroni_trackball
+	EXTRAKEY_ENABLE = yes
+	MOUSEKEY_ENABLE = yes
+	TAP_DANCE_ENABLE = yes
+	LEADER_ENABLE = yes
+	OLED_ENABLE = yes
+	COMBO_ENABLE = yes
+	UCIS_ENABLE = no
+endif

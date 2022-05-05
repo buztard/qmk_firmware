@@ -50,7 +50,7 @@ static bool DASHER(effect_params_t* params) {
     }
     return rgb_matrix_check_finished_leds(led_max);
 }
-#    endif  // FLAVOR_DASHER
+#    endif // FLAVOR_DASHER
 
 #    ifdef FLAVOR_GODSPEED
 static bool GODSPEED(effect_params_t* params) {
@@ -79,7 +79,7 @@ static bool GODSPEED(effect_params_t* params) {
     }
     return rgb_matrix_check_finished_leds(led_max);
 }
-#    endif  // FLAVOR_GODSPEED
+#    endif // FLAVOR_GODSPEED
 
 #    ifdef FLAVOR_LEVIATHAN
 static bool LEVIATHAN(effect_params_t* params) {
@@ -100,7 +100,7 @@ static bool LEVIATHAN(effect_params_t* params) {
     }
     return rgb_matrix_check_finished_leds(led_max);
 }
-#    endif  // FLAVOR_LEVIATHAN
+#    endif // FLAVOR_LEVIATHAN
 
 #    ifdef FLAVOR_TROUBLED_MINDS
 static bool TROUBLED_MINDS(effect_params_t* params) {
@@ -121,7 +121,7 @@ static bool TROUBLED_MINDS(effect_params_t* params) {
     }
     return rgb_matrix_check_finished_leds(led_max);
 }
-#    endif  // FLAVOR_TROUBLED_MINDS
+#    endif // FLAVOR_TROUBLED_MINDS
 
 #    ifdef FLAVOR_MILKSHAKE
 static bool MILKSHAKE(effect_params_t* params) {
@@ -152,13 +152,13 @@ static bool MILKSHAKE(effect_params_t* params) {
                     rgb_matrix_set_color(i, alpha.r, alpha.g, alpha.b);
                 }
             } else {
-                if (i == 24) {
+                if (i == 24 || i == 51) {
                     rgb_matrix_set_color(i, pink.r, pink.g, pink.b);
-                } else if (i == 25) {
+                } else if (i == 25 || i == 52) {
                     rgb_matrix_set_color(i, purple.r, purple.g, purple.b);
-                } else if (i == 26) {
+                } else if (i == 26 || i == 53) {
                     rgb_matrix_set_color(i, green.r, green.g, green.b);
-                } else if (i == 13) {
+                } else if (i == 13 || i == 40) {
                     rgb_matrix_set_color(i, yellow.r, yellow.g, yellow.b);
                 } else {
                     rgb_matrix_set_color(i, alpha.r, alpha.g, alpha.b);
@@ -170,7 +170,7 @@ static bool MILKSHAKE(effect_params_t* params) {
     }
     return rgb_matrix_check_finished_leds(led_max);
 }
-#    endif  // FLAVOR_MILKSHAKE
+#    endif // FLAVOR_MILKSHAKE
 
 #    ifdef FLAVOR_SERIKA
 static bool SERIKA(effect_params_t* params) {
@@ -191,7 +191,7 @@ static bool SERIKA(effect_params_t* params) {
     }
     return rgb_matrix_check_finished_leds(led_max);
 }
-#    endif  // FLAVOR_SERIKA
+#    endif // FLAVOR_SERIKA
 
-#endif  // RGB_MATRIX_CUSTOM_EFFECT_IMPLS
+#endif // RGB_MATRIX_CUSTOM_EFFECT_IMPLS
 /* vim: set ft=c: */
