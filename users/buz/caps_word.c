@@ -35,22 +35,13 @@ bool process_caps_word(uint16_t keycode, keyrecord_t *record) {
     }
 
     switch (keycode) {
-        case UNSLSH:
-            if (userspace_config.unslsh) {
-                if (!is_shifted) {
-                    register_code(KC_LSFT);
-                    is_shifted = true;
-                }
-                if (record->event.pressed) {
-                    tap_code16(KC_MINUS);
-                }
-            } else {
-                if (is_shifted) {
-                    unregister_code(KC_LSFT);
-                    is_shifted = false;
-                }
-                tap_code16(KC_SLASH);
-                caps_word_active = false;
+        case KC_SLASH:
+            if (!is_shifted) {
+                register_code(KC_LSFT);
+                is_shifted = true;
+            }
+            if (record->event.pressed) {
+                tap_code16(KC_MINUS);
             }
             return false;
 
@@ -82,4 +73,6 @@ bool process_caps_word(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-bool caps_word(void) { return caps_word_active; }
+bool caps_word(void) {
+    return caps_word_active;
+}

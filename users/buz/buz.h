@@ -62,27 +62,28 @@ enum userspace_custom_keycodes {
     COLEMAK,
     LOWER,
     RAISE,
-    TMUX_PREFIX,    // tmux prefix key
-    TMUX_WN,        // next tmux window
-    TMUX_WP,        // prev tmux window
-    TMUX_PN,        // next tmux pane
-    TMUX_PP,        // prev tmux pane
-    TMUX_PL,        // left tmux pane
-    TMUX_PR,        // right tmux pane
-    TMUX_PU,        // upper tmux pane
-    TMUX_PD,        // lower tmux pane
-    MAKE,           // compile/flash qmk
-    RGB_LYR,        // toggle rgb layer indication
-    OLED,           // toggle oled display
-    CAPS_WORD,      // caps word
-    ENC_0,          // first rotary encoder press
-    ENC_1,          // second rotary encoder press
-    MUSCLE_ROCKET,  // work stuff
-    LAYER_LOCK,     // toggle layer lock
-    REPEAT,         // repeat the last keycode
-    UNSLSH,         // underscore slash
+    TMUX_PREFIX,   // tmux prefix key
+    TMUX_WN,       // next tmux window
+    TMUX_WP,       // prev tmux window
+    TMUX_PN,       // next tmux pane
+    TMUX_PP,       // prev tmux pane
+    TMUX_PL,       // left tmux pane
+    TMUX_PR,       // right tmux pane
+    TMUX_PU,       // upper tmux pane
+    TMUX_PD,       // lower tmux pane
+    MAKE,          // compile/flash qmk
+    RGB_LYR,       // toggle rgb layer indication
+    OLED,          // toggle oled display
+    CAPS_WORD,     // caps word
+    ENC_0,         // first rotary encoder press
+    ENC_1,         // second rotary encoder press
+    MUSCLE_ROCKET, // work stuff
+    LAYER_LOCK,    // toggle layer lock
+    REPEAT,        // repeat the last keycode
+    UNSLSH,        // underscore slash
     UNSLSTOG,
     SELF,
+    EMOJI,
     USER_SAFE_RANGE,
 };
 
@@ -119,13 +120,11 @@ enum userspace_custom_keycodes {
 
 #define _________________QWERTY_L1_________________        LT(_MOUSE, KC_Q), KC_W,           KC_E,             KC_R,           KC_T
 #define _________________QWERTY_L2_________________        LGUI_T(KC_A),     LALT_T(KC_S),   LCTL_T(KC_D),     LSFT_T(KC_F),   LT(_FUNC, KC_G)
-#define _________________QWERTY_L3_________________        LT(_TMUX, KC_Z),  LT(_NUM, KC_X), LGUI_T(KC_C),     LT(_VIM, KC_V), LT(_MEDIA, KC_B)
+#define _________________QWERTY_L3_________________        LT(_TMUX, KC_Z),  RALT_T(KC_X),   LGUI_T(KC_C),     LT(_VIM, KC_V), LT(_MEDIA, KC_B)
 
-#define _________________QWERTY_R1_________________        KC_Y,            KC_U,         KC_I,             KC_O,         KC_P
-#define _________________QWERTY_R2_________________        LT(_FUNC, KC_H), RSFT_T(KC_J), RCTL_T(KC_K),     LALT_T(KC_L), LGUI_T(KC_SCLN)
-#define _________________QWERTY_R3_________________        KC_N,            KC_M,         LGUI_T(KC_COMM),  KC_DOT,       KC_SLASH
-
-#define _________________XWERTY_R3_________________        KC_N,    KC_M,         LGUI_T(KC_COMM),  KC_DOT,       UNSLSH
+#define _________________QWERTY_R1_________________        KC_Y,            KC_U,           KC_I,         KC_O,           KC_P
+#define _________________QWERTY_R2_________________        LT(_FUNC, KC_H), RSFT_T(KC_J),   RCTL_T(KC_K), LALT_T(KC_L),   LGUI_T(KC_SCLN)
+#define _________________QWERTY_R3_________________        KC_N,            LT(_VIM, KC_M), KC_COMM,      RALT_T(KC_DOT), LT(_VIM, KC_SLASH)
 
 // game layer is a query layer without mod taps
 #define __________________GAME_L1__________________        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T
@@ -179,12 +178,12 @@ enum userspace_custom_keycodes {
 #define _________________ADJUST_L2_________________        RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD
 #define _________________ADJUST_L3_________________        UNSLSTOG, RESET,   EEP_RST, KC_SLEP, KC_WAKE
 
-#define _________________ADJUST_R1_________________        AU_TOG,  QWERTY,  KC_BRIU, OLED,    _______
+#define _________________ADJUST_R1_________________        AU_TOG,  QWERTY,  KC_BRIU, OLED,    CMB_TOG
 #define _________________ADJUST_R2_________________        MU_TOG,  COLEMAK, KC_BRID, RGB_LYR, KC_SINS
 #define _________________ADJUST_R3_________________        CK_TOGG, MAKE,    DEBUG,   GAME,    _______
 
 #define __________________VIM_L1___________________         KC_TAB, _______, _______, _______, _______
-#define __________________VIM_L2___________________         KC_ESC, _______, KC_PGDN, KC_PGUP, KC_HOME
+#define __________________VIM_L2___________________         KC_ESC, KC_TAB,  KC_PGDN, KC_PGUP, KC_HOME
 #define __________________VIM_L3___________________        _______, _______, _______, KC_PGDN, KC_END
 
 #define __________________VIM_R1___________________        _______, KC_PGUP, _______, _______, KC_DEL
@@ -200,8 +199,8 @@ enum userspace_custom_keycodes {
 #define _________________MOUSE_R3__________________        _______, KC_BTN1, KC_BTN3, KC_BTN2, _______
 
 #define _________________NUMPAD_L1_________________           KC_1,    KC_2,    KC_3,    KC_4, KC_5
-#define _________________NUMPAD_L2_________________        _______, _______, _______,  KC_ESC, KC_TAB
-#define _________________NUMPAD_L3_________________        _______, _______, _______, _______, _______
+#define _________________NUMPAD_L2_________________         KC_ESC,  KC_TAB, _______, KC_PGUP, KC_HOME 
+#define _________________NUMPAD_L3_________________        _______, _______, _______, KC_PGDN, KC_END  
 
 #define _________________NUMPAD_R1_________________           KC_6,    KC_7,    KC_8,    KC_9, KC_0
 #define _________________NUMPAD_R2_________________        KC_BSPC,    KC_1,    KC_2,    KC_3, KC_0
@@ -231,7 +230,7 @@ enum userspace_custom_keycodes {
 #define _________________EXTRA_R2__________________        KC_BSPC, KC_LPRN, KC_RPRN, KC_DQT,  KC_QUOT
 #define _________________EXTRA_R3__________________        KC_GT,   KC_LBRC, KC_RBRC, KC_PIPE, KC_BSLS
 
-#define _________________SYMBOL_L1_________________        KC_GRV,  KC_LT,   KC_GT,   KC_DQT,  KC_DOT
+#define _________________SYMBOL_L1_________________        KC_GRV,  KC_LT,   KC_GT,   KC_DQT,   KC_DOT
 #define _________________SYMBOL_L2_________________        KC_EXLM, KC_MINS, KC_PLUS, KC_EQL,  KC_HASH
 #define _________________SYMBOL_L3_________________        KC_CIRC, KC_AT,   KC_ASTR, KC_BSLS, KC_COMM
 

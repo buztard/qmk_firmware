@@ -123,6 +123,9 @@ endif
 ifeq ($(strip $(FLAVOR)), susuwatari)
 	OPT_DEFS += -DFLAVOR_SUSUWATARI -DFLAVOR=\"susuwatari\"
 endif
+ifeq ($(strip $(FLAVOR)), pico)
+	OPT_DEFS += -DFLAVOR_PICO -DFLAVOR=\"pico\"
+endif
 
 # This is great, but it's expensive as well...
 CUSTOM_SPLIT_TRANSPORT_SYNC ?= yes

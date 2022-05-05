@@ -19,9 +19,13 @@
 
 userspace_config_t userspace_config;
 
-__attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) { return state; }
+__attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) {
+    return state;
+}
 
-__attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t* record) { return true; }
+__attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t* record) {
+    return true;
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     uint8_t temp_mod = get_mods();
@@ -83,17 +87,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 #endif
 
     switch (keycode) {
-            // case LT(_NUM, KC_BSPC):
-            //     if (!record->event.pressed) {
-            //         if ((temp_mod | temp_osm) & MOD_MASK_SHIFT) {
-            //             unregister_mods(MOD_LSFT);
-            //             tap_code16(KC_DEL);
-            //             register_mods(MOD_LSFT);
-            //               return false;
-            //           }
-            //     }
-            //     return true;
+        // case LT(_NUM, KC_BSPC):
+        //     if (!record->event.pressed) {
+        //         if ((temp_mod | temp_osm) & MOD_MASK_SHIFT) {
+        //             unregister_mods(MOD_LSFT);
+        //             tap_code16(KC_DEL);
+        //             register_mods(MOD_LSFT);
+        //               return false;
+        //           }
+        //     }
+        //     return true;
 
+#if 0
         case LSPO:
             if (!record->event.pressed && record->tap.count == 1 && !record->tap.interrupted) {
                 record->tap.count = 0;
@@ -111,6 +116,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
                 return false;
             }
             break;
+#endif
 
         case QWERTY:
             if (record->event.pressed) {
@@ -144,6 +150,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             }
             return false;
 
+#if 0
         case UNSLSH:
             if (!record->event.pressed) {
                 return false;
@@ -167,6 +174,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
                 userspace_config.unslsh ^= 1;
                 eeconfig_update_user(userspace_config.raw);
             }
+            return false;
+#endif
+
+        case EMOJI:
+#ifdef UCIS_ENABLE
+            qk_ucis_start();
+#endif
             return false;
 
         case TMUX_PREFIX:

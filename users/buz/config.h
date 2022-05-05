@@ -25,7 +25,7 @@
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
 // combo configuration
-#define COMBO_TERM 40
+#define COMBO_TERM 30
 
 // leader key
 #define LEADER_PER_KEY_TIMING
@@ -72,3 +72,6 @@
 #        define SPLIT_TRANSACTION_IDS_USER RPC_ID_USER_CONFIG_SYNC
 #    endif
 #endif
+
+// Unicode mode
+#define UNICODE_SELECTED_MODES UC_LNX
