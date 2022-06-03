@@ -19,7 +19,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         // My pinkies are slow...
         case LGUI_T(KC_A):
         case LGUI_T(KC_SCLN):
-            return 500;
+            return 600;
 
         default:
             return TAPPING_TERM;
@@ -32,6 +32,10 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LSFT_T(KC_F):
         case RSFT_T(KC_J):
+            return false;
+
+        case LGUI_T(KC_A):
+        case LGUI_T(KC_SCLN):
             return false;
 
         default:

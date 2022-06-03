@@ -41,18 +41,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LCTL_T(KC_ESC), _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_CQUOT,
      OSM(MOD_LSFT), _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, OSM(MOD_RSFT),
         // OSM(MOD_LSFT), LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
-        OSM(MOD_LSFT), LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
+               KC_ESC, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
   ),
 
   [_COLEMAK] = LAYOUT_wrapper(
-    // XXXXXXX, _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, XXXXXXX,
-    // XXXXXXX, _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, XXXXXXX,
-          KC_TABMS, _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
-    LCTL_T(KC_ESC), _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_CQUOT,
-     OSM(MOD_LSFT), _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, OSM(MOD_RSFT),
-       // SELF, _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, XXXXXXX,
-       // EMOJI, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), LT(_VIM, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
-        LT(_NUM, KC_ESC), OSM(MOD_LSFT), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
+          KC_TABMS, _________________XWERTY_L1_________________, _________________XWERTY_R1_________________, KC_BSPC,
+    LCTL_T(KC_ESC), _________________XWERTY_L2_________________, _________________XWERTY_R2_________________, KC_CQUOT,
+     OSM(MOD_LSFT), _________________XWERTY_L3_________________, _________________XWERTY_R3_________________, OSM(MOD_RSFT),
+        LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), OSM(MOD_LSFT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
   ),
 
   [_GAME] = LAYOUT_wrapper(
@@ -80,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _________________SYMBOL_L1_________________, _________________SYMBOL_R1_________________, KC_AT,
     _______, _________________SYMBOL_L2_________________, _________________SYMBOL_R2_________________, REPEAT,
     _______, _________________SYMBOL_L3_________________, _________________SYMBOL_R3_________________, _______,
-                             _______, _______, CAPS_WORD, _______, _______, CAPS_WORD
+                             _______, _______, KC_TAB, _______, _______, CAPS_WORD
   ),
 
   [_VIM] = LAYOUT_wrapper(
@@ -101,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     RGB_MOD, _________________NUMPAD_L1_________________, _________________NUMPAD_R1_________________, _______,
     ADJ,     _________________NUMPAD_L2_________________, _________________NUMPAD_R2_________________, _______,
     QWERTY,  _________________NUMPAD_L3_________________, _________________NUMPAD_R3_________________, _______,
-                               ADJUST, MO(_ADJUST), _______, _______, KC_0,    KC_DOT
+                               ADJUST, MO(_ADJUST), CAPS_WORD, _______, KC_0,    KC_DOT
   ),
 
   [_MEDIA] = LAYOUT_wrapper(

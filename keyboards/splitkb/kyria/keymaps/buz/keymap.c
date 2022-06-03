@@ -1,3 +1,4 @@
+#include "keycode.h"
 #include QMK_KEYBOARD_H
 #include "buz.h"
 
@@ -14,10 +15,10 @@ extern rgblight_config_t rgblight_config;
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
-    KC_TABMS,_________________QWERTY_L1_________________,                                     _________________QWERTY_R1_________________, KC_BSPC,
-    KC_CESC, _________________QWERTY_L2_________________,                                     _________________QWERTY_R2_________________, LCTL_T(KC_QUOT),
-       LSPO, _________________QWERTY_L3_________________, TMUX_PP, TMUX_WP, TMUX_WN, TMUX_PN, _________________QWERTY_R3_________________, RSPC,
-                              ENC_0, KC_TD_LALT, LT(_LOWER, KC_ESC),   KC_GENT, KC_ESC,  KC_BSPC,   LT(_EXTRA, KC_SPC),  LT(_RAISE, KC_BSPC),   KC_TD_RALT, ENC_1
+     KC_TABMS, _________________QWERTY_L1_________________,                                     _________________QWERTY_R1_________________, KC_BSPC,
+      KC_CESC, _________________QWERTY_L2_________________,                                     _________________QWERTY_R2_________________, LCTL_T(KC_QUOT),
+OSM(MOD_LSFT), _________________QWERTY_L3_________________, TMUX_PP, TMUX_WP, TMUX_WN, TMUX_PN, _________________QWERTY_R3_________________, OSM(MOD_RSFT),
+          ENC_0, KC_ESCAPE, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), KC_TABMS, OSM(MOD_RSFT), LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT, ENC_1
   ),
 
   [_COLEMAK] = LAYOUT_wrapper(
@@ -90,10 +91,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
   ),
 
-  [_EXTRA] = LAYOUT_wrapper(
-    _______, _________________EXTRA_L1__________________,                                     _________________EXTRA_R1__________________, _______,
-    _______, _________________EXTRA_L2__________________,                                     _________________EXTRA_R2__________________, _______,
-    _______, _________________EXTRA_L3__________________, _______, _______, _______, _______, _________________EXTRA_R3__________________, _______,
+  [_FUNC] = LAYOUT_wrapper(
+    _______, __________________FUNC_L1__________________,                                     __________________FUNC_R1__________________, _______,
+    _______, __________________FUNC_L2__________________,                                     __________________FUNC_R2__________________, _______,
+    _______, __________________FUNC_L3__________________, _______, _______, _______, _______, __________________FUNC_R3__________________, _______,
                                _______, _______, _______, CAPS_WORD, _______, _______, _______, _______, _______, _______
   ),
 };
@@ -138,7 +139,7 @@ static void render_status(void) {
 #    if defined(XRGBLIGHT_ENABLE)
     oled_write_P(PSTR("R: "), false);
     oled_render_rgblight_effect_name();
-#    endif  // RGBLIGHT_ENABLE
+#    endif // RGBLIGHT_ENABLE
 #    if defined(ENCODER_ENABLE)
     oled_write_P(PSTR("L: "), false);
     oled_write_P(encoder_mode_name(0), false);
@@ -155,8 +156,9 @@ bool oled_task_user(void) {
     }
 
     if (is_keyboard_master()) {
-        render_status();  // Renders the current keyboard state (layer, lock, caps, scroll, etc)
+        render_status(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
     } else {
+        render_status(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
         // render_kyria_logo();
     }
     return false;
@@ -164,7 +166,9 @@ bool oled_task_user(void) {
 #endif
 
 #ifdef XRGBLIGHT_ENABLE
-static void rgblight_set_color(uint8_t h, uint8_t s, uint8_t v) { rgblight_sethsv_noeeprom(h, s, rgblight_config.val); }
+static void rgblight_set_color(uint8_t h, uint8_t s, uint8_t v) {
+    rgblight_sethsv_noeeprom(h, s, rgblight_config.val);
+}
 
 layer_state_t layer_state_set_keymap(layer_state_t state) {
     if (!rgblight_config.enable || !userspace_config.rgb_layer_change) {
