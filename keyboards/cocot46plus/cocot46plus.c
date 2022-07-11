@@ -93,6 +93,13 @@ report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
     
 
     if (cocot_get_scroll_mode()) {
+        // rock scroll direction
+        if (abs(x_rev) > abs(y_rev)) {
+            y_rev = 0;
+        } else {
+            x_rev = 0;
+        }
+
         // accumulate scroll
         h_acm += x_rev * cocot_config.scrl_inv;
         v_acm += y_rev * cocot_config.scrl_inv * -1;
