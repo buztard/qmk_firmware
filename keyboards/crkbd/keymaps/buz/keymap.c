@@ -1,3 +1,5 @@
+#include "action.h"
+#include "keyboard.h"
 #include QMK_KEYBOARD_H
 #ifdef PROTOCOL_LUFA
 #    include "lufa.h"
@@ -20,15 +22,10 @@
 extern rgb_config_t rgb_matrix_config;
 #endif
 
-#ifdef OLED_ENABLE
-static uint32_t oled_timer = 0;
-#endif
-
 extern userspace_config_t userspace_config;
 
 enum custom_keycodes {
     RGBRST = USER_SAFE_RANGE,
-    ADJ,
 };
 
 #define KC_LOWER LT(_LOWER, KC_ESC)
@@ -40,7 +37,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           KC_TABMS, _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
     LCTL_T(KC_ESC), _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_CQUOT,
      OSM(MOD_LSFT), _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, OSM(MOD_RSFT),
-        // OSM(MOD_LSFT), LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
                KC_ESC, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
   ),
 
@@ -87,17 +83,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_MOUSE] = LAYOUT_wrapper(
-    _______, _________________MOUSE_L1__________________, _________________MOUSE_R1__________________, _______,
-    _______, _________________MOUSE_L2__________________, _________________MOUSE_R2__________________, _______,
+    _______, _______, MOUSE_SCROLL, MOUSE_ACCEL, MOUSE_LOCK, MOUSE_AUTO_LAYER, _________________MOUSE_R1__________________, _______,
+    _______, _________________MOUSE_L3__________________, _________________MOUSE_R2__________________, _______,
     _______, _________________MOUSE_L3__________________, _________________MOUSE_R3__________________, _______,
-                              _______, _______, _______, KC_BTN1, KC_BTN3, KC_BTN2
+                               KC_BTN2, KC_BTN3, KC_BTN1, KC_BTN1, KC_BTN3, KC_BTN2
   ),
 
   [_NUM] = LAYOUT_wrapper(
     RGB_MOD, _________________NUMPAD_L1_________________, _________________NUMPAD_R1_________________, _______,
-    ADJ,     _________________NUMPAD_L2_________________, _________________NUMPAD_R2_________________, _______,
+    _______, _________________NUMPAD_L2_________________, _________________NUMPAD_R2_________________, _______,
     QWERTY,  _________________NUMPAD_L3_________________, _________________NUMPAD_R3_________________, _______,
-                               ADJUST, MO(_ADJUST), CAPS_WORD, _______, KC_0,    KC_DOT
+                              _______, ADJUST, CAPS_WORD, _______, KC_0,    KC_DOT
   ),
 
   [_MEDIA] = LAYOUT_wrapper(
@@ -142,29 +138,16 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 #endif
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-#ifdef CONSOLE_ENABLE
-        // RGB rgb = hsv_to_rgb(rgb_matrix_config.hsv);
-        // uprintf("R:%u G:%u, B:%u - H:%u S:%u V:%u\n", rgb.r, rgb.g, rgb.b, rgb_matrix_config.hsv.h, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v);
-#endif
-#ifdef OLED_ENABLE
-        oled_timer = timer_read32();
-#endif
-#ifndef SPLIT_KEYBOARD
-        if ((keycode == RESET || keycode == MAKE) && !is_keyboard_master()) {
-            return false;
-        }
-#endif
+#ifdef POINTING_DEVICE_ENABLE
+    if (!process_record_pointing(keycode, record)) {
+        return false;
     }
+#endif
 
     switch (keycode) {
-        case ADJ:
-            if (record->event.pressed) {
-                layer_on(_ADJUST);
-            } else {
-                layer_off(_ADJUST);
-            }
-            return true;
+        case RESET:
+        case MAKE:
+            return is_keyboard_master();
 
         case RGBRST:
 #ifdef RGBLIGHT_ENABLE
@@ -179,6 +162,43 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 }
 
 #ifdef OLED_ENABLE
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    if (is_keyboard_left()) {
+        return OLED_ROTATION_0;
+    } else {
+        return OLED_ROTATION_180;
+    }
+}
+
+static void render_logo(void) {
+    // clang-format off
+    static const char PROGMEM logo[] = {
+        0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
+        0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
+        0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4, 0};
+    // clang-format on
+    oled_write_P(logo, false);
+}
+
+static void render_status(void) {
+    oled_render_layer();
+    oled_render_mods();
+#    if defined(RGB_MATRIX_ENABLE) && defined(OLED_EXTRAS)
+    oled_render_rgb_matrix_effect_name();
+#    endif // RGB_MATRIX_ENABLE
+}
+
+bool oled_task_user(void) {
+    if (is_keyboard_left()) {
+        render_status();
+    } else {
+        render_logo();
+    }
+    return false;
+}
+#endif
+
+#ifdef XOLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (isLeftHand) {
         return OLED_ROTATION_0;
@@ -211,25 +231,11 @@ static void render_status(void) {
 }
 
 bool oled_task_user(void) {
-    if (!userspace_config.oled_enabled) {
-        oled_off();
-        return false;
-    }
-#    if 0
-    if (timer_elapsed32(oled_timer) > 60000) {
-        oled_off();
-        return false;
-    } else if (timer_elapsed32(oled_timer) > 10000) {
-        render_logo();
-        oled_scroll_left();
-        return false;
-    } else {
-        oled_scroll_off();
-    }
-    oled_on();
-#    endif
-
-    if (is_keyboard_master()) {
+    // if (!userspace_config.oled_enabled) {
+    //     oled_off();
+    //     return false;
+    // }
+    if (is_keyboard_left()) {
         render_status();
     } else {
         render_logo();
@@ -351,36 +357,9 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
 }
 #endif
 
-#ifdef POINTING_DEVICE_ENABLE
-static bool scrolling_mode = false;
-
 layer_state_t layer_state_set_keymap(layer_state_t state) {
-    switch (get_highest_layer(state)) {
-        case _MOUSE:
-            pointing_device_set_cpi(8000);
-            break;
-
-        case _NUM:
-            scrolling_mode = true;
-            pointing_device_set_cpi(6000);
-            break;
-
-        default:
-            if (scrolling_mode) {
-                scrolling_mode = false;
-            }
-            pointing_device_set_cpi(30000);
-            break;
-    }
+#ifdef POINTING_DEVICE_ENABLE
+    state = layer_state_set_pointing(state);
+#endif
     return state;
 }
-
-report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    if (scrolling_mode) {
-        mouse_report.h = mouse_report.x;
-        mouse_report.v = mouse_report.y;
-        mouse_report.x = mouse_report.y = 0;
-    }
-    return mouse_report;
-}
-#endif

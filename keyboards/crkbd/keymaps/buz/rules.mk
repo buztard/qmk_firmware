@@ -70,3 +70,16 @@ ifeq ($(strip $(FLAVOR)), pico)
 	COMBO_ENABLE = yes
 	UCIS_ENABLE = no
 endif
+
+ifeq ($(strip $(FLAVOR)), sags)
+	RGB_MATRIX_ENABLE = no
+	POINTING_DEVICE_ENABLE = yes
+	POINTING_DEVICE_DRIVER = pimoroni_trackball
+	EXTRAKEY_ENABLE = yes
+	MOUSEKEY_ENABLE = yes
+	TAP_DANCE_ENABLE = no
+	LEADER_ENABLE = no
+	OLED_ENABLE = yes
+	COMBO_ENABLE = no
+	UCIS_ENABLE = no
+endif

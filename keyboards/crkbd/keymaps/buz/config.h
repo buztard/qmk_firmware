@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define EE_HANDS
 #endif
 
-#define USE_SERIAL_PD2
+#define USE_SERIAL
 
 #define MOUSEKEY_INTERVAL 20
 #define MOUSEKEY_DELAY 0
@@ -37,9 +37,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MOUSEKEY_MAX_SPEED 7
 #define MOUSEKEY_WHEEL_DELAY 0
 
-#define OLED_TIMEOUT 60000
-#define OLED_FADE_OUT 7
-#define OLED_SCROLL_TIMEOUT 10000
+// #define OLED_TIMEOUT 60000
+// #define OLED_SCROLL_TIMEOUT 10000
+// #define OLED_FADE_OUT 7
 
 #ifdef OLED_FONT_H
 #    undef OLED_FONT_H
@@ -235,4 +235,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #    define POINTING_DEVICE_INVERT_X
 // #    define POINTING_DEVICE_INVERT_Y
 #    define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_TYPING_HEATMAP
+#endif
+
+#if defined(FLAVOR_SAGS)
+#    define POINTING_DEVICE_ROTATION_90
+#    define SPLIT_POINTING_ENABLE
+#    define POINTING_DEVICE_RIGHT
+#    define PIMORONI_TRACKBALL_SCALE 5
+#    define PIMORONI_TRACKBALL_DEBOUNCE_CYCLES 30
 #endif

@@ -14,12 +14,12 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
         case LT(_EXTRA, KC_SPC):
         case LT(_VIM, KC_SPC):
-            return 300;
+            return 250;
 
         // My pinkies are slow...
         case LGUI_T(KC_A):
         case LGUI_T(KC_SCLN):
-            return 600;
+            return 300;
 
         default:
             return TAPPING_TERM;
@@ -36,7 +36,7 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 
         case LGUI_T(KC_A):
         case LGUI_T(KC_SCLN):
-            return false;
+            return true;
 
         default:
             return true;
@@ -93,6 +93,8 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
         case RSFT_T(KC_J):
         case RCTL_T(KC_K):
         case LALT_T(KC_L):
+        case LGUI_T(KC_A):
+        case LGUI_T(KC_SCLN):
             return true;
 
         case LCTL_T(KC_ESC):

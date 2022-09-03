@@ -23,6 +23,15 @@
 #    include "encoder_stuff.h"
 #endif
 
+#ifdef POINTING_DEVICE_ENABLE
+#    include "pointing.h"
+#endif
+
+#ifdef ACHORDION_ENABLE
+#    include "achordion.h"
+#endif
+
+#define LEADER_NO_TIMEOUT
 #define LEADER_TIMEOUT 500
 #define LEADER_PER_KEY_TIMING
 
@@ -62,19 +71,19 @@ enum userspace_custom_keycodes {
     COLEMAK,
     LOWER,
     RAISE,
-    TMUX_PREFIX,   // tmux prefix key
-    TMUX_WN,       // next tmux window
-    TMUX_WP,       // prev tmux window
-    TMUX_PN,       // next tmux pane
-    TMUX_PP,       // prev tmux pane
-    TMUX_PL,       // left tmux pane
-    TMUX_PR,       // right tmux pane
-    TMUX_PU,       // upper tmux pane
-    TMUX_PD,       // lower tmux pane
-    MAKE,          // compile/flash qmk
-    RGB_LYR,       // toggle rgb layer indication
-    OLED,          // toggle oled display
-    CAPS_WORD,     // caps word
+    TMUX_PREFIX, // tmux prefix key
+    TMUX_WN,     // next tmux window
+    TMUX_WP,     // prev tmux window
+    TMUX_PN,     // next tmux pane
+    TMUX_PP,     // prev tmux pane
+    TMUX_PL,     // left tmux pane
+    TMUX_PR,     // right tmux pane
+    TMUX_PU,     // upper tmux pane
+    TMUX_PD,     // lower tmux pane
+    MAKE,        // compile/flash qmk
+    RGB_LYR,     // toggle rgb layer indication
+    OLED,        // toggle oled display
+    // CAPS_WORD,     // caps word
     ENC_0,         // first rotary encoder press
     ENC_1,         // second rotary encoder press
     MUSCLE_ROCKET, // work stuff
@@ -84,6 +93,16 @@ enum userspace_custom_keycodes {
     UNSLSTOG,
     SELF,
     EMOJI,
+    MOUSE_AUTO_LAYER,
+    MOUSE_ACCEL,
+    MOUSE_LOCK,
+    MOUSE_SCROLL,
+    IFERR,
+    IFERE,
+    IFERNE,
+    TABLEFLIP,
+    FINGER,
+    SHRUG,
     USER_SAFE_RANGE,
 };
 
@@ -120,13 +139,11 @@ enum userspace_custom_keycodes {
 
 #define _________________QWERTY_L1_________________        LT(_MOUSE, KC_Q), KC_W,           KC_E,             KC_R,           KC_T
 #define _________________QWERTY_L2_________________        LGUI_T(KC_A),     LALT_T(KC_S),   LCTL_T(KC_D),     LSFT_T(KC_F),   LT(_FUNC, KC_G)
-// #define _________________QWERTY_L2_________________        KC_A,         LALT_T(KC_S), LCTL_T(KC_D),    LSFT_T(KC_F),   LT(_FUNC, KC_G)
-#define _________________QWERTY_L3_________________        LGUI_T(KC_Z), RALT_T(KC_X), LT(_TMUX, KC_C), LT(_VIM, KC_V), LT(_MEDIA, KC_B)
+#define _________________QWERTY_L3_________________        LT(_VIM, KC_Z),   RALT_T(KC_X),   LT(_TMUX, KC_C),  LT(_VIM, KC_V), LT(_MEDIA, KC_B)
 
 #define _________________QWERTY_R1_________________        KC_Y,            KC_U,           KC_I,            KC_O,           KC_P
 #define _________________QWERTY_R2_________________        LT(_FUNC, KC_H), RSFT_T(KC_J),   RCTL_T(KC_K),    LALT_T(KC_L),   LGUI_T(KC_SCLN)
-// #define _________________QWERTY_R2_________________        LT(_FUNC, KC_H), RSFT_T(KC_J),   RCTL_T(KC_K),    LALT_T(KC_L),   KC_SCLN
-#define _________________QWERTY_R3_________________        KC_N,            LT(_VIM, KC_M), RGUI_T(KC_COMM), RALT_T(KC_DOT), RGUI_T(KC_SLASH)
+#define _________________QWERTY_R3_________________        KC_N,            LT(_VIM, KC_M), RGUI_T(KC_COMM), RALT_T(KC_DOT), LT(_VIM, KC_SLASH)
 
 #define _________________XWERTY_L1_________________        LT(_MOUSE, KC_Q), KC_W,           KC_E,             KC_R,           KC_T
 #define _________________XWERTY_L2_________________        KC_A,             LALT_T(KC_S),   LCTL_T(KC_D),     LSFT_T(KC_F),   LT(_FUNC, KC_G)
@@ -184,13 +201,13 @@ enum userspace_custom_keycodes {
 #define _________________RAISE_R3__________________        KC_QUOT, KC_LPRN, KC_RPRN, KC_LCBR, KC_RCBR
 // #define _________________RAISE_R3__________________        TMUX_WP, TMUX_WN, KC_DQT,  KC_LCBR, KC_RCBR
 
-#define _________________ADJUST_L1_________________        RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI
-#define _________________ADJUST_L2_________________        RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD
-#define _________________ADJUST_L3_________________        UNSLSTOG, RESET,   EEP_RST, KC_SLEP, KC_WAKE
+#define _________________ADJUST_L1_________________        RGB_TOG,  RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI
+#define _________________ADJUST_L2_________________        RGB_MOD,  RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD
+#define _________________ADJUST_L3_________________        UNSLSTOG, QK_BOOT, EEP_RST, KC_SLEP, KC_WAKE
 
 #define _________________ADJUST_R1_________________        AU_TOG,  QWERTY,  KC_BRIU, OLED,    CMB_TOG
 #define _________________ADJUST_R2_________________        MU_TOG,  COLEMAK, KC_BRID, RGB_LYR, KC_SINS
-#define _________________ADJUST_R3_________________        CK_TOGG, MAKE,    DEBUG,   GAME,    _______
+#define _________________ADJUST_R3_________________        CK_TOGG, MAKE,    DEBUG,   GAME,    QK_RBT
 
 #define __________________VIM_L1___________________         KC_TAB, _______, _______, _______, _______
 #define __________________VIM_L2___________________         KC_ESC, KC_TAB,  KC_PGDN, KC_PGUP, KC_HOME
@@ -248,9 +265,9 @@ enum userspace_custom_keycodes {
 #define _________________SYMBOL_R2_________________        KC_PIPE, KC_UNDS, KC_LPRN, KC_RPRN, KC_COLN
 #define _________________SYMBOL_R3_________________        KC_CIRC, KC_DLR,  KC_LBRC, KC_RBRC, KC_ENT
 
-#define __________________FUNC_L1__________________        KC_TAB,  _______, _______, _______, _______
-#define __________________FUNC_L2__________________        KC_ESC,  _______, _______, _______, CAPS_WORD
-#define __________________FUNC_L3__________________        _______, _______, _______, _______, _______
+#define __________________FUNC_L1__________________        KC_TAB,  TABLEFLIP, IFERR,   _______, _______
+#define __________________FUNC_L2__________________        KC_ESC,  FINGER, IFERE,   _______, CAPS_WORD
+#define __________________FUNC_L3__________________        MUSCLE_ROCKET, SHRUG, IFERNE,  _______, _______
 
 #define __________________FUNC_R1__________________        C(KC_INS),   KC_F7,   KC_F8,   KC_F9, KC_F12
 #define __________________FUNC_R2__________________        S(KC_INS),   KC_F4,   KC_F5,   KC_F6, KC_F11

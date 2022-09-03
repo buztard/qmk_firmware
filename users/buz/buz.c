@@ -28,6 +28,12 @@ __attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t* 
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+#ifdef ACHORDION_ENABLE
+    if (!process_achordion(keycode, record)) {
+        return false;
+    }
+#endif
+
     uint8_t temp_mod = get_mods();
     uint8_t temp_osm = get_oneshot_mods();
 
@@ -246,6 +252,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             }
             return false;
 
+        case IFERR:
+            if (record->event.pressed) {
+                SEND_STRING("if err != nil {" SS_TAP(X_ENTER));
+                // SEND_STRING("if err != nil {" SS_TAP(X_ENTER) "return nil, err" SS_TAP(X_ENTER) "}" SS_TAP(X_ENTER));
+            }
+            return false;
+
+        case IFERE:
+            if (record->event.pressed) {
+                SEND_STRING("if err != nil {" SS_TAP(X_ENTER) "return err" SS_TAP(X_ENTER) "}" SS_TAP(X_ENTER));
+            }
+            return false;
+
+        case IFERNE:
+            if (record->event.pressed) {
+                SEND_STRING("if err != nil {" SS_TAP(X_ENTER) "return nil, err" SS_TAP(X_ENTER) "}" SS_TAP(X_ENTER));
+            }
+            return false;
+
 #ifdef OLED_ENABLE
         case OLED:
             if (record->event.pressed) {
@@ -274,6 +299,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
         case ENC_1:
             if (record->event.pressed) {
                 encoder_mode_next(1);
+            }
+            return false;
+#endif
+
+#ifdef UNICODE_ENABLE
+        case TABLEFLIP:
+            if (record->event.pressed) {
+                send_unicode_string("( ╯ ° □ ° ) ╯ ︵ ┻ ━ ┻");
+            }
+            return false;
+
+        case FINGER:
+            if (record->event.pressed) {
+                send_unicode_string("╭∩╮(O_O)╭∩╮");
+            }
+            return false;
+
+        case SHRUG:
+            if (record->event.pressed) {
+                send_unicode_string("¯\\(ツ)/¯");
+            }
+            return false;
+
+        case MUSCLE_ROCKET:
+            if (record->event.pressed) {
+                send_unicode_string("💪🚀");
             }
             return false;
 #endif
@@ -381,3 +432,33 @@ void                       keyboard_post_init_user(void) {
 #endif
     keyboard_post_init_keymap();
 }
+
+#ifdef CAPS_WORD_ENABLE
+// this is similar to the default one, but doesn't shift minus because it's not
+// necessary on my keyboard layout.
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        // Keycodes that continue Caps Word, with shift applied.
+        case KC_A ... KC_Z:
+            add_weak_mods(MOD_BIT(KC_LSFT)); // Apply shift to next key.
+            return true;
+
+        // Keycodes that continue Caps Word, without shifting.
+        case KC_1 ... KC_0:
+        case KC_BSPC:
+        case KC_DEL:
+        case KC_UNDS:
+        case KC_MINS:
+            return true;
+
+        default:
+            return false; // Deactivate Caps Word.
+    }
+}
+#endif
+
+#ifdef ACHORDION_ENABLE
+void matrix_scan_user(void) {
+    achordion_task();
+}
+#endif

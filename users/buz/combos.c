@@ -1,6 +1,6 @@
 #include "buz.h"
 
-// #define COMBO_ONLY_FROM_LAYER _COLEMAK
+#define COMBO_ONLY_FROM_LAYER _QWERTY
 
 enum combos {
     WE_TAB,

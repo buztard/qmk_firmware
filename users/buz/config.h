@@ -75,3 +75,5 @@
 
 // Unicode mode
 #define UNICODE_SELECTED_MODES UC_LNX
+
+#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD

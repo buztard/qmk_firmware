@@ -1,12 +1,14 @@
 #include "action.h"
+#include "common/action.h"
 #include "keycode.h"
 #include "process_tap_dance.h"
 #include "quantum.h"
 #include "tap_dances.h"
 #include "buz.h"
 
-static td_state_t tap_lalt = TAP_END;
-static td_state_t tap_ralt = TAP_END;
+static td_state_t tap_lalt  = TAP_END;
+static td_state_t tap_ralt  = TAP_END;
+static td_state_t tap_slash = TAP_END;
 // static td_state_t tap_f     = TAP_END;
 static td_state_t tap_raise = TAP_END;
 
@@ -408,6 +410,21 @@ static void td_space_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 #endif
+
+static void td_slash_finished(qk_tap_dance_state_t *state, void *user_data) {
+    tap_slash = cur_dance(state);
+
+    switch (tap_slash) {
+        case SINGLE_SHORT_TAP:
+        case SINGLE_TAP:
+            tap_code16(KC_UNDERSCORE);
+            break;
+        default:
+            break;
+    }
+}
+
+static void td_l1_reset(qk_tap_dance_state_t *state, void *user_data) {}
 
 // clang-format off
 qk_tap_dance_action_t tap_dance_actions[] = {

@@ -9,6 +9,8 @@ TAP_DANCE_ENABLE ?= no # Enable Tap Dance feature.
 LEADER_ENABLE = ?no    # Enable leader key.
 GRAVE_ESC_ENABLE ?= no
 MAGIC_ENABLE ?= no
+CAPS_WORD_ENABLE ?= yes
+ACHORDION_ENABLE ?= no
 
 # we're using a custom hack instead
 SPACE_CADET_ENABLE ?= no
@@ -25,11 +27,6 @@ ifeq ($(strip $(TAP_DANCE_ENABLE)), yes)
   SRC += tap_dances.c
 endif
 
-CAPS_WORD_ENABLE ?= yes
-ifeq ($(strip $(CAPS_WORD_ENABLE)), yes)
-  SRC += caps_word.c
-	OPT_DEFS += -DCAPS_WORD_ENABLE
-endif
 
 LAYER_LOCK_ENABLE ?= no
 ifeq ($(strip $(LAYER_LOCK_ENABLE)), yes)
@@ -83,6 +80,10 @@ ifeq ($(strip $(ENCODER_ENABLE)), yes)
   SRC += encoder_stuff.c
 endif
 
+ifeq ($(strip $(POINTING_DEVICE_ENABLE)), yes)
+  SRC += pointing.c
+endif
+
 # settings for different flavors
 ifeq ($(strip $(FLAVOR)), godspeed)
 	OPT_DEFS += -DFLAVOR_GODSPEED -DFLAVOR=\"godspeed\"
@@ -126,6 +127,9 @@ endif
 ifeq ($(strip $(FLAVOR)), pico)
 	OPT_DEFS += -DFLAVOR_PICO -DFLAVOR=\"pico\"
 endif
+ifeq ($(strip $(FLAVOR)), sags)
+	OPT_DEFS += -DFLAVOR_SAGS -DFLAVOR=\"sags\"
+endif
 
 # This is great, but it's expensive as well...
 CUSTOM_SPLIT_TRANSPORT_SYNC ?= yes
@@ -133,5 +137,10 @@ ifeq ($(strip $(CUSTOM_SPLIT_TRANSPORT_SYNC)), yes)
     ifeq ($(strip $(SPLIT_KEYBOARD)), yes)
         OPT_DEFS += -DCUSTOM_SPLIT_TRANSPORT_SYNC
     endif
+endif
+
+ifeq ($(strip $(ACHORDION_ENABLE)), yes)
+	OPT_DEFS += -DACHORDION_ENABLE
+  SRC += achordion.c
 endif
 
