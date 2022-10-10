@@ -143,4 +143,3 @@ ifeq ($(strip $(ACHORDION_ENABLE)), yes)
 	OPT_DEFS += -DACHORDION_ENABLE
   SRC += achordion.c
 endif
-

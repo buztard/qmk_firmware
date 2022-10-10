@@ -139,11 +139,11 @@ enum userspace_custom_keycodes {
 
 #define _________________QWERTY_L1_________________        LT(_MOUSE, KC_Q), KC_W,           KC_E,             KC_R,           KC_T
 #define _________________QWERTY_L2_________________        LGUI_T(KC_A),     LALT_T(KC_S),   LCTL_T(KC_D),     LSFT_T(KC_F),   LT(_FUNC, KC_G)
-#define _________________QWERTY_L3_________________        LT(_VIM, KC_Z),   RALT_T(KC_X),   LT(_TMUX, KC_C),  LT(_VIM, KC_V), LT(_MEDIA, KC_B)
+#define _________________QWERTY_L3_________________        RALT_T(KC_Z),   RALT_T(KC_X),   LT(_TMUX, KC_C),  LT(_VIM, KC_V), LT(_MEDIA, KC_B)
 
 #define _________________QWERTY_R1_________________        KC_Y,            KC_U,           KC_I,            KC_O,           KC_P
 #define _________________QWERTY_R2_________________        LT(_FUNC, KC_H), RSFT_T(KC_J),   RCTL_T(KC_K),    LALT_T(KC_L),   LGUI_T(KC_SCLN)
-#define _________________QWERTY_R3_________________        KC_N,            LT(_VIM, KC_M), RGUI_T(KC_COMM), RALT_T(KC_DOT), LT(_VIM, KC_SLASH)
+#define _________________QWERTY_R3_________________        KC_N,            LT(_VIM, KC_M), RGUI_T(KC_COMM), RALT_T(KC_DOT), RALT_T(KC_SLASH)
 
 #define _________________XWERTY_L1_________________        LT(_MOUSE, KC_Q), KC_W,           KC_E,             KC_R,           KC_T
 #define _________________XWERTY_L2_________________        KC_A,             LALT_T(KC_S),   LCTL_T(KC_D),     LSFT_T(KC_F),   LT(_FUNC, KC_G)
@@ -170,13 +170,13 @@ enum userspace_custom_keycodes {
 #define _________________COLEMAK_R2________________        KC_H,    KC_N,    KC_E,    KC_I,    RSFT_T(KC_O)
 #define _________________COLEMAK_R3________________        KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLASH
 
-#define _________________COLEMAK_DHM_L1____________        KC_Q,    KC_W,    KC_F,    KC_P,    KC_B
-#define _________________COLEMAK_DHM_L2____________        LSFT_T(KC_A),     KC_R,    KC_S,    KC_T,    KC_G
-#define _________________COLEMAK_DHM_L3____________        LCTL_T(KC_Z),    LT(_NUM, KC_X),    KC_C,    KC_D,    KC_V
+#define _________________COLEMAK_DHM_L1____________        LT(_MOUSE, KC_Q),    KC_W,    KC_F,    KC_P,    KC_B
+#define _________________COLEMAK_DHM_L2____________        LGUI_T(KC_A), LALT_T(KC_R), LCTL_T(KC_S), LSFT_T(KC_T), LT(_FUNC, KC_G)
+#define _________________COLEMAK_DHM_L3____________        RALT_T(KC_Z), KC_X, LT(_TMUX, KC_C), LT(_VIM, KC_D),    LT(_MEDIA, KC_V)
 
 #define _________________COLEMAK_DHM_R1____________        KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN
-#define _________________COLEMAK_DHM_R2____________        KC_M,    KC_N,    KC_E,    KC_I,    RSFT_T(KC_O)
-#define _________________COLEMAK_DHM_R3____________        KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLASH
+#define _________________COLEMAK_DHM_R2____________        LT(_FUNC, KC_M), RSFT_T(KC_N), RCTL_T(KC_E), LALT_T(KC_I), LGUI_T(KC_O)
+#define _________________COLEMAK_DHM_R3____________        KC_K,    KC_H,    KC_COMM, KC_DOT,  RALT_T(KC_SLASH)
 
 #define ________________NUMBER_LEFT________________        KC_1,    KC_2,    KC_3,    KC_4,    KC_5
 #define ________________NUMBER_RIGHT_______________        KC_6,    KC_7,    KC_8,    KC_9,    KC_0
@@ -263,11 +263,11 @@ enum userspace_custom_keycodes {
 
 #define _________________SYMBOL_R1_________________        KC_AMPR, KC_QUOT, KC_LCBR, KC_RCBR, KC_PERC
 #define _________________SYMBOL_R2_________________        KC_PIPE, KC_UNDS, KC_LPRN, KC_RPRN, KC_COLN
-#define _________________SYMBOL_R3_________________        KC_CIRC, KC_DLR,  KC_LBRC, KC_RBRC, KC_ENT
+#define _________________SYMBOL_R3_________________        KC_CIRC, KC_DLR,  KC_LBRC, KC_RBRC, KC_QUES
 
 #define __________________FUNC_L1__________________        KC_TAB,  TABLEFLIP, IFERR,   _______, _______
-#define __________________FUNC_L2__________________        KC_ESC,  FINGER, IFERE,   _______, CAPS_WORD
-#define __________________FUNC_L3__________________        MUSCLE_ROCKET, SHRUG, IFERNE,  _______, _______
+#define __________________FUNC_L2__________________        KC_ESC,  SHRUG, IFERE,   _______, CAPS_WORD
+#define __________________FUNC_L3__________________        MUSCLE_ROCKET, FINGER, IFERNE,  _______, _______
 
 #define __________________FUNC_R1__________________        C(KC_INS),   KC_F7,   KC_F8,   KC_F9, KC_F12
 #define __________________FUNC_R2__________________        S(KC_INS),   KC_F4,   KC_F5,   KC_F6, KC_F11

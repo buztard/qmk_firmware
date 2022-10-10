@@ -26,11 +26,11 @@ const uint16_t PROGMEM fj_combo[] = {LSFT_T(KC_F), RSFT_T(KC_J), COMBO_END};
 
 // clang-format off
 combo_t key_combos[] = {
-    [WE_TAB]     = COMBO(we_combo, KC_TAB),
-    [SD_ESC]     = COMBO(sd_combo, KC_ESC),
-    [IO_BSPC]    = COMBO(io_combo, KC_BSPC),
-    [KL_ENT]     = COMBO(kl_combo, KC_ENT),
-    [JK_SFT]     = COMBO(jk_combo, OSM(MOD_LSFT)),
-    [DF_SFT]     = COMBO(df_combo, OSM(MOD_LSFT)),
-    [FJ_CAPS]    = COMBO(fj_combo, CAPS_WORD),
+    // [WE_TAB]     = COMBO(we_combo, KC_TAB),
+    // [SD_ESC]     = COMBO(sd_combo, KC_ESC),
+    // [IO_BSPC]    = COMBO(io_combo, KC_BSPC),
+    // [KL_ENT]     = COMBO(kl_combo, KC_ENT),
+    // [JK_SFT]     = COMBO(jk_combo, OSM(MOD_LSFT)),
+    // [DF_SFT]     = COMBO(df_combo, OSM(MOD_LSFT)),
+    // [FJ_CAPS]    = COMBO(fj_combo, CAPS_WORD),
 };

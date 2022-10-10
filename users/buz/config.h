@@ -24,8 +24,12 @@
 
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
+#define BILATERAL_COMBINATIONS 500
+
 // combo configuration
 #define COMBO_TERM 30
+
+#define UNICODE_TYPE_DELAY 70
 
 // leader key
 #define LEADER_PER_KEY_TIMING

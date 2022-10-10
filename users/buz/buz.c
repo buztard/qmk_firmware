@@ -93,16 +93,33 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 #endif
 
     switch (keycode) {
-        // case LT(_NUM, KC_BSPC):
-        //     if (!record->event.pressed) {
-        //         if ((temp_mod | temp_osm) & MOD_MASK_SHIFT) {
-        //             unregister_mods(MOD_LSFT);
-        //             tap_code16(KC_DEL);
-        //             register_mods(MOD_LSFT);
-        //               return false;
-        //           }
-        //     }
-        //     return true;
+        case LT(_NUM, KC_BSPC): {
+            static bool delkey_registered;
+            if (record->event.pressed) {
+                // Detect the activation of either shift keys
+                if (temp_mod & MOD_LSFT) {
+                    // First temporarily canceling both shifts so that
+                    // shift isn't applied to the KC_DEL keycode
+                    del_mods(MOD_LSFT);
+                    register_code(KC_DEL);
+                    // Update the boolean variable to reflect the status of KC_DEL
+                    delkey_registered = true;
+                    // Reapplying modifier state so that the held shift key(s)
+                    // still work even after having tapped the Backspace/Delete key.
+                    set_mods(temp_mod);
+                    return false;
+                }
+            } else { // on release of KC_BSPC
+                // In case KC_DEL is still being sent even after the release of KC_BSPC
+                if (delkey_registered) {
+                    unregister_code(KC_DEL);
+                    delkey_registered = false;
+                    return false;
+                }
+            }
+            // Let QMK process the KC_BSPC keycode as usual outside of shift
+            return true;
+        }
 
 #if 0
         case LSPO:
@@ -183,12 +200,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             return false;
 #endif
 
-        case EMOJI:
-#ifdef UCIS_ENABLE
-            qk_ucis_start();
-#endif
-            return false;
-
         case TMUX_PREFIX:
             if (record->event.pressed) {
                 register_mods(MOD_LCTL);
@@ -246,11 +257,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             }
             return false;
 
-        case SELF:
-            if (record->event.pressed) {
-                SEND_STRING("self");
-            }
-            return false;
+            //         case SELF:
+            //             if (record->event.pressed) {
+            //                 SEND_STRING("self");
+            //             }
+            //             return false;
 
         case IFERR:
             if (record->event.pressed) {
@@ -306,7 +317,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 #ifdef UNICODE_ENABLE
         case TABLEFLIP:
             if (record->event.pressed) {
-                send_unicode_string("( ╯ ° □ ° ) ╯ ︵ ┻ ━ ┻");
+                send_unicode_string("(╯°□°)╯︵┻━┻");
             }
             return false;
 
@@ -460,5 +471,33 @@ bool caps_word_press_user(uint16_t keycode) {
 #ifdef ACHORDION_ENABLE
 void matrix_scan_user(void) {
     achordion_task();
-}
+
+    bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t * tap_hold_record, uint16_t other_keycode, keyrecord_t * other_record) {
+        // switch (tap_hold_keycode) {
+        //     case LT(_SYMBOL, KC_ENT):
+        //     case LT(_SYMBOL, KC_SPC):
+        //     case LT(_NUM, KC_BSPC):
+        //     case LT(_NUM, KC_ESC):
+        //         return true;
+        // }
+        if (tap_hold_record->event.key.row % (MATRIX_ROWS / 2) >= 3) {
+            return true;
+        }
+        if (other_record->event.key.row % (MATRIX_ROWS / 2) >= 3) {
+            return true;
+        }
+        return achordion_opposite_hands(tap_hold_record, other_record);
+    }
+#endif
+
+#ifdef KEY_OVERRIDE_ENABLE
+    const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(_NUM, KC_BSPC), KC_DEL);
+    const key_override_t scln_key_override   = ko_make_basic(MOD_MASK_SHIFT, LGUI_T(KC_SCLN), KC_QUOT);
+    const key_override_t slash_key_override  = ko_make_basic(MOD_MASK_SHIFT, LT(_VIM, KC_SLASH), KC_DQT);
+
+    // This globally defines all key overrides to be used
+    const key_override_t** key_overrides = (const key_override_t*[]){
+        &delete_key_override, &scln_key_override, &slash_key_override,
+        NULL // Null terminate the array of overrides!
+    };
 #endif

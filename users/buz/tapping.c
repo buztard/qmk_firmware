@@ -4,8 +4,12 @@
 #ifdef TAPPING_TERM_PER_KEY
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        // qwerty index
         case LSFT_T(KC_F):
         case RSFT_T(KC_J):
+        // colemak index
+        case LSFT_T(KC_T):
+        case RSFT_T(KC_N):
             return 150;
 
         case LT(_LOWER, KC_ESC):
@@ -17,8 +21,11 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return 250;
 
         // My pinkies are slow...
+        // qwerty pinkies
         case LGUI_T(KC_A):
         case LGUI_T(KC_SCLN):
+            // colemak pinkies
+        case LGUI_T(KC_O):
             return 300;
 
         default:
@@ -30,12 +37,19 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 #ifdef PERMISSIVE_HOLD_PER_KEY
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        // qwerty
         case LSFT_T(KC_F):
         case RSFT_T(KC_J):
+        // colemak
+        case LSFT_T(KC_T):
+        case RSFT_T(KC_N):
             return false;
 
+        // qwerty pinkies
         case LGUI_T(KC_A):
         case LGUI_T(KC_SCLN):
+        // colemak pinkies
+        case LGUI_T(KC_O):
             return true;
 
         default:
@@ -76,6 +90,7 @@ bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
         case LT(_NUM, KC_BSPC):
         case LSFT_T(KC_LPRN):
         case RSFT_T(KC_RPRN):
+        case LT(_SYMBOL, KC_ENT):
             return false;
 
         default:
@@ -87,76 +102,8 @@ bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
 #ifdef TAPPING_FORCE_HOLD_PER_KEY
 bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case LALT_T(KC_S):
-        case LCTL_T(KC_D):
-        case LSFT_T(KC_F):
-        case RSFT_T(KC_J):
-        case RCTL_T(KC_K):
-        case LALT_T(KC_L):
-        case LGUI_T(KC_A):
-        case LGUI_T(KC_SCLN):
-            return true;
-
-        case LCTL_T(KC_ESC):
-        case RCTL_T(KC_QUOT):
-            return true;
-
-        case LT(_SYMBOL, KC_ENT):
-            return true;
-
         case SFT_T(KC_SPC):
-            return false;
-
-        case LSFT_T(KC_LPRN):
-            return true;
-
-        case RSFT_T(KC_RPRN):
-            return true;
-
-        case LT(_SYMBOL, KC_ESC):
-            return true;
         case LT(_NUM, KC_BSPC):
-            return false;
-
-        default:
-            return false;
-    }
-}
-#endif
-
-#ifdef CUSTOM_TAPPING_KEYS
-bool process_tap(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LSFT_T(KC_LPRN):
-            if (record->event.pressed) {
-                register_code16(KC_LPRN);
-            } else {
-                unregister_code16(KC_LPRN);
-            }
-            return false;
-
-        case RSFT_T(KC_RPRN):
-            if (record->event.pressed) {
-                register_code16(KC_RPRN);
-            } else {
-                unregister_code16(KC_RPRN);
-            }
-            return false;
-
-        case LT(_LOWER, KC_LPRN):
-            if (record->event.pressed) {
-                register_code16(KC_LPRN);
-            } else {
-                unregister_code16(KC_LPRN);
-            }
-            return false;
-
-        case LT(_RAISE, KC_RPRN):
-            if (record->event.pressed) {
-                register_code16(KC_RPRN);
-            } else {
-                unregister_code16(KC_RPRN);
-            }
             return false;
 
         default:
