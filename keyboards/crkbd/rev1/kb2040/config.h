@@ -58,6 +58,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #undef RGB_DI_PIN
 #define RGB_DI_PIN GP0
-
-// #define SERIAL_PIO_USE_PIO1
-#define WS2812_PIO_USE_PIO1
+#define SERIAL_PIO_USE_PIO1
+// #define WS2812_PIO_USE_PIO1

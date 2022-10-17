@@ -35,16 +35,17 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
           KC_TABMS, _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
-    LCTL_T(KC_ESC), _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_CQUOT,
+    // LCTL_T(KC_ESC), _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_CQUOT,
+    LT(_MOUSE, KC_Q), _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_P,
      OSM(MOD_LSFT), _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, OSM(MOD_RSFT),
                KC_ESC, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
   ),
 
   [_COLEMAK] = LAYOUT_wrapper(
-          KC_TABMS, _________________XWERTY_L1_________________, _________________XWERTY_R1_________________, KC_BSPC,
-    LCTL_T(KC_ESC), _________________XWERTY_L2_________________, _________________XWERTY_R2_________________, KC_CQUOT,
-     OSM(MOD_LSFT), _________________XWERTY_L3_________________, _________________XWERTY_R3_________________, OSM(MOD_RSFT),
-        LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), OSM(MOD_LSFT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
+          KC_TABMS, _________________COLEMAK_DHM_L1____________, _________________COLEMAK_DHM_R1____________, KC_BSPC,
+    LCTL_T(KC_ESC), _________________COLEMAK_DHM_L2____________, _________________COLEMAK_DHM_R2____________, KC_CQUOT,
+     OSM(MOD_LSFT), _________________COLEMAK_DHM_L3____________, _________________COLEMAK_DHM_R3____________, OSM(MOD_RSFT),
+               KC_ESC, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
   ),
 
   [_GAME] = LAYOUT_wrapper(
@@ -72,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _________________SYMBOL_L1_________________, _________________SYMBOL_R1_________________, KC_AT,
     _______, _________________SYMBOL_L2_________________, _________________SYMBOL_R2_________________, REPEAT,
     _______, _________________SYMBOL_L3_________________, _________________SYMBOL_R3_________________, _______,
-                             _______, _______, KC_TAB, _______, _______, CAPS_WORD
+                             _______, _______, KC_TAB, KC_SPC, _______, CAPS_WORD
   ),
 
   [_VIM] = LAYOUT_wrapper(
@@ -93,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     RGB_MOD, _________________NUMPAD_L1_________________, _________________NUMPAD_R1_________________, _______,
     _______, _________________NUMPAD_L2_________________, _________________NUMPAD_R2_________________, _______,
     QWERTY,  _________________NUMPAD_L3_________________, _________________NUMPAD_R3_________________, _______,
-                              _______, ADJUST, CAPS_WORD, _______, KC_0,    KC_DOT
+                              _______, ADJUST, CAPS_WORD, _______, KC_DEL, KC_DOT
   ),
 
   [_MEDIA] = LAYOUT_wrapper(
@@ -126,16 +127,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 // clang-format on
-
-#ifdef KEY_OVERRIDE_ENABLE
-const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPACE, KC_DELETE);
-
-// This globally defines all key overrides to be used
-const key_override_t **key_overrides = (const key_override_t *[]){
-    &delete_key_override,
-    NULL // Null terminate the array of overrides!
-};
-#endif
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 #ifdef POINTING_DEVICE_ENABLE
