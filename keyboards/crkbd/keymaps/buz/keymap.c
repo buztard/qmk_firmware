@@ -43,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_COLEMAK] = LAYOUT_wrapper(
           KC_TABMS, _________________COLEMAK_DHM_L1____________, _________________COLEMAK_DHM_R1____________, KC_BSPC,
-    LCTL_T(KC_ESC), _________________COLEMAK_DHM_L2____________, _________________COLEMAK_DHM_R2____________, KC_CQUOT,
+    LCTL_T(KC_ESC), _________________COLEMAK_DHM_L2____________, _________________COLEMAK_DHM_R2____________, RCTL_T(KC_QUOT),
      OSM(MOD_LSFT), _________________COLEMAK_DHM_L3____________, _________________COLEMAK_DHM_R3____________, OSM(MOD_RSFT),
                KC_ESC, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
   ),
