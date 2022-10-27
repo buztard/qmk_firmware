@@ -1,0 +1,17 @@
+#ifdef RGBLIGHT_ANIMATIONS
+#    undef RGBLIGHT_ANIMATIONS
+#endif
+
+#ifdef RGBLIGHT_ENABLE
+// #define RGBLIGHT_EFFECT_RAINBOW_MOOD
+// #    define RGBLIGHT_EFFECT_RAINBOW_SWIRL
+#endif
+
+// I have too many layers...
+#ifdef LAYER_STATE_8BIT
+#    undef LAYER_STATE_8BIT
+#endif
+#define LAYER_STATE_16BIT
+
+#undef LOCKING_SUPPORT_ENABLE
+#undef LOCKING_RESYNC_ENABLE
