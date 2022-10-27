@@ -3,6 +3,7 @@
 
 #include "pointing.h"
 
+#ifdef PIMORONI_TRACKBALL_ENABLE
 static bool     mouse_auto_layer          = false;
 static bool     mouse_scrolling_mode      = false;
 static uint16_t mouse_timer               = 0;
@@ -50,8 +51,10 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t *record) {
 
     return true;
 }
+#endif
 
 layer_state_t layer_state_set_pointing(layer_state_t state) {
+#if PIMORONI_TRACKBALL_ENABLE
     pointing_device_set_cpi(8000);
     switch (get_highest_layer(state)) {
         case _MOUSE:
@@ -69,9 +72,11 @@ layer_state_t layer_state_set_pointing(layer_state_t state) {
             pimoroni_trackball_set_rgbw(0, 0, 0, 0);
             break;
     }
+#endif
     return state;
 }
 
+#ifdef PIMORONI_TRACKBALL_ENABLE
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
     static int8_t x, y = 0;
     // x = (x == 0 && mouse_report.x > 0 && mouse_report.x < 10) ? 1 : mouse_report.x;
@@ -106,3 +111,4 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
 
     return mouse_report;
 }
+#endif

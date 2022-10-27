@@ -28,6 +28,8 @@
 
 // combo configuration
 #define COMBO_TERM 30
+#define COMBO_ONLY_FROM_LAYER 0
+#define COMBO_SHOULD_TRIGGER
 
 #define UNICODE_TYPE_DELAY 70
 

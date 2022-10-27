@@ -1,6 +1,8 @@
 #include "encoder_stuff.h"
 #include "quantum.h"
 
+__attribute__((weak)) bool encoder_update_keymap(uint8_t index, bool clockwise) { return true; }
+
 static encoder_mode_t encoder_modes[2];
 
 void encoder_init_user(void) {
@@ -73,15 +75,9 @@ static void encoder_mouse(uint8_t index, bool clockwise) {
 }
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
-    // encoder_mode_t mode;
-
-    // if (index == 0) {
-    //     mode = encoder_mode_0;
-    // } else if (index == 1) {
-    //     mode = encoder_mode_1;
-    // } else {
-    //     return;
-    // }
+  if (!encoder_update_keymap(index, clockwise)) {
+    return false;
+  }
 
     switch (encoder_modes[index]) {
         case ENCODER_MODE_VOLUME:

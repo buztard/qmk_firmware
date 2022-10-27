@@ -20,3 +20,5 @@ void encoder_init_user(void);
 void encoder_mode_next(uint8_t index);
 
 const char* encoder_mode_name(uint8_t index);
+
+bool encoder_update_keymap(uint8_t index, bool clockwise);

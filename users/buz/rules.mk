@@ -6,11 +6,10 @@ CONSOLE_ENABLE ?= no   # Console for debug
 COMMAND_ENABLE ?= no   # Commands for debug and configuration
 BACKLIGHT_ENABLE ?= no # Enable keyboard backlight functionality
 TAP_DANCE_ENABLE ?= no # Enable Tap Dance feature.
-LEADER_ENABLE = ?no    # Enable leader key.
+LEADER_ENABLE ?= no    # Enable leader key.
 GRAVE_ESC_ENABLE ?= no
 MAGIC_ENABLE ?= no
 CAPS_WORD_ENABLE ?= yes
-ACHORDION_ENABLE ?= no
 
 # we're using a custom hack instead
 SPACE_CADET_ENABLE ?= no
@@ -137,9 +136,4 @@ ifeq ($(strip $(CUSTOM_SPLIT_TRANSPORT_SYNC)), yes)
     ifeq ($(strip $(SPLIT_KEYBOARD)), yes)
         OPT_DEFS += -DCUSTOM_SPLIT_TRANSPORT_SYNC
     endif
-endif
-
-ifeq ($(strip $(ACHORDION_ENABLE)), yes)
-	OPT_DEFS += -DACHORDION_ENABLE
-  SRC += achordion.c
 endif

@@ -93,6 +93,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 #endif
 
     switch (keycode) {
+#if 0
         case LT(_NUM, KC_BSPC): {
             static bool delkey_registered;
             if (record->event.pressed) {
@@ -120,6 +121,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             // Let QMK process the KC_BSPC keycode as usual outside of shift
             return true;
         }
+#endif
 
 #if 0
         case LSPO:
