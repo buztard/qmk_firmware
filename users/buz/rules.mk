@@ -1,14 +1,14 @@
 # Default build options that work for most of my boards
-BOOTMAGIC_ENABLE ?= no # Virtual DIP switch configuration
-MOUSEKEY_ENABLE ?= yes # Mouse keys
-EXTRAKEY_ENABLE ?= yes # Audio control and System control
-CONSOLE_ENABLE ?= no   # Console for debug
-COMMAND_ENABLE ?= no   # Commands for debug and configuration
-BACKLIGHT_ENABLE ?= no # Enable keyboard backlight functionality
-TAP_DANCE_ENABLE ?= no # Enable Tap Dance feature.
-LEADER_ENABLE ?= no    # Enable leader key.
+BOOTMAGIC_ENABLE ?= no  # Virtual DIP switch configuration
+MOUSEKEY_ENABLE  ?= yes # Mouse keys
+EXTRAKEY_ENABLE  ?= yes # Audio control and System control
+CONSOLE_ENABLE   ?= no  # Console for debug
+COMMAND_ENABLE   ?= no  # Commands for debug and configuration
+BACKLIGHT_ENABLE ?= no  # Enable keyboard backlight functionality
+TAP_DANCE_ENABLE ?= no  # Enable Tap Dance feature.
+LEADER_ENABLE    ?= no  # Enable leader key.
 GRAVE_ESC_ENABLE ?= no
-MAGIC_ENABLE ?= no
+MAGIC_ENABLE     ?= no
 CAPS_WORD_ENABLE ?= yes
 
 # we're using a custom hack instead
@@ -25,7 +25,6 @@ SRC += buz.c tapping.c
 ifeq ($(strip $(TAP_DANCE_ENABLE)), yes)
   SRC += tap_dances.c
 endif
-
 
 LAYER_LOCK_ENABLE ?= no
 ifeq ($(strip $(LAYER_LOCK_ENABLE)), yes)
