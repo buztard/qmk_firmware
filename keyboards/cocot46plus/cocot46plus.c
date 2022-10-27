@@ -246,6 +246,7 @@ void render_logo(void) {
     oled_write_P(cocot_logo, false);
 };
 
+#include "buz.h"
 void oled_write_layer_state(void) {
 
     oled_write_P(PSTR(" "), false);
@@ -254,25 +255,37 @@ void oled_write_layer_state(void) {
     int scroll_div = scrl_div_array[cocot_config.scrl_div];
     int angle = angle_array[cocot_config.rotation_angle];
     
-    char buf1[5];
-    char buf2[3];
-    char buf3[4];
-    snprintf(buf1, 5, "%4d", cpi);
-    snprintf(buf2, 3, "%2d", scroll_div);
-    snprintf(buf3, 4, "%3d", angle);
+    // char buf1[5];
+    // char buf2[3];
+    // char buf3[4];
+    // // get_numeric_str(buf1, sizeof(buf1), cpi, 0);
+    // // get_numeric_str(buf2, sizeof(buf2), scroll_div, 0);
+    // // get_numeric_str(buf3, sizeof(buf3), angle, 0);
+    // snprintf(buf1, 5, "%4d", cpi);
+    // snprintf(buf2, 3, "%2d", scroll_div);
+    // snprintf(buf3, 4, "%3d", angle);
 
     switch (get_highest_layer(layer_state | default_layer_state)) {
-        case 0:
-            oled_write_P(PSTR("Base "), false);
+        case _QWERTY:
+            oled_write_P(PSTR("QWERT"), false);
             break;
-        case 1:
-            oled_write_P(PSTR("Lower"), false);
+        case _COLEMAK:
+            oled_write_P(PSTR("COLE "), false);
             break;
-        case 2:
-            oled_write_P(PSTR("Raise"), false);
+        case _SYMBOL:
+            oled_write_P(PSTR("Sym  "), false);
             break;
-        case 3:
-            oled_write_P(PSTR("Mouse"), false);
+        case _NUM:
+            oled_write_P(PSTR("Num  "), false);
+            break;
+        case _VIM:
+            oled_write_P(PSTR("Nav  "), false);
+            break;
+        case _MEDIA:
+            oled_write_P(PSTR("Media"), false);
+            break;
+        case _TMUX:
+            oled_write_P(PSTR("Tmux "), false);
             break;
         default:
             oled_write_P(PSTR("Undef"), false);
@@ -285,11 +298,77 @@ void oled_write_layer_state(void) {
         oled_write_P(PSTR("C"), false);
     }
     oled_write_P(PSTR("/"), false);
-    oled_write(buf1, false);
+    switch (cpi) {
+      case 250:
+        oled_write_P(PSTR("250"), false);
+        break;
+      case 500:
+        oled_write_P(PSTR("500"), false);
+        break;
+      case 750:
+        oled_write_P(PSTR("750"), false);
+        break;
+      case 1000:
+        oled_write_P(PSTR("1000"), false);
+        break;
+      case 1250:
+        oled_write_P(PSTR("1250"), false);
+        break;
+      default:
+        oled_write_P(PSTR("0"), false);
+        break;
+    }
     oled_write_P(PSTR("/"), false);
-    oled_write(buf2, false);
+    switch (scroll_div) {
+      case 1:
+        oled_write_P(PSTR("1"), false);
+        break;
+      case 2:
+        oled_write_P(PSTR("2"), false);
+        break;
+      case 3:
+        oled_write_P(PSTR("3"), false);
+        break;
+      case 4:
+        oled_write_P(PSTR("4"), false);
+        break;
+      case 5:
+        oled_write_P(PSTR("5"), false);
+        break;
+      case 6:
+        oled_write_P(PSTR("6"), false);
+        break;
+    }
     oled_write_P(PSTR("/"), false);
-    oled_write(buf3, false);
+    switch (angle) {
+      case -60:
+        oled_write_P(PSTR("-60"), false);
+        break;
+      case -45:
+        oled_write_P(PSTR("-45"), false);
+        break;
+      case -30:
+        oled_write_P(PSTR("-30"), false);
+        break;
+      case -15:
+        oled_write_P(PSTR("-15"), false);
+        break;
+      case 0:
+        oled_write_P(PSTR("0"), false);
+        break;
+      case 15:
+        oled_write_P(PSTR("15"), false);
+        break;
+      case 30:
+        oled_write_P(PSTR("30"), false);
+        break;
+      case 45:
+        oled_write_P(PSTR("45"), false);
+        break;
+      case 60:
+        oled_write_P(PSTR("60"), false);
+        break;
+    }
 }
 
 #endif
