@@ -7,7 +7,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _________________QWERTY_L1_________________, _________________QWERTY_R1_________________,
     _________________QWERTY_L2_________________, _________________QWERTY_R2_________________,
     _________________QWERTY_L3_________________, _________________QWERTY_R3_________________,
-    LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), KC_TABMS, OSM(MOD_LSFT), OSM(MOD_RSFT), _______, LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC)
+    // LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), KC_TABMS, OSM(MOD_LSFT), OSM(MOD_RSFT), _______, LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC)
+    _______, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), KC_TABMS, OSM(MOD_RSFT), LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), _______
     // _______, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), KC_TABMS, CAPSWRD, LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), _______
   ),
 
@@ -15,7 +16,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _________________COLEMAK_DHM_L1____________, _________________COLEMAK_DHM_R1____________,
     _________________COLEMAK_DHM_L2____________, _________________COLEMAK_DHM_R2____________,
     _________________COLEMAK_DHM_L3____________ ,_________________COLEMAK_DHM_R3____________,
-    LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), KC_TABMS, OSM(MOD_LSFT), OSM(MOD_RSFT), _______, LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC)
+    // LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), KC_TABMS, OSM(MOD_LSFT), OSM(MOD_RSFT), _______, LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC)
+    _______, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), KC_TABMS, OSM(MOD_RSFT), LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), _______
     // _______, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), KC_TABMS, CAPSWRD, LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), _______
   ),
 
