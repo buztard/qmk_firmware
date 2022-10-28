@@ -139,11 +139,11 @@ enum userspace_custom_keycodes {
 
 #define _________________QWERTY_L1_________________        LT(_MOUSE, KC_Q), KC_W,           KC_E,             KC_R,           KC_T
 #define _________________QWERTY_L2_________________        LGUI_T(KC_A),     LALT_T(KC_S),   LCTL_T(KC_D),     LSFT_T(KC_F),   LT(_FUNC, KC_G)
-#define _________________QWERTY_L3_________________        RALT_T(KC_Z),   RALT_T(KC_X),   LT(_TMUX, KC_C),  LT(_VIM, KC_V), LT(_MEDIA, KC_B)
+#define _________________QWERTY_L3_________________        RALT_T(KC_Z),     KC_X,   LT(_TMUX, KC_C),  LT(_VIM, KC_V), LT(_MEDIA, KC_B)
 
 #define _________________QWERTY_R1_________________        KC_Y,            KC_U,           KC_I,            KC_O,           KC_P
 #define _________________QWERTY_R2_________________        LT(_FUNC, KC_H), RSFT_T(KC_J),   RCTL_T(KC_K),    LALT_T(KC_L),   LGUI_T(KC_SCLN)
-#define _________________QWERTY_R3_________________        KC_N,            LT(_VIM, KC_M), RGUI_T(KC_COMM), RALT_T(KC_DOT), RALT_T(KC_SLASH)
+#define _________________QWERTY_R3_________________        KC_N,            LT(_VIM, KC_M), KC_COMM,         KC_DOT,         RALT_T(KC_SLASH)
 
 #define _________________XWERTY_L1_________________        LT(_MOUSE, KC_Q), KC_W,           KC_E,             KC_R,           KC_T
 #define _________________XWERTY_L2_________________        KC_A,             LALT_T(KC_S),   LCTL_T(KC_D),     LSFT_T(KC_F),   LT(_FUNC, KC_G)
