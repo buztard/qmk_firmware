@@ -261,9 +261,9 @@ enum userspace_custom_keycodes {
 #define _________________SYMBOL_L2_________________        KC_EXLM, KC_MINS, KC_PLUS, KC_EQL,  KC_HASH
 #define _________________SYMBOL_L3_________________        KC_TILD, KC_AT,   KC_ASTR, KC_BSLS, KC_COMM
 
-#define _________________SYMBOL_R1_________________        KC_AMPR, KC_QUOT, KC_LCBR, KC_RCBR, KC_PERC
+#define _________________SYMBOL_R1_________________        KC_AMPR, KC_QUOT, KC_LBRC, KC_RBRC, KC_PERC
 #define _________________SYMBOL_R2_________________        KC_PIPE, KC_UNDS, KC_LPRN, KC_RPRN, KC_COLN
-#define _________________SYMBOL_R3_________________        KC_CIRC, KC_DLR,  KC_LBRC, KC_RBRC, KC_ENT
+#define _________________SYMBOL_R3_________________        KC_CIRC, KC_DLR,  KC_LCBR, KC_RCBR, KC_ENT
 
 #define __________________FUNC_L1__________________        KC_TAB,  TABLEFLIP, IFERR,   _______, _______
 #define __________________FUNC_L2__________________        KC_ESC,  SHRUG, IFERE,   _______, CAPS_WORD
