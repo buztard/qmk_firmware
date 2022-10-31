@@ -12,11 +12,6 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case RSFT_T(KC_N):
             return 150;
 
-        case LT(_LOWER, KC_ESC):
-        case LT(_RAISE, KC_BSPC):
-            return 100;
-
-        case LT(_EXTRA, KC_SPC):
         case LT(_VIM, KC_SPC):
             return 250;
 
@@ -61,12 +56,10 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 #ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case LT(_LOWER, KC_ESC):
         case LT(_SYMBOL, KC_ESC):
         case LT(_SYMBOL, KC_ENT):
             return true;
 
-        case LT(_RAISE, KC_BSPC):
         case LT(_NUM, KC_BSPC):
         case LT(_VIM, KC_BSPC):
             return true;
@@ -84,9 +77,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LCTL_T(KC_ESC):
-        case LT(_LOWER, KC_ESC):
         case LT(_SYMBOL, KC_ESC):
-        case LT(_RAISE, KC_BSPC):
         case LT(_NUM, KC_BSPC):
         case LSFT_T(KC_LPRN):
         case RSFT_T(KC_RPRN):

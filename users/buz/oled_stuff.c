@@ -8,10 +8,6 @@ extern bool leading;
 
 const char* get_layer_name(void) {
     switch (get_highest_layer(layer_state)) {
-        case _LOWER:
-            return PSTR(OLED_TEXT_LAYER_LOWER);
-        case _RAISE:
-            return PSTR(OLED_TEXT_LAYER_RAISE);
         case _ADJUST:
             return PSTR(OLED_TEXT_LAYER_ADJUST);
         case _VIM:

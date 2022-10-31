@@ -155,53 +155,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             }
             return false;
 
-        case LOWER:
-            if (record->event.pressed) {
-                layer_on(_LOWER);
-                update_tri_layer(_LOWER, _RAISE, _ADJUST);
-            } else {
-                layer_off(_LOWER);
-                update_tri_layer(_LOWER, _RAISE, _ADJUST);
-            }
-            return false;
-
-        case RAISE:
-            if (record->event.pressed) {
-                layer_on(_RAISE);
-                update_tri_layer(_LOWER, _RAISE, _ADJUST);
-            } else {
-                layer_off(_RAISE);
-                update_tri_layer(_LOWER, _RAISE, _ADJUST);
-            }
-            return false;
-
-#if 0
-        case UNSLSH:
-            if (!record->event.pressed) {
-                return false;
-            }
-            if (userspace_config.unslsh) {
-                clear_mods();
-                clear_oneshot_mods();
-                if ((temp_mod | temp_osm) & MOD_MASK_SHIFT) {
-                    tap_code16(KC_SLASH);
-                } else {
-                    tap_code16(KC_UNDERSCORE);
-                }
-                set_mods(temp_mod);
-            } else {
-                tap_code16(KC_SLASH);
-            }
-            return false;
-
-        case UNSLSTOG:
-            if (record->event.pressed) {
-                userspace_config.unslsh ^= 1;
-                eeconfig_update_user(userspace_config.raw);
-            }
-            return false;
-#endif
-
         case TMUX_PREFIX:
             if (record->event.pressed) {
                 register_mods(MOD_LCTL);

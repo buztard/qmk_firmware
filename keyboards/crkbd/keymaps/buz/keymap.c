@@ -28,9 +28,6 @@ enum custom_keycodes {
     RGBRST = USER_SAFE_RANGE,
 };
 
-#define KC_LOWER LT(_LOWER, KC_ESC)
-#define KC_RAISE LT(_RAISE, KC_BSPC)
-
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_wrapper(
@@ -53,20 +50,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_CESC, __________________GAME_L2__________________, __________________GAME_R2__________________, KC_QUOT,
     KC_LSFT, __________________GAME_L3__________________, __________________GAME_R3__________________, KC_RSFT,
                                   LOWER, KC_LGUI, KC_ENT, KC_SPC, QWERTY, LOWER
-  ),
-
-  [_LOWER] = LAYOUT_wrapper(
-    KC_TILD, _________________LOWER_L1__________________, _________________LOWER_R1__________________, _______,
-    _______, _________________LOWER_L2__________________, _________________LOWER_R2__________________, KC_PIPE,
-    KC_CAPS, _________________LOWER_L3__________________, _________________LOWER_R3__________________, _______,
-                               _______, _______, _______, _______, RAISE, _______
-  ),
-
-  [_RAISE] = LAYOUT_wrapper(
-    KC_GRV,  _________________RAISE_L1__________________, _________________RAISE_R1__________________, KC_DEL,
-    _______, _________________RAISE_L2__________________, _________________RAISE_R2__________________, KC_BSLS,
-    _______, _________________RAISE_L3__________________, _________________RAISE_R3__________________, _______,
-                               KC_LALT, LOWER, _______, _______, _______, _______
   ),
 
   [_SYMBOL] = LAYOUT_wrapper(

@@ -42,25 +42,23 @@ typedef union {
     struct {
         bool rgb_layer_change : 1;
         bool oled_enabled : 1;
-        bool unslsh : 1;
     };
 } userspace_config_t;
 
 extern userspace_config_t userspace_config;
+
+extern bool no_combo_layer;
 
 enum userspace_layers {
     _QWERTY = 0,
     _COLEMAK,
     _GAME,
     _SYMBOL,
-    _LOWER,
-    _RAISE,
     _VIM,
     _NUM,
     _ADJUST,
     _MOUSE,
     _MEDIA,
-    _EXTRA,
     _TMUX,
     _FUNC,
     _USER_LAYER_LAST,
@@ -89,8 +87,6 @@ enum userspace_custom_keycodes {
     MUSCLE_ROCKET, // work stuff
     LAYER_LOCK,    // toggle layer lock
     REPEAT,        // repeat the last keycode
-    UNSLSH,        // underscore slash
-    UNSLSTOG,
     SELF,
     EMOJI,
     MOUSE_AUTO_LAYER,
@@ -184,26 +180,9 @@ enum userspace_custom_keycodes {
 #define _________________FUNC_LEFT_________________        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5
 #define _________________FUNC_RIGHT________________        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10
 
-#define _________________LOWER_L1__________________        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC
-#define _________________LOWER_L2__________________        _________________FUNC_LEFT_________________
-#define _________________LOWER_L3__________________        _________________FUNC_RIGHT________________
-
-#define _________________LOWER_R1__________________        KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN
-#define _________________LOWER_R2__________________        KC_F11,  KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR
-#define _________________LOWER_R3__________________        KC_F12,  KC_INS,  KC_DQT,  KC_LBRC, KC_RBRC
-
-#define _________________RAISE_L1__________________        ________________NUMBER_LEFT________________
-#define _________________RAISE_L2__________________        KC_ESC,  KC_MINS, KC_PLUS, KC_PGUP, KC_HOME
-#define _________________RAISE_L3__________________        KC_TAB,  KC_EXLM, KC_VOLD, KC_PGDN, KC_END
-
-#define _________________RAISE_R1__________________        ________________NUMBER_RIGHT_______________
-#define _________________RAISE_R2__________________        KC_DQT,  KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC
-#define _________________RAISE_R3__________________        KC_QUOT, KC_LPRN, KC_RPRN, KC_LCBR, KC_RCBR
-// #define _________________RAISE_R3__________________        TMUX_WP, TMUX_WN, KC_DQT,  KC_LCBR, KC_RCBR
-
 #define _________________ADJUST_L1_________________        RGB_TOG,  RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI
 #define _________________ADJUST_L2_________________        RGB_MOD,  RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD
-#define _________________ADJUST_L3_________________        UNSLSTOG, QK_BOOT, EEP_RST, KC_SLEP, KC_WAKE
+#define _________________ADJUST_L3_________________        XXXXXXX, QK_BOOT, EEP_RST, KC_SLEP, KC_WAKE
 
 #define _________________ADJUST_R1_________________        AU_TOG,  QWERTY,  KC_BRIU, OLED,    CMB_TOG
 #define _________________ADJUST_R2_________________        MU_TOG,  COLEMAK, KC_BRID, RGB_LYR, KC_SINS
@@ -240,22 +219,6 @@ enum userspace_custom_keycodes {
 #define _________________MEDIA_R1__________________        KC_MSEL, XXXXXXX, KC_MSTP, XXXXXXX, KC_MPLY
 #define _________________MEDIA_R2__________________        KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______
 #define _________________MEDIA_R3__________________        KC_EJCT, KC_MUTE, KC_MRWD, KC_MFFD, _______
-
-#define __________________PROG_L1__________________        _______, _______, _______, KC_LCBR, _______
-#define __________________PROG_L2__________________        _______, _______, _______, KC_LPRN, _______
-#define __________________PROG_L3__________________        _______, _______, _______, KC_LBRC, _______
-
-#define __________________PROG_R1__________________        _______, KC_RCBR, _______, _______, _______
-#define __________________PROG_R2__________________        _______, KC_RPRN, _______, _______, _______
-#define __________________PROG_R3__________________        _______, KC_RBRC, _______, _______, _______
-
-#define _________________EXTRA_L1__________________        KC_TAB,  KC_TILD, _______, _______, _______
-#define _________________EXTRA_L2__________________        KC_ESC,  KC_GRV,  _______, _______, _______
-#define _________________EXTRA_L3__________________        _______, _______, _______, _______, _______
-
-#define _________________EXTRA_R1__________________        KC_LT,   KC_LCBR, KC_RCBR, _______, _______
-#define _________________EXTRA_R2__________________        KC_BSPC, KC_LPRN, KC_RPRN, KC_DQT,  KC_QUOT
-#define _________________EXTRA_R3__________________        KC_GT,   KC_LBRC, KC_RBRC, KC_PIPE, KC_BSLS
 
 #define _________________SYMBOL_L1_________________        KC_GRV,  KC_LT,   KC_GT,   KC_DQT,   KC_DOT
 #define _________________SYMBOL_L2_________________        KC_EXLM, KC_MINS, KC_PLUS, KC_EQL,  KC_HASH
