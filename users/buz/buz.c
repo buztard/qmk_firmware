@@ -93,6 +93,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 #endif
 
     switch (keycode) {
+#ifdef COMBO_ENABLE
+        case LT(_SYMBOL, KC_ENTER):
+        case LT(_SYMBOL, KC_SPACE):
+        case LT(_NUM, KC_ESC):
+        case LT(_NUM, KC_BACKSPACE):
+            no_combo_layer = record->event.pressed;
+#endif
+
 #if 0
         case LT(_NUM, KC_BSPC): {
             static bool delkey_registered;
