@@ -56,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _________________SYMBOL_L3_________________,                                    _________________SYMBOL_R3_________________, _______,
   //|-------------------------------------------------------|                                   |-------------------------------------------------------|
                         _______, _______, _______,  KC_TAB,  _______,              _______, KC_SPC,  _______, _______,  _______,
-                                                                 _______, _______,  _______, XXXXXXX, XXXXXXX, XXXXXXX
+                                                                KC_WH_U, _______,  KC_WH_D, XXXXXXX, XXXXXXX, XXXXXXX
                                                             //`--------------'  `--------------'
     ),
 
@@ -285,6 +285,12 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
   } else {
     cocot_set_scroll_mode(false);
   }
+#ifdef RAW_ENABLE
+    uint8_t data[8];
+    data[0] = 23;
+    data[1] = get_highest_layer(state);
+    raw_hid_send(data, sizeof(data));
+#endif
   return state;
 }
 
