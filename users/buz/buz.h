@@ -205,12 +205,12 @@ enum userspace_custom_keycodes {
 #define _________________MOUSE_R3__________________        _______, KC_BTN1, KC_BTN3, KC_BTN2, _______
 
 #define _________________NUMPAD_L1_________________           KC_1,    KC_2,    KC_3,    KC_4, KC_5
-#define _________________NUMPAD_L2_________________         KC_ESC,  KC_TAB, _______, KC_PGUP, KC_HOME 
-#define _________________NUMPAD_L3_________________         KC_TAB, _______, _______, KC_PGDN, KC_END  
+#define _________________NUMPAD_L2_________________         KC_ESC, KC_MINS, KC_PLUS, KC_PGUP, KC_HOME 
+#define _________________NUMPAD_L3_________________         KC_TAB, KC_SLSH, KC_ASTR, KC_PGDN, KC_END  
 
 #define _________________NUMPAD_R1_________________           KC_6,    KC_7,    KC_8,    KC_9, KC_0
 #define _________________NUMPAD_R2_________________        KC_BSPC,    KC_1,    KC_2,    KC_3, KC_0
-#define _________________NUMPAD_R3_________________           KC_X,    KC_4,    KC_5,    KC_6, KC_DOT
+#define _________________NUMPAD_R3_________________        KC_COMM,    KC_4,    KC_5,    KC_6, KC_DOT
 
 #define _________________MEDIA_L1__________________        _______, _______, _______, _______, _______
 #define _________________MEDIA_L2__________________        _______, _______, _______, KC_BRIU, _______
