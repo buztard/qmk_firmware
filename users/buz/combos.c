@@ -14,14 +14,14 @@ enum combos {
 
 uint16_t COMBO_LEN = COMBO_LENGTH;
 
-const uint16_t PROGMEM we_combo[] = {KC_W, KC_E, COMBO_END};
-const uint16_t PROGMEM io_combo[] = {KC_I, KC_O, COMBO_END};
-const uint16_t PROGMEM sd_combo[] = {LALT_T(KC_S), LCTL_T(KC_D), COMBO_END};
-const uint16_t PROGMEM kl_combo[] = {RCTL_T(KC_K), LALT_T(KC_L), COMBO_END};
-const uint16_t PROGMEM ie_combo[] = {KC_I, KC_E, COMBO_END};
-const uint16_t PROGMEM xc_combo[] = {KC_X, LT(_TMUX, KC_C), COMBO_END};
+const uint16_t PROGMEM we_combo[]    = {KC_W, KC_E, COMBO_END};
+const uint16_t PROGMEM io_combo[]    = {KC_I, KC_O, COMBO_END};
+const uint16_t PROGMEM sd_combo[]    = {LALT_T(KC_S), LCTL_T(KC_D), COMBO_END};
+const uint16_t PROGMEM kl_combo[]    = {RCTL_T(KC_K), LALT_T(KC_L), COMBO_END};
+const uint16_t PROGMEM ie_combo[]    = {KC_I, KC_E, COMBO_END};
+const uint16_t PROGMEM xc_combo[]    = {KC_X, LT(_TMUX, KC_C), COMBO_END};
 const uint16_t PROGMEM codot_combo[] = {KC_COMMA, KC_DOT, COMBO_END};
-const uint16_t PROGMEM fj_combo[] = {LSFT_T(KC_F), RSFT_T(KC_J), COMBO_END};
+const uint16_t PROGMEM fj_combo[]    = {LSFT_T(KC_F), RSFT_T(KC_J), COMBO_END};
 
 // clang-format off
 combo_t key_combos[] = {
@@ -37,5 +37,5 @@ combo_t key_combos[] = {
 
 // disable combos on some layers, especially symbol pairs like () are sometimes typed too fast.
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
-  return layer_state_is(_QWERTY);
+    return layer_state_is(_QWERTY) || layer_state_is(_COLEMAK);
 }
