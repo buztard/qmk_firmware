@@ -8,14 +8,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _________________QWERTY_L1_________________, _________________QWERTY_R1_________________,
     _________________QWERTY_L2_________________, _________________QWERTY_R2_________________,
     _________________QWERTY_L3_________________, _________________QWERTY_R3_________________,
-    KC_ESC, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
+    KC_TAB, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TAB
   ),
 
   [_COLEMAK] = LAYOUT_wrapper(
     _________________COLEMAK_DHM_L1____________, _________________COLEMAK_DHM_R1____________,
     _________________COLEMAK_DHM_L2____________, _________________COLEMAK_DHM_R2____________,
     _________________COLEMAK_DHM_L3____________ ,_________________COLEMAK_DHM_R3____________,
-    KC_ESC, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT),      LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TD_RALT
+    KC_TAB, LT(_NUM, KC_ESC), LT(_SYMBOL, KC_ENT), LT(_SYMBOL, KC_SPC), LT(_NUM, KC_BSPC), KC_TAB
   ),
 
   [_SYMBOL] = LAYOUT_wrapper(
